@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-M1 in progress — M1.1 ✅ M1.2 ✅. M1.3 is next.
+M1 complete — M1.1 ✅ M1.2 ✅ M1.3 ✅. M2.1 is next.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -16,10 +16,10 @@ M1 in progress — M1.1 ✅ M1.2 ✅. M1.3 is next.
 284fdbe — [M1.2] rebrand notification channel
 
 ## IN PROGRESS
-M1.3 — Rebuild checkpoint; expected files: docs only.
+M2.1 — Define pure Kotlin candidate-profile data models and unit tests; expected files: new profile model and test files.
 
 ## NEXT ACTION
-Run `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon assembleDebug`, tag `cp-m1-1` on success, then start M2.1.
+Create `ProfileFact` and `CandidateProfile` pure Kotlin models with synthetic-data tests, then run the full unit suite and `assembleDebug`.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
