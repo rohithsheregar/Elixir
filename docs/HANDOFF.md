@@ -12,13 +12,13 @@ M1 in progress — M1.1 ✅. M1.2 is next.
 | 4 | Codex / GPT-5.6 | 2026-10-22 | f3e9cbb |
 
 ## Last Green Commit
-973d4d3 — [M0.4] verify baseline unit tests
+edb92c6 — [M1.1] rebrand app and tile labels
 
 ## IN PROGRESS
-None. M1.1 verified; notification channel strings remain for M1.2.
+M1.2 — Update notification channel strings and add `M1StringsTest`; expected files: `app/src/main/res/values/strings.xml`, `app/src/test/kotlin/.../M1StringsTest.kt`.
 
 ## NEXT ACTION
-Start M1.2: update the notification-channel strings in `app/src/main/res/values/strings.xml` from `CellClaw` to `Elixir`, then add/verify `M1StringsTest` and run the full unit suite plus `assembleDebug`.
+Implement `M1StringsTest` against `app/src/main/res/values/strings.xml`, then update only the notification channel display-name strings from `CellClaw` to `Elixir`.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
