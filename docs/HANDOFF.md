@@ -11,15 +11,16 @@ M2 in progress — M2.1 ✅. M2.2 is next.
 | 3 | Codex / GPT-5.6 | 2026-10-22 | f3e9cbb |
 | 4 | Codex / GPT-5.6 | 2026-10-22 | f3e9cbb |
 | 5 | Codex / GPT-5.6 | 2026-10-22 | d6caf43 |
+| 6 | Codex / GPT-5.6 | 2026-10-22 | 87c0b0f |
 
 ## Last Green Commit
 284fdbe — [M1.2] rebrand notification channel
 
 ## IN PROGRESS
-M2.2 — Create the encrypted profile repository abstraction and tests.
+M2.2 — In progress: add AndroidX Security Crypto dependency, then implement the encrypted profile repository behind its JVM-testable interface.
 
 ## NEXT ACTION
-Implement `ProfileRepository` with a fake/in-memory store test; keep encrypted Android storage behind an interface.
+Add an AndroidX Security Crypto catalog entry and app dependency; then create `ProfileRepository` and `InMemoryProfileRepository` with `ProfileRepositoryTest` before wiring encrypted Android storage.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
