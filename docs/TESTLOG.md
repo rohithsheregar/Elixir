@@ -72,6 +72,18 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** FAIL
 **Summary:** Overriding the project JVM arguments did not avoid daemon creation; it failed identically before tests. The daemon log identifies `java.net.SocketException: Invalid argument: connect` from Java 23's NIO loopback pipe initialization.
 
+### T5 — testDebugUnitTest (M0.4) — Session 4
+**Command:** `$env:JAVA_HOME='<temporary JDK 17>'; $env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest 2>&1`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** `BUILD SUCCESSFUL in 29m 16s`; 31 actionable tasks (10 executed, 21 up-to-date). The scoped Java setting directs the JDK's Unix-domain selector pipe to `C:\Temp`, avoiding the host loopback error. Three existing source deprecation warnings were reported; no test failures.
+
+### T6 — assembleDebug (M0.4 verification) — Session 4
+**Command:** `$env:JAVA_HOME='<temporary JDK 17>'; $env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon assembleDebug 2>&1`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** `BUILD SUCCESSFUL in 1m 23s`; 41 actionable tasks (3 executed, 38 up-to-date).
+
 ---
 
 <!-- Future sessions add rows below -->

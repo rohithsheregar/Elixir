@@ -62,3 +62,9 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Discrepancy:** HANDOFF described `testDebugUnitTest` as running, but the required verification command exited 1 before executing tests because Gradle could not establish a loopback connection for its daemon.
 **Choice:** The `--no-daemon` retry and a retry with the project JVM arguments overridden failed identically. M0.4 is blocked rather than changing production code or claiming a test pass.
 **Source of truth:** Session 3 verification output.
+
+---
+
+## D10 — Work around the Windows Java selector pipe failure per invocation
+**Evidence:** JDK 17, 21, 23 and 25 all reproduced `UnixDomainSockets.connect0` with the process's default temporary directory. A selector opened successfully when the JVM received `-Djdk.net.unixdomain.tmpdir=C:\Temp`.
+**Choice:** Set `JDK_JAVA_OPTIONS=-Djdk.net.unixdomain.tmpdir=C:\Temp` only for Gradle commands on this host. This is a build-host workaround, not a project Gradle setting or product-code change, so other environments retain their normal temporary-directory policy.
