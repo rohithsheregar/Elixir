@@ -13,13 +13,13 @@ M1 in progress — M1.1 ✅ M1.2 ✅. M1.3 is next.
 | 5 | Codex / GPT-5.6 | 2026-10-22 | d6caf43 |
 
 ## Last Green Commit
-edb92c6 — [M1.1] rebrand app and tile labels
+284fdbe — [M1.2] rebrand notification channel
 
 ## IN PROGRESS
-None. M1.2 verified.
+M1.3 — Rebuild checkpoint; expected files: docs only.
 
 ## NEXT ACTION
-Run the M1.3 rebuild with the scoped JDK setting, tag `cp-m1-1`, then start M2.1.
+Run `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon assembleDebug`, tag `cp-m1-1` on success, then start M2.1.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
