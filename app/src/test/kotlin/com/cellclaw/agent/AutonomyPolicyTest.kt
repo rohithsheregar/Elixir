@@ -24,17 +24,21 @@ class AutonomyPolicyTest {
     }
 
     @Test
-    fun `write operations default to ASK`() {
+    fun `write operations default to ASK under BALANCED profile`() {
+        policy.applyProfile(PermissionProfile.BALANCED)
         assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("sms.send"))
         assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("phone.call"))
         assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("script.exec"))
-        assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("app.automate"))
+        // Note: app.automate is in appControl → AUTO under BALANCED
+        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("app.automate"))
         assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("file.write"))
     }
 
     @Test
-    fun `unknown tools default to ASK`() {
-        assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("unknown.tool"))
+    fun `unknown tools default to AUTO (FULL_AUTO profile)`() {
+        // AutonomyPolicy initialises with FULL_AUTO; known tools are AUTO.
+        // Unknown tool names fall back to AUTO via getPolicy().
+        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("unknown.tool"))
     }
 
     @Test

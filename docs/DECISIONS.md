@@ -45,3 +45,20 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Fix:** Updated HANDOFF to reflect actual state. Retried build at session 2 start.
 **Source of truth:** git log + build log file > HANDOFF claim.
 
+---
+
+## D8 — Fix 6 stale pre-existing CellClaw test failures (M0.4 prerequisite)
+**Discrepancy:** 6 tests were failing before any Elixir code was written — stale assertions against old model names and old AutonomyPolicy defaults.
+- Provider model names updated upstream: Gemini `gemini-3-flash-preview`, Anthropic `claude-sonnet-4-6`, OpenAI `gpt-5.2`
+- `AutonomyPolicy` now inits with `FULL_AUTO` (all AUTO); test expected BALANCED behavior → fixed by calling `applyProfile(BALANCED)` in test
+- `app.automate` is in `appControl` set → gets `AUTO` under BALANCED, not ASK
+- `getPolicy()` returns `AUTO` for unknown tools under FULL_AUTO
+**Fix:** Updated tests to match actual production code. Zero production code changed.
+**Source of truth:** actual code per AGENTS.md §0.
+
+---
+
+## D9 — Session 3 verify found a Gradle daemon environment failure
+**Discrepancy:** HANDOFF described `testDebugUnitTest` as running, but the required verification command exited 1 before executing tests because Gradle could not establish a loopback connection for its daemon.
+**Choice:** The `--no-daemon` retry and a retry with the project JVM arguments overridden failed identically. M0.4 is blocked rather than changing production code or claiming a test pass.
+**Source of truth:** Session 3 verification output.

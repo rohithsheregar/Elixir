@@ -7,9 +7,9 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 ## M0 — Bootstrap, repo audit, baseline build, disable risky tools
 
 - [x] M0.1 | Create docs/ directory, HANDOFF.md, PLAN.md, DECISIONS.md, TESTLOG.md, DEVICE_TESTS.md, HISTORY.md, NOTES.md, and pointer files (GEMINI.md, CLAUDE.md, .cursor/rules/elixir.mdc) | test: files exist and are committed | deps: none
-- [ ] M0.2 | Fix app/build.gradle.kts: replace deprecated kotlinOptions with compilerOptions, fix deprecated aaptOptions, fix unresolved exec/commandLine in enableAccessibility task | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M0.1
-- [ ] M0.3 | Safety audit: disable risky tools in AppModule (SMS: SmsReadTool/SmsSendTool, calls: PhoneCallTool/PhoneLogTool, camera: CameraSnapTool/CameraRecordTool, location: LocationTool, contacts: ContactsSearchTool/ContactsAddTool, shell: ScriptExecTool) by removing them from ToolRegistry registration; keep class files intact | test: ToolRegistryDisabledToolsTest — verify those tool names are NOT in registry | deps: M0.2
-- [ ] M0.4 | Run `.\gradlew.bat testDebugUnitTest` and record full result in TESTLOG; tag `cp-m0-1` if all pass | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M0.3
+- [x] M0.2 | Fix app/build.gradle.kts: replace deprecated kotlinOptions with compilerOptions, fix deprecated aaptOptions, fix unresolved exec/commandLine in enableAccessibility task | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M0.1
+- [x] M0.3 | Safety audit: disable risky tools in AppModule (SMS: SmsReadTool/SmsSendTool, calls: PhoneCallTool/PhoneLogTool, camera: CameraSnapTool/CameraRecordTool, location: LocationTool, contacts: ContactsSearchTool/ContactsAddTool, shell: ScriptExecTool) by removing them from ToolRegistry registration; keep class files intact | test: ToolRegistryDisabledToolsTest — verify those tool names are NOT in registry | deps: M0.2
+- [B] M0.4 | BLOCKED: Run `.\gradlew.bat testDebugUnitTest` and record full result in TESTLOG; Gradle daemon startup failed three times before tests with JDK 23 `SocketException: Invalid argument: connect` while creating its loopback pipe. | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M0.3
 
 ---
 
