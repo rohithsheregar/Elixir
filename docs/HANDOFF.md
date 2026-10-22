@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-M0 complete — M0.1 ✅ M0.2 ✅ M0.3 ✅ M0.4 ✅. M1.1 is next.
+M1 in progress — M1.1 ✅. M1.2 is next.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -12,13 +12,13 @@ M0 complete — M0.1 ✅ M0.2 ✅ M0.3 ✅ M0.4 ✅. M1.1 is next.
 | 4 | Codex / GPT-5.6 | 2026-10-22 | f3e9cbb |
 
 ## Last Green Commit
-f3e9cbb — [M0.2+M0.3] fix Gradle 9 build errors; disable risky tools in Elixir registry
+973d4d3 — [M0.4] verify baseline unit tests
 
 ## IN PROGRESS
-None. M0.4 verification passed after applying the scoped Java temporary-directory setting described in D10.
+None. M1.1 verified; notification channel strings remain for M1.2.
 
 ## NEXT ACTION
-Start M1.1: update `app_name` in `app/src/main/res/values/strings.xml` and the Quick Settings tile label in `app/src/main/AndroidManifest.xml` to `Elixir`; preserve `com.cellclaw`.
+Start M1.2: update the notification-channel strings in `app/src/main/res/values/strings.xml` from `CellClaw` to `Elixir`, then add/verify `M1StringsTest` and run the full unit suite plus `assembleDebug`.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

@@ -84,6 +84,18 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** `BUILD SUCCESSFUL in 1m 23s`; 41 actionable tasks (3 executed, 38 up-to-date).
 
+### T7 — testDebugUnitTest (M1.1) — Session 4
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest 2>&1`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** `BUILD SUCCESSFUL in 21s`; 31 actionable tasks (9 executed, 22 up-to-date). Existing TensorFlow duplicate-namespace warning only.
+
+### T8 — assembleDebug (M1.1) — Session 4
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon assembleDebug 2>&1`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** `BUILD SUCCESSFUL in 15s`; 41 actionable tasks (1 executed, 40 up-to-date).
+
 ---
 
 <!-- Future sessions add rows below -->

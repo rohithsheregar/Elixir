@@ -112,7 +112,7 @@
             android:name=".service.CellClawTileService"
             android:exported="true"
             android:icon="@drawable/ic_qs_cellclaw"
-            android:label="CellClaw"
+            android:label="Elixir"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />

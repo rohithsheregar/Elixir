@@ -15,7 +15,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 
 ## M1 — Rebrand display name to "Elixir" (strings and launcher label only; keep package id)
 
-- [ ] M1.1 | Change `app_name` in strings.xml from "CellClaw" to "Elixir"; update QuickSettings tile label in manifest from "CellClaw" to "Elixir" | test: strings.xml and manifest contain "Elixir" label, package is still com.cellclaw | deps: M0.4
+- [x] M1.1 | Change `app_name` in strings.xml from "CellClaw" to "Elixir"; update QuickSettings tile label in manifest from "CellClaw" to "Elixir" | test: strings.xml and manifest contain "Elixir" label, package is still com.cellclaw | deps: M0.4
 - [ ] M1.2 | Update notification channel strings to say "Elixir" instead of "CellClaw" | test: M1StringsTest — check string resources | deps: M1.1
 - [ ] M1.3 | Rebuild after rebrand; tag `cp-m1-1` | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M1.2
 
