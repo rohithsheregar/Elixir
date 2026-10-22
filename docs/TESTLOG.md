@@ -99,3 +99,14 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T9 — M1StringsTest and full unit suite (M1.2) — Session 5
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest 2>&1`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `M1StringsTest` passed in 33s; full suite passed in 19s (31 tasks).
+
+### T10 — assembleDebug (M1.2) — Session 5
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon assembleDebug 2>&1`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** `BUILD SUCCESSFUL in 25s`; 41 tasks (3 executed, 38 up-to-date).

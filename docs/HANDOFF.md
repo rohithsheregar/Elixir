@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-M1 in progress — M1.1 ✅. M1.2 is next.
+M1 in progress — M1.1 ✅ M1.2 ✅. M1.3 is next.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -10,15 +10,16 @@ M1 in progress — M1.1 ✅. M1.2 is next.
 | 2 | Antigravity / Claude Sonnet 4.6 (Thinking) | 2026-10-22 | d9b2c9b |
 | 3 | Codex / GPT-5.6 | 2026-10-22 | f3e9cbb |
 | 4 | Codex / GPT-5.6 | 2026-10-22 | f3e9cbb |
+| 5 | Codex / GPT-5.6 | 2026-10-22 | d6caf43 |
 
 ## Last Green Commit
 edb92c6 — [M1.1] rebrand app and tile labels
 
 ## IN PROGRESS
-M1.2 — Update notification channel strings and add `M1StringsTest`; expected files: `app/src/main/res/values/strings.xml`, `app/src/test/kotlin/.../M1StringsTest.kt`.
+None. M1.2 verified.
 
 ## NEXT ACTION
-Implement `M1StringsTest` against `app/src/main/res/values/strings.xml`, then update only the notification channel display-name strings from `CellClaw` to `Elixir`.
+Run the M1.3 rebuild with the scoped JDK setting, tag `cp-m1-1`, then start M2.1.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
