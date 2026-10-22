@@ -134,6 +134,9 @@ dependencies {
     // Biometric
     implementation(libs.biometric)
 
+    // Keystore-backed encrypted profile storage
+    implementation(libs.security.crypto)
+
     // WorkManager
     implementation(libs.work.runtime)
     implementation(libs.hilt.work)

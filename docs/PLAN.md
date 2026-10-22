@@ -24,7 +24,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 ## M2 — Candidate profile: model, encrypted store, confirm workflow, import from resume text
 
 - [x] M2.1 | Define ProfileFact data class (id, field, value, source, confirmed, updatedAt) and CandidateProfile aggregate (name, email, phone, college, university, degree, branch, graduationYear, cgpa, cgpaScale, marks10th, marks12th, skills, projects, internships, certificates, links, reusableAnswers) as pure Kotlin/JVM data models; write unit tests with synthetic data | test: CandidateProfileModelTest | deps: M1.3
-- [ ] M2.2 | Create ProfileRepository interface + Room entities + DAO; encryption: store JSON in EncryptedSharedPreferences (Keystore-backed) rather than plain Room; write unit tests with fake/in-memory store | test: ProfileRepositoryTest | deps: M2.1
+- [x] M2.2 | Create ProfileRepository interface + Room entities + DAO; encryption: store JSON in EncryptedSharedPreferences (Keystore-backed) rather than plain Room; write unit tests with fake/in-memory store | test: ProfileRepositoryTest | deps: M2.1
 - [ ] M2.3 | Implement ProfileManager: propose_fact_update shows diff, get_confirmed_fact returns only confirmed=true facts, never fabricates; write unit tests for UNKNOWN path and confirm workflow | test: ProfileManagerTest | deps: M2.2
 - [ ] M2.4 | Import from resume text: plain text parser proposes facts as unconfirmed (confirmed=false) shown as diff; tests with synthetic resume snippets | test: ResumeImporterTest | deps: M2.3
 - [ ] M2.5 | Build passes; tag `cp-m2-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M2.4

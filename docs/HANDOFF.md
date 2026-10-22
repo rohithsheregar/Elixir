@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-M2 in progress — M2.1 ✅. M2.2 is next.
+M2 in progress — M2.1–M2.2 ✅. M2.3 is next.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -13,15 +13,16 @@ M2 in progress — M2.1 ✅. M2.2 is next.
 | 5 | Codex / GPT-5.6 | 2026-10-22 | d6caf43 |
 | 6 | Codex / GPT-5.6 | 2026-10-22 | 87c0b0f |
 | 7 | Codex / GPT-5.6 | 2026-10-22 | e14fea5 |
+| 8 | Codex / GPT-5.6 | 2026-10-22 | 0b9d73d |
 
 ## Last Green Commit
-284fdbe — [M1.2] rebrand notification channel
+87c0b0f — [M2.1] define candidate profile models
 
 ## IN PROGRESS
-M2.2 — In progress: add AndroidX Security Crypto dependency, then implement the encrypted profile repository behind its JVM-testable interface.
+M2.3 — Implement ProfileManager confirmation workflow with only-confirmed retrieval and proposal diff tests.
 
 ## NEXT ACTION
-Add an AndroidX Security Crypto catalog entry and app dependency; then create `ProfileRepository` and `InMemoryProfileRepository` with `ProfileRepositoryTest` before wiring encrypted Android storage.
+Create `app/src/main/kotlin/com/cellclaw/profile/ProfileManager.kt` and `ProfileManagerTest.kt`; prove unconfirmed facts produce `UNKNOWN` and proposed updates require explicit confirmation.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

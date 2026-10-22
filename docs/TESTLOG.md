@@ -99,6 +99,29 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T15 — M2.2 tests and build — Session 8
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.profile.ProfileRepositoryTest`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `ProfileRepositoryTest` passed after the transient Maven DNS retry; `BUILD SUCCESSFUL in 51s` (31 tasks, 12 executed).
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and debug assembly passed; `BUILD SUCCESSFUL in 2m 11s` (50 tasks, 23 executed). Existing Gradle 10 deprecation warning and native-library strip notice only.
+
+### T13 — ProfileRepositoryTest (M2.2 attempt 1) — Session 8
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.profile.ProfileRepositoryTest`
+**Exit code:** 1
+**Status:** FAIL
+**Summary:** `security-crypto:1.0.0` does not provide `MasterKey`; `ProfileRepository.kt` used the 1.1 API and failed at `:app:compileDebugKotlin`. Next hypothesis: use the stable 1.0.0 `MasterKeys` factory and its matching `EncryptedSharedPreferences.create` overload.
+
+### T14 — ProfileRepositoryTest (M2.2 attempt 2) — Session 8
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.profile.ProfileRepositoryTest`
+**Exit code:** 1
+**Status:** FAIL
+**Summary:** Kotlin compilation passed with the corrected 1.0.0 API, but Gradle could not resolve `repo.maven.apache.org` to download `com.google.crypto.tink:tink-android:1.5.0` for Hilt aggregation. Next hypothesis: retry the identical verified source after the transient Maven DNS failure.
+
 ### T12 — M2.1 tests and build — Session 6
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug 2>&1`
 **Exit code:** 0

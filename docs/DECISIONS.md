@@ -68,3 +68,17 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 ## D10 — Work around the Windows Java selector pipe failure per invocation
 **Evidence:** JDK 17, 21, 23 and 25 all reproduced `UnixDomainSockets.connect0` with the process's default temporary directory. A selector opened successfully when the JVM received `-Djdk.net.unixdomain.tmpdir=C:\Temp`.
 **Choice:** Set `JDK_JAVA_OPTIONS=-Djdk.net.unixdomain.tmpdir=C:\Temp` only for Gradle commands on this host. This is a build-host workaround, not a project Gradle setting or product-code change, so other environments retain their normal temporary-directory policy.
+
+---
+
+## D11 — Session 8 discrepancy: HANDOFF's last green commit lagged behind M2.1
+**Discrepancy:** HANDOFF listed `284fdbe` (M1.2) as the last green commit, although git contains the completed M2.1 commit `87c0b0f` and TESTLOG T12 records its successful focused test, full unit suite, and debug build.
+**Fix:** Updated HANDOFF to name `87c0b0f` as the last green commit after the required session-start verification also passed.
+**Source of truth:** git history and the successful Gradle verification output, per AGENTS.md §0.
+
+---
+
+## D12 — Use stable Security Crypto 1.0.0 for the planned encrypted preference store
+**Choice:** Use `androidx.security:security-crypto:1.0.0` with `MasterKeys` and `EncryptedSharedPreferences` for M2.2.
+**Why:** The current 1.1 release deprecates the entire wrapper in favour of direct platform Keystore APIs, but the committed M2.2 plan specifically requires AndroidX Security Crypto and encrypted preferences. Version 1.0.0 is the stable, non-deprecated API line and provides the required Keystore-backed encrypted JSON store.
+**Alternatives:** Security Crypto 1.1.0 — rejected because it immediately introduces deprecated APIs. Direct Android Keystore encryption — deferred because it would depart from the current plan; reconsider when the plan is revised.
