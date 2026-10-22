@@ -16,7 +16,7 @@ M2 in progress — M2.1–M2.2 ✅. M2.3 is next.
 | 8 | Codex / GPT-5.6 | 2026-10-22 | 0b9d73d |
 
 ## Last Green Commit
-87c0b0f — [M2.1] define candidate profile models
+3fc1089 — [M2.2] add encrypted profile repository
 
 ## IN PROGRESS
 M2.3 — Implement ProfileManager confirmation workflow with only-confirmed retrieval and proposal diff tests.
