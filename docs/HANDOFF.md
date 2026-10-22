@@ -1,40 +1,30 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-BOOTSTRAPPING — M0 in progress.
+M0 in progress — M0.1 done. M0.2+M0.3 changes committed, build attempted.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
 |---|-----------|------|-------------|
 | 1 | Antigravity / Claude Sonnet 4.6 (Thinking) | 2026-10-22 | 40e019e |
+| 2 | Antigravity / Claude Sonnet 4.6 (Thinking) | 2026-10-22 | d9b2c9b |
 
 ## Last Green Commit
-40e019e (Revise README with enhanced details and formatting) — upstream CellClaw baseline.
+d9b2c9b — [M0.1] bootstrap handoff system
 
 ## IN PROGRESS
-M0.1 — Bootstrap handoff system: creating docs/, pointer files, PLAN, HANDOFF, DECISIONS, TESTLOG, DEVICE_TESTS, HISTORY. Then writing docs/NOTES.md from Phase 0 audit.
-
-Expected files created this step:
-- docs/HANDOFF.md (this file)
-- docs/PLAN.md
-- docs/DECISIONS.md
-- docs/TESTLOG.md
-- docs/DEVICE_TESTS.md
-- docs/HISTORY.md
-- docs/NOTES.md
-- GEMINI.md
-- CLAUDE.md
-- .cursor/rules/elixir.mdc
+M0.2 — Fix app/build.gradle.kts for Gradle 9.7.1 + AGP 8.7.3.
+M0.3 — Disable risky tools in AppModule (done in code, uncommitted).
+Build previously failed: KSP dependency download failed ("No such host" dl.google.com — transient DNS). Network now confirmed up.
 
 ## NEXT ACTION
-After docs are committed, take M0.2: disable risky tools (SMS, calls, camera, location, contacts) in ToolRegistry/AppModule for the Elixir profile, and commit.
+Run `.\gradlew.bat assembleDebug` — should succeed now that network is up. If passes: commit `[M0.2+M0.3] fix Gradle 9 build, disable risky tools`. Then run `.\gradlew.bat testDebugUnitTest` for M0.4.
 
 ## Blockers
-None yet. Build result pending (gradle running).
+None (transient DNS resolved).
 
 ## Verify Command
-`.\gradlew.bat testDebugUnitTest 2>&1 | Select-Object -Last 20`
-(Will update once build result is known.)
+`.\gradlew.bat testDebugUnitTest 2>&1 | Select-Object -Last 30`
 
 ## WAITING_ON_USER
 - Real profile data (name, email, CGPA, etc.) — needed for M2.

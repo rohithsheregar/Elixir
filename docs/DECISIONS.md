@@ -33,7 +33,15 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 
 ---
 
-## D5 — Java 23 is present but Android SDK not confirmed in environment
-**Choice:** Write all business logic behind pure JVM interfaces so unit tests can run without the Android SDK. Mark builds/device tests as NOT RUN if SDK is absent.
-**Why:** AGENTS.md §8 says "If the Android SDK is missing, still write code and JDK-runnable unit tests, and mark builds `NOT RUN (no SDK)`." Java 23 is at `C:\Program Files\Common Files\Oracle\Java\javapath\java.exe`. The Gradle build requires Android SDK; `gradlew assembleDebug` failed with compilation errors (not SDK missing), so SDK is likely present but build.gradle.kts needs fixing first.
-**Alternatives:** None — honesty requires recording actual results.
+## D6 — kotlinOptions + aaptOptions: keep with @Suppress rather than migrate
+**Choice:** Keep `kotlinOptions { jvmTarget = "17" }` and `androidResources { noCompress += listOf("tflite") }` with `@Suppress("DEPRECATION")` rather than migrating to `compilerOptions {}`.
+**Why:** AGP 8.7.3 does NOT expose `compilerOptions {}` as a top-level block inside `android {}` in the Kotlin DSL. Using it caused "Unresolved reference 'compilerOptions'" compilation error. The correct migration path is either (a) `kotlin { compilerOptions { jvmTarget.set(...) } }` top-level block or (b) keep `kotlinOptions` — we chose (b) as it is the minimal-risk change and AGP 8.7 treats it as a deprecation warning, not an error.
+**Alternatives:** Top-level `kotlin { compilerOptions {} }` — would work but adds complexity. Downgrade Gradle — rejected.
+
+---
+
+## D7 — Session 2 discrepancy: HANDOFF said "build running", reality was "build failed transiently"
+**Discrepancy:** Session 1 HANDOFF said M0.2 build was running. Reality (from build log): build failed at `:app:kspDebugKotlin` — KSP dependency download failed with "No such host is known (dl.google.com)". This was a transient DNS failure, not a code error. The build script compiled correctly (tasks ran up to kspDebugKotlin). Network was confirmed up at session 2 start (Test-NetConnection to dl.google.com returned True).
+**Fix:** Updated HANDOFF to reflect actual state. Retried build at session 2 start.
+**Source of truth:** git log + build log file > HANDOFF claim.
+

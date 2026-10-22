@@ -1,4 +1,8 @@
 import java.util.Properties
+import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.TaskAction
+import org.gradle.process.ExecOperations
+import javax.inject.Inject
 
 plugins {
     alias(libs.plugins.android.application)
@@ -45,6 +49,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    @Suppress("DEPRECATION")
     kotlinOptions {
         jvmTarget = "17"
     }
@@ -54,26 +59,34 @@ android {
         buildConfig = true
     }
 
-    aaptOptions {
-        noCompress("tflite")
+    androidResources {
+        @Suppress("DEPRECATION")
+        noCompress += listOf("tflite")
     }
 }
 
-tasks.register("enableAccessibility") {
-    description = "Enable CellClaw accessibility service via adb"
-    doLast {
-        val adb = android.adbExecutable.absolutePath
-        exec {
+/** Gradle 9-compatible task: injects ExecOperations to run adb commands. */
+abstract class EnableAccessibilityTask @Inject constructor(
+    private val execOps: ExecOperations
+) : DefaultTask() {
+    @TaskAction
+    fun run() {
+        val adb = project.android.adbExecutable.absolutePath
+        execOps.exec {
             commandLine(adb, "shell", "settings", "put", "secure",
                 "enabled_accessibility_services",
                 "com.cellclaw/com.cellclaw.service.CellClawAccessibility")
         }
-        exec {
+        execOps.exec {
             commandLine(adb, "shell", "settings", "put", "secure",
                 "accessibility_enabled", "1")
         }
-        logger.lifecycle("Accessibility service enabled for CellClaw")
+        logger.lifecycle("Elixir accessibility service enabled.")
     }
+}
+
+tasks.register<EnableAccessibilityTask>("enableAccessibility") {
+    description = "Enable Elixir (CellClaw) accessibility service via adb"
 }
 
 tasks.whenTaskAdded {

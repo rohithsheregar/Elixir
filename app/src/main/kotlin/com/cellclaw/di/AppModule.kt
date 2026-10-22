@@ -59,24 +59,15 @@ object AppModule {
     @Provides
     @Singleton
     fun provideToolRegistry(
-        smsRead: SmsReadTool,
-        smsSend: SmsSendTool,
-        phoneCall: PhoneCallTool,
-        phoneLog: PhoneLogTool,
-        contactsSearch: ContactsSearchTool,
-        contactsAdd: ContactsAddTool,
+        // --- SAFE TOOLS (retained for Elixir placement profile) ---
         calendarQuery: CalendarQueryTool,
         calendarCreate: CalendarCreateTool,
-        location: LocationTool,
-        cameraSnap: CameraSnapTool,
-        cameraRecord: CameraRecordTool,
         notification: NotificationTool,
         clipboardRead: ClipboardReadTool,
         clipboardWrite: ClipboardWriteTool,
         fileRead: FileReadTool,
         fileWrite: FileWriteTool,
         fileList: FileListTool,
-        scriptExec: ScriptExecTool,
         sensor: SensorTool,
         settings: SettingsTool,
         browserOpen: BrowserOpenTool,
@@ -89,33 +80,44 @@ object AppModule {
         visionAnalyze: VisionAnalyzeTool,
         notificationListen: NotificationListenTool,
         schedulerTool: SchedulerTool,
-        messagingOpen: MessagingOpenTool,
-        messagingRead: MessagingReadTool,
-        messagingReply: MessagingReplyTool,
         heartbeatContext: HeartbeatContextTool
+        // --- DISABLED for Elixir profile (source files kept, not deleted) ---
+        // smsRead: SmsReadTool,          // DISABLED: SMS read
+        // smsSend: SmsSendTool,          // DISABLED: SMS send
+        // phoneCall: PhoneCallTool,      // DISABLED: phone calls
+        // phoneLog: PhoneLogTool,        // DISABLED: call log
+        // contactsSearch: ContactsSearchTool, // DISABLED: contacts
+        // contactsAdd: ContactsAddTool,  // DISABLED: contacts
+        // cameraSnap: CameraSnapTool,    // DISABLED: camera
+        // cameraRecord: CameraRecordTool,// DISABLED: camera
+        // location: LocationTool,        // DISABLED: location
+        // scriptExec: ScriptExecTool,    // DISABLED: shell execution (ProcessBuilder)
+        // messagingOpen: MessagingOpenTool,   // DISABLED: messaging app
+        // messagingRead: MessagingReadTool,   // DISABLED: messaging app
+        // messagingReply: MessagingReplyTool, // DISABLED: messaging app
     ): ToolRegistry {
         return ToolRegistry().apply {
             register(
-                smsRead, smsSend,
-                phoneCall, phoneLog,
-                contactsSearch, contactsAdd,
+                // Calendar
                 calendarQuery, calendarCreate,
-                location,
-                cameraSnap, cameraRecord,
-                notification,
+                // Notification
+                notification, notificationListen,
+                // Clipboard
                 clipboardRead, clipboardWrite,
+                // File
                 fileRead, fileWrite, fileList,
-                scriptExec,
-                sensor,
-                settings,
+                // Sensor and settings
+                sensor, settings,
+                // Browser
                 browserOpen, browserSearch,
+                // App control and screen
                 appLaunch, appAutomate, screenRead,
+                // Email
                 emailSend,
+                // Vision and capture
                 screenCapture, visionAnalyze,
-                notificationListen,
-                schedulerTool,
-                messagingOpen, messagingRead, messagingReply,
-                heartbeatContext
+                // Scheduling and heartbeat
+                schedulerTool, heartbeatContext
             )
         }
     }
