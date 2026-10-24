@@ -17,7 +17,7 @@ M3 in progress — M2 complete (`cp-m2-1`); M3.1 ✅. M3.2 is next.
 | 9 | Codex / GPT-5.6 | 2026-10-24 | afb0f48 |
 
 ## Last Green Commit
-4b4629f — [M2.5] verify candidate profile milestone
+74ab808 — [M3.1] define evidence-backed JD requirements
 
 ## IN PROGRESS
 M3.2 — Parse pasted/shared JD text with deterministic regex/heuristics and preserve source snippets.
