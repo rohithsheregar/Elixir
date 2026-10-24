@@ -32,55 +32,29 @@ class AppLaunchTool @Inject constructor(
         ?: return ToolResult.error("App not found. Provide a valid package_name or app_name.")
 
         return try {
-            // Try standard packageManager approach first
+            // Standard intent-based launch only (no Runtime.exec / shell execution)
             val intent = context.packageManager.getLaunchIntentForPackage(targetPackage)
             if (intent != null) {
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
+                ToolResult.success(buildJsonObject {
+                    put("launched", true)
+                    put("package", targetPackage)
+                })
             } else {
-                // Fallback: use shell command (bypasses package visibility restrictions)
-                val proc = Runtime.getRuntime().exec(arrayOf(
-                    "am", "start", "-a", "android.intent.action.MAIN",
-                    "-c", "android.intent.category.LAUNCHER",
-                    "--package", targetPackage
-                ))
-                val exitCode = proc.waitFor()
-                if (exitCode != 0) {
-                    return ToolResult.error("Cannot launch app: $targetPackage (not installed or no launcher activity)")
-                }
+                ToolResult.error("Cannot launch app: $targetPackage (not installed or no launcher activity)")
             }
-
-            ToolResult.success(buildJsonObject {
-                put("launched", true)
-                put("package", targetPackage)
-            })
         } catch (e: Exception) {
             ToolResult.error("Failed to launch app: ${e.message}")
         }
     }
 
     private fun findPackageByName(name: String): String? {
-        // Try packageManager first
         val pm = context.packageManager
         val apps = pm.getInstalledApplications(PackageManager.GET_META_DATA)
-        val found = apps.firstOrNull {
+        return apps.firstOrNull {
             pm.getApplicationLabel(it).toString().equals(name, ignoreCase = true)
         }?.packageName
-        if (found != null) return found
-
-        // Fallback: use shell pm list to find packages (bypasses visibility restrictions)
-        return try {
-            val proc = Runtime.getRuntime().exec(arrayOf("pm", "list", "packages"))
-            val output = proc.inputStream.bufferedReader().readText()
-            proc.waitFor()
-            // Search for package containing the app name (e.g. "tinder" -> "com.tinder")
-            val searchTerm = name.lowercase()
-            output.lines()
-                .map { it.removePrefix("package:").trim() }
-                .firstOrNull { it.lowercase().contains(searchTerm) }
-        } catch (e: Exception) {
-            null
-        }
     }
 }
 

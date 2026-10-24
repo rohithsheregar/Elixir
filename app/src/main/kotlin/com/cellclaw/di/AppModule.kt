@@ -72,8 +72,8 @@ object AppModule {
         settings: SettingsTool,
         browserOpen: BrowserOpenTool,
         browserSearch: BrowserSearchTool,
-        appLaunch: AppLaunchTool,
-        appAutomate: AppAutomateTool,
+        // appLaunch: AppLaunchTool,       // DISABLED (S2): app launch
+        // appAutomate: AppAutomateTool,   // DISABLED (S2): app automate
         screenRead: ScreenReadTool,
         emailSend: EmailSendTool,
         screenCapture: ScreenCaptureTool,
@@ -110,8 +110,8 @@ object AppModule {
                 sensor, settings,
                 // Browser
                 browserOpen, browserSearch,
-                // App control and screen
-                appLaunch, appAutomate, screenRead,
+                // Screen read
+                screenRead,
                 // Email
                 emailSend,
                 // Vision and capture

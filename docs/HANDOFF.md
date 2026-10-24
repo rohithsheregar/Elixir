@@ -20,13 +20,13 @@ Audit remediation inserted — M2 complete (`cp-m2-1`); M3.1 ✅. S1 is the next
 | 12 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 377dceb |
 
 ## Last Green Commit
-74ab808 — [M3.1] define evidence-backed JD requirements
+7c621c7 — [S1] remove SmsReceiver, PhoneStateReceiver, dangerous permissions from manifest and PII log
 
 ## IN PROGRESS
-S1 — manifest clean-up: remove SmsReceiver, PhoneStateReceiver, risky permissions, PII log; add ElixirManifestTest
+S2 — remove app.launch / app.automate (Runtime.exec) from Elixir tool registry
 
 ## NEXT ACTION
-Implement S1: edit AndroidManifest.xml to remove SmsReceiver, PhoneStateReceiver, and dangerous permissions (SMS, calls, contacts, camera, location, record audio); remove Log.d phone number from PhoneStateReceiver.kt; add ElixirManifestTest.
+Implement S2: check ToolRegistry / AppModule to ensure app.launch and app.automate (calling Runtime.exec) are removed or safely replaced, confirm ScriptExecTool is disabled; extend ElixirDisabledToolsTest.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

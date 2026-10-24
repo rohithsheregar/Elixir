@@ -33,7 +33,10 @@ class ElixirDisabledToolsTest {
         // Location
         "location.get",
         // Shell execution (ProcessBuilder)
-        "script.exec"
+        "script.exec",
+        // App control / automation (Runtime.exec shell risk - S2)
+        "app.launch",
+        "app.automate"
     )
 
     /**
@@ -50,8 +53,6 @@ class ElixirDisabledToolsTest {
         "browser.open",
         "browser.search",
         "settings.get",
-        "app.launch",
-        "app.automate",
         "screen.read",
         "screen.capture",
         "vision.analyze",
@@ -85,9 +86,37 @@ class ElixirDisabledToolsTest {
         )
     }
 
+    @Test
+    fun `AppControlTool does not contain Runtime exec shell calls`() {
+        val appControlFile = sequenceOf(
+            java.io.File("src/main/kotlin/com/cellclaw/tools/AppControlTool.kt"),
+            java.io.File("app/src/main/kotlin/com/cellclaw/tools/AppControlTool.kt")
+        ).firstOrNull { it.exists() } ?: error("AppControlTool.kt not found")
+
+        val content = appControlFile.readText()
+        assertFalse(
+            "AppControlTool must not use Runtime.getRuntime().exec (S2)",
+            content.contains("Runtime.getRuntime().exec")
+        )
+    }
+
+    @Test
+    fun `AppModule does not register app launch, automate or script exec tools`() {
+        val appModuleFile = sequenceOf(
+            java.io.File("src/main/kotlin/com/cellclaw/di/AppModule.kt"),
+            java.io.File("app/src/main/kotlin/com/cellclaw/di/AppModule.kt")
+        ).firstOrNull { it.exists() } ?: error("AppModule.kt not found")
+
+        val content = appModuleFile.readText()
+        val registerBlock = content.substringAfter("fun provideToolRegistry").substringAfter("register(").substringBefore(")")
+        assertFalse("AppModule must not register appLaunch", registerBlock.contains("appLaunch"))
+        assertFalse("AppModule must not register appAutomate", registerBlock.contains("appAutomate"))
+        assertFalse("AppModule must not register scriptExec", registerBlock.contains("scriptExec"))
+    }
+
     /**
      * Builds a ToolRegistry with the same set of tool names that the
-     * production AppModule registers after M0.3. Uses FakeTools so no
+     * production AppModule registers after S2. Uses FakeTools so no
      * Android context or Hilt is needed.
      *
      * IMPORTANT: keep this list in sync with AppModule.provideToolRegistry.
@@ -95,7 +124,6 @@ class ElixirDisabledToolsTest {
      */
     private fun buildElixirToolRegistryStub(): ToolRegistry {
         return ToolRegistry().apply {
-            // Safe tools — same list as AppModule after M0.3 (risky tools removed)
             register(
                 // Calendar
                 FakeTool("calendar.query", "Query calendar"),
@@ -117,9 +145,7 @@ class ElixirDisabledToolsTest {
                 // Browser
                 FakeTool("browser.open", "Open browser"),
                 FakeTool("browser.search", "Browser search"),
-                // App control
-                FakeTool("app.launch", "Launch app"),
-                FakeTool("app.automate", "Automate app"),
+                // Screen read
                 FakeTool("screen.read", "Read screen"),
                 // Email
                 FakeTool("email.send", "Send email"),
@@ -131,7 +157,8 @@ class ElixirDisabledToolsTest {
                 FakeTool("heartbeat.context", "Heartbeat context")
                 // NOT included: sms.read, sms.send, phone.call, phone.log,
                 //               contacts.search, contacts.add, camera.snap, camera.record,
-                //               location.get, script.exec, messaging.open, messaging.read, messaging.reply
+                //               location.get, script.exec, messaging.open, messaging.read, messaging.reply,
+                //               app.launch, app.automate
             )
         }
     }

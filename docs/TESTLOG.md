@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T21 — S2 shell execution tools removed and intent launch secured — Session 12
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.tools.ElixirDisabledToolsTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `ElixirDisabledToolsTest` passed (4 tests: app.launch and app.automate verified disabled in registry stub, safe tools verified, AppModule confirmed not registering shell/automate tools, AppControlTool confirmed containing zero Runtime.exec calls); `BUILD SUCCESSFUL in 1m 5s` (31 tasks, 12 executed).
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and debug assembly passed; `BUILD SUCCESSFUL in 28s` (50 tasks, 5 executed, 45 up-to-date).
+
 ### T20 — S1 manifest clean-up and PII log removal — Session 12
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.ElixirManifestTest; exit $LASTEXITCODE`
 **Exit code:** 0
