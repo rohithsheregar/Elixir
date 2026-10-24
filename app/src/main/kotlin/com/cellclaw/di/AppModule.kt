@@ -70,7 +70,7 @@ object AppModule {
         fileList: FileListTool,
         sensor: SensorTool,
         settings: SettingsTool,
-        browserOpen: BrowserOpenTool,
+        // browserOpen: BrowserOpenTool,   // DISABLED (S3): until M8.1 validated opener exists
         browserSearch: BrowserSearchTool,
         // appLaunch: AppLaunchTool,       // DISABLED (S2): app launch
         // appAutomate: AppAutomateTool,   // DISABLED (S2): app automate
@@ -109,7 +109,7 @@ object AppModule {
                 // Sensor and settings
                 sensor, settings,
                 // Browser
-                browserOpen, browserSearch,
+                browserSearch,
                 // Screen read
                 screenRead,
                 // Email

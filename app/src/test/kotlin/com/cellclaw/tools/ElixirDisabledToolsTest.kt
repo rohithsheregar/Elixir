@@ -36,7 +36,9 @@ class ElixirDisabledToolsTest {
         "script.exec",
         // App control / automation (Runtime.exec shell risk - S2)
         "app.launch",
-        "app.automate"
+        "app.automate",
+        // Browser open (unvalidated opener disabled until M8.1 - S3)
+        "browser.open"
     )
 
     /**
@@ -50,7 +52,6 @@ class ElixirDisabledToolsTest {
         "file.write",
         "file.list",
         "notification.send",
-        "browser.open",
         "browser.search",
         "settings.get",
         "screen.read",
@@ -112,11 +113,12 @@ class ElixirDisabledToolsTest {
         assertFalse("AppModule must not register appLaunch", registerBlock.contains("appLaunch"))
         assertFalse("AppModule must not register appAutomate", registerBlock.contains("appAutomate"))
         assertFalse("AppModule must not register scriptExec", registerBlock.contains("scriptExec"))
+        assertFalse("AppModule must not register browserOpen", registerBlock.contains("browserOpen"))
     }
 
     /**
      * Builds a ToolRegistry with the same set of tool names that the
-     * production AppModule registers after S2. Uses FakeTools so no
+     * production AppModule registers after S3. Uses FakeTools so no
      * Android context or Hilt is needed.
      *
      * IMPORTANT: keep this list in sync with AppModule.provideToolRegistry.
@@ -143,7 +145,6 @@ class ElixirDisabledToolsTest {
                 // Settings
                 FakeTool("settings.get", "Get settings"),
                 // Browser
-                FakeTool("browser.open", "Open browser"),
                 FakeTool("browser.search", "Browser search"),
                 // Screen read
                 FakeTool("screen.read", "Read screen"),
@@ -158,7 +159,7 @@ class ElixirDisabledToolsTest {
                 // NOT included: sms.read, sms.send, phone.call, phone.log,
                 //               contacts.search, contacts.add, camera.snap, camera.record,
                 //               location.get, script.exec, messaging.open, messaging.read, messaging.reply,
-                //               app.launch, app.automate
+                //               app.launch, app.automate, browser.open
             )
         }
     }

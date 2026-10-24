@@ -20,13 +20,13 @@ Audit remediation inserted — M2 complete (`cp-m2-1`); M3.1 ✅. S1 is the next
 | 12 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 377dceb |
 
 ## Last Green Commit
-7c621c7 — [S1] remove SmsReceiver, PhoneStateReceiver, dangerous permissions from manifest and PII log
+b2b5e59 — [S2] remove app.launch and app.automate from registry and eliminate Runtime.exec shell calls
 
 ## IN PROGRESS
-S2 — remove app.launch / app.automate (Runtime.exec) from Elixir tool registry
+S3 — deregister BrowserOpenTool until validated opener exists
 
 ## NEXT ACTION
-Implement S2: check ToolRegistry / AppModule to ensure app.launch and app.automate (calling Runtime.exec) are removed or safely replaced, confirm ScriptExecTool is disabled; extend ElixirDisabledToolsTest.
+Implement S3: remove browserOpen from AppModule.provideToolRegistry; update ElixirDisabledToolsTest.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

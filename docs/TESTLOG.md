@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T22 — S3 BrowserOpenTool deregistered until M8.1 — Session 12
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.tools.ElixirDisabledToolsTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `ElixirDisabledToolsTest` passed (4 tests: browser.open verified disabled in registry stub, safe tools verified, AppModule confirmed not registering browserOpen); `BUILD SUCCESSFUL in 42s` (31 tasks, 11 executed).
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and debug assembly passed; `BUILD SUCCESSFUL in 19s` (50 tasks, 4 executed, 46 up-to-date).
+
 ### T21 — S2 shell execution tools removed and intent launch secured — Session 12
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.tools.ElixirDisabledToolsTest; exit $LASTEXITCODE`
 **Exit code:** 0
