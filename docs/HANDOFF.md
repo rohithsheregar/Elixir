@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Milestone M5 complete (`cp-m5-1`). M6.1 (ApplicationRecord data model & states) is the next step.
+Milestone M6 complete (`cp-m6-1`). M7.1 (Navigation scaffold and screen routes) is the next step.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -21,13 +21,13 @@ Milestone M5 complete (`cp-m5-1`). M6.1 (ApplicationRecord data model & states) 
 | 13 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 38b4dd2 |
 
 ## Last Green Commit
-(pending commit for [M6.2])
+(pending commit for [M6.3])
 
 ## IN PROGRESS
-M6.3 — Verify application tracker milestone suite and tag cp-m6-1
+M7.1 — Navigation scaffold and screen routes: Profile, NewApplication, EligibilityReport, ResumePreview, Tracker, ReviewScreen
 
 ## NEXT ACTION
-Run full test suite and assembleDebug to verify M6 milestone, tag cp-m6-1.
+Implement ElixirNavHost and screen routes for Profile, NewApplication, EligibilityReport, ResumePreview, Tracker, ReviewScreen; verify assembleDebug.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
