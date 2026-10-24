@@ -20,13 +20,13 @@ Audit remediation inserted — M2 complete (`cp-m2-1`); M3.1 ✅. S1 is the next
 | 12 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 377dceb |
 
 ## Last Green Commit
-769fdb7 — [A2] verify allowBackup=false in manifest to prevent ADB backup extraction
+d52545d — [M3.2] implement JdParser for text ingestion and extraction with evidence
 
 ## IN PROGRESS
-M3.2 — JdParser: extract from pasted/shared text using regex + heuristics
+A3 — Prompt-injection test: verify JD prompt injection treated as literal text
 
 ## NEXT ACTION
-Implement M3.2: implement JdParser in com.cellclaw.jd; write JdParserTest with multiple synthetic JD samples.
+Implement A3: expand prompt-injection test coverage in JdParserTest to cover override attempts on CGPA, profile facts, and approval policy.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
