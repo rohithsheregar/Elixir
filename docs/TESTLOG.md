@@ -99,6 +99,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T41 — M7.2 ProfileScreen with confirmed facts and proposal diff review — Session 13
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and assembleDebug passed (50 tasks, 18 executed); implemented ProfileViewModel, ProfileUiState, and ProfileScreen displaying confirmed facts, proposal diff cards with approve/reject actions, manual fact addition/editing, and full wipe confirmation; `BUILD SUCCESSFUL in 2m 20s`.
+
 ### T40 — M7.1 Navigation scaffold and screen routes — Session 13
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
 **Exit code:** 0

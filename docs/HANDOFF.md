@@ -21,13 +21,13 @@ Milestone M6 complete (`cp-m6-1`). M7.1 (Navigation scaffold and screen routes) 
 | 13 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 38b4dd2 |
 
 ## Last Green Commit
-(pending commit for [M7.1])
+(pending commit for [M7.2])
 
 ## IN PROGRESS
-M7.2 — ProfileScreen: display/edit confirmed facts, show unconfirmed proposals as diff, approve/reject each
+M7.3 — NewApplicationScreen: paste JD text or pick document; trigger parse
 
 ## NEXT ACTION
-Implement ProfileViewModel and ProfileScreen UI with confirmed facts list, proposal diffs, and approve/reject actions; verify assembleDebug.
+Implement NewApplicationViewModel and NewApplicationScreen with text paste, document picker integration, JD parsing, and transition to EligibilityReport; verify assembleDebug.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

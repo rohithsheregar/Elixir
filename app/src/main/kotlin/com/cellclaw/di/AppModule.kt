@@ -50,6 +50,16 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideProfileRepository(@ApplicationContext context: Context): com.cellclaw.profile.ProfileRepository =
+        com.cellclaw.profile.EncryptedSharedPreferencesProfileRepository(context)
+
+    @Provides
+    @Singleton
+    fun provideProfileManager(repository: com.cellclaw.profile.ProfileRepository): com.cellclaw.profile.ProfileManager =
+        com.cellclaw.profile.ProfileManager(repository)
+
+    @Provides
+    @Singleton
     fun provideAnthropicProvider(): AnthropicProvider = AnthropicProvider()
 
     @Provides
