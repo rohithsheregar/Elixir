@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T33 — M5.1 ResumeContent, EvidenceMap, and ResumeBuilder — Session 13
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.resume.ResumeBuilderTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `ResumeBuilderTest` passed (5 tests: build resume + verify evidence integrity, unconfirmed facts strictly excluded, skills ranked required -> preferred -> other, projects ranked by JD skill overlap, serialization round-trip of ResumeContent and EvidenceMap); `BUILD SUCCESSFUL in 24s` (31 tasks, 4 executed).
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and debug assembly passed; `BUILD SUCCESSFUL in 32s` (50 tasks, 5 executed, 45 up-to-date).
+
 ### T32 — M4.3 milestone verification and assembleDebug — Session 13
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
 **Exit code:** 0

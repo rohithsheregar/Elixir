@@ -21,13 +21,13 @@ Milestone M4 complete (`cp-m4-1`). M5.1 (ResumeContent and EvidenceMap) is the n
 | 13 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 38b4dd2 |
 
 ## Last Green Commit
-d56c317 — [M4.2] implement eligibility engine
+fb0e9bd — [M4.3] verify eligibility engine milestone and tag cp-m4-1
 
 ## IN PROGRESS
-M5.1 — Define ResumeContent data class and EvidenceMap; ResumeBuilder ranking
+M5.2 — PDF generation: produce text-selectable PDF per company
 
 ## NEXT ACTION
-Define ResumeContent and EvidenceMap models, implement ResumeBuilder skill/project ranking with tests in ResumeBuilderTest.
+Implement PdfGenerator producing text-selectable PDF with SHA-256 and JD hash; write PdfGeneratorTest.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
