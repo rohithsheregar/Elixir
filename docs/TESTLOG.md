@@ -99,6 +99,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T36 — M5.4 milestone verification and tag cp-m5-1 — Session 13
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and debug assembly passed; `BUILD SUCCESSFUL in 35s` (50 tasks up-to-date). Tagged milestone `cp-m5-1`.
+
 ### T35 — M5.3 ResumeDiff against master resume — Session 13
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.resume.ResumeDiffTest; exit $LASTEXITCODE`
 **Exit code:** 0

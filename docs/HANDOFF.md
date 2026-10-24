@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Milestone M4 complete (`cp-m4-1`). M5.1 (ResumeContent and EvidenceMap) is the next step.
+Milestone M5 complete (`cp-m5-1`). M6.1 (ApplicationRecord data model & states) is the next step.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -21,13 +21,13 @@ Milestone M4 complete (`cp-m4-1`). M5.1 (ResumeContent and EvidenceMap) is the n
 | 13 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 38b4dd2 |
 
 ## Last Green Commit
-(pending commit for [M5.3])
+(pending commit for [M5.4])
 
 ## IN PROGRESS
-M5.4 — Verify M5 milestone suite and tag cp-m5-1
+M6.1 — Define ApplicationRecord data model and states
 
 ## NEXT ACTION
-Run full unit suite and assembleDebug to verify M5 milestone, tag cp-m5-1.
+Define ApplicationRecord and states (DRAFT, READY_FOR_REVIEW, SUBMITTING, SUBMITTED_CONFIRMED, SUBMISSION_UNKNOWN, FAILED, CANCELLED) in ApplicationRecord.kt; write unit tests in ApplicationTrackerModelTest.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
