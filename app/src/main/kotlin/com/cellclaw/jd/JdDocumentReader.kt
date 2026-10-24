@@ -221,7 +221,7 @@ class DefaultPdfTextExtractor : PdfTextExtractor {
 
         // Search for uncompressed BT (Begin Text) ... ET (End Text) blocks or Tj / TJ text tokens
         val content = String(bytes, StandardCharsets.ISO_8859_1)
-        val matcher = Pattern.compile("\\(([^\\)]+)\\)\\s*Tj|\\[([^\\]]+)\\]\\s*TJ").matcher(content)
+        val matcher = Pattern.compile("\\(((?:[^()\\\\]|\\\\.)*)\\)\\s*Tj|\\[([^\\]]+)\\]\\s*TJ").matcher(content)
         val sb = StringBuilder()
 
         while (matcher.find()) {
@@ -230,7 +230,7 @@ class DefaultPdfTextExtractor : PdfTextExtractor {
             if (!tj.isNullOrEmpty()) {
                 sb.append(cleanPdfText(tj)).append(" ")
             } else if (!tjArray.isNullOrEmpty()) {
-                val subMatcher = Pattern.compile("\\(([^\\)]+)\\)").matcher(tjArray)
+                val subMatcher = Pattern.compile("\\(((?:[^()\\\\]|\\\\.)*)\\)").matcher(tjArray)
                 while (subMatcher.find()) {
                     val subText = subMatcher.group(1)
                     if (!subText.isNullOrEmpty()) {

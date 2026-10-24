@@ -66,7 +66,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 ## M5 — Resume tailoring, evidence map, text-selectable PDF per company
 
 - [x] M5.1 | Define ResumeContent data class (sections, lines) and EvidenceMap (line -> profileFactId); ResumeBuilder ranks confirmed skills/projects/experience against JD | test: ResumeBuilderTest with synthetic profile + JD | deps: M4.3
-- [ ] M5.2 | PDF generation: use Android PdfDocument or iText (pure Java, no Android dependency) to produce text-selectable PDF; named `Name_Company_Role_vN.pdf`; store SHA-256 and JD hash | test: PdfGeneratorTest — text extractable, no overflow, Unicode renders, links valid, size reasonable | deps: M5.1
+- [x] M5.2 | PDF generation: use Android PdfDocument or iText (pure Java, no Android dependency) to produce text-selectable PDF; named `Name_Company_Role_vN.pdf`; store SHA-256 and JD hash | test: PdfGeneratorTest — text extractable, no overflow, Unicode renders, links valid, size reasonable | deps: M5.1
 - [ ] M5.3 | Diff against master resume; require user approval for material changes (tracked as flag in ResumeContent) | test: ResumeDiffTest | deps: M5.2
 - [ ] M5.4 | Build passes; tag `cp-m5-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M5.3
 

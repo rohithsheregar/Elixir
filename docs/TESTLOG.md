@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T34 — M5.2 PDF generation for tailored resume — Session 13
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.resume.PdfGeneratorTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `PdfGeneratorTest` passed (3 tests: valid text-selectable PDF with Name_Company_Role_vN naming, SHA-256 and JD hash, text extractable via DefaultPdfTextExtractor, valid link annotations, unicode rendering, clean pagination without overflow); `BUILD SUCCESSFUL in 37s` (31 tasks, 7 executed).
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and debug assembly passed; `BUILD SUCCESSFUL in 24s` (50 tasks, 4 executed, 46 up-to-date).
+
 ### T33 — M5.1 ResumeContent, EvidenceMap, and ResumeBuilder — Session 13
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.resume.ResumeBuilderTest; exit $LASTEXITCODE`
 **Exit code:** 0
