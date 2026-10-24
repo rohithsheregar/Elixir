@@ -21,13 +21,13 @@ Milestone M6 complete (`cp-m6-1`). M7.1 (Navigation scaffold and screen routes) 
 | 13 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 38b4dd2 |
 
 ## Last Green Commit
-(pending commit for [M7.2])
+Pending commit — [M7.3] implement NewApplicationScreen with document picker and JD parsing
 
 ## IN PROGRESS
-M7.3 — NewApplicationScreen: paste JD text or pick document; trigger parse
+M7.4 — EligibilityReportScreen: table of criteria with PASS/FAIL/UNKNOWN badges
 
 ## NEXT ACTION
-Implement NewApplicationViewModel and NewApplicationScreen with text paste, document picker integration, JD parsing, and transition to EligibilityReport; verify assembleDebug.
+Implement EligibilityReportViewModel and EligibilityReportScreen to render criteria table with PASS/FAIL/UNKNOWN badges and proceed to resume preview; verify assembleDebug.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

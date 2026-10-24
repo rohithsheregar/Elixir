@@ -60,6 +60,16 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideEligibilityEngine(): com.cellclaw.eligibility.EligibilityEngine =
+        com.cellclaw.eligibility.EligibilityEngine()
+
+    @Provides
+    @Singleton
+    fun provideJdDocumentReader(): com.cellclaw.jd.JdDocumentReader =
+        com.cellclaw.jd.JdDocumentReader()
+
+    @Provides
+    @Singleton
     fun provideAnthropicProvider(): AnthropicProvider = AnthropicProvider()
 
     @Provides

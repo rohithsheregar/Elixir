@@ -99,6 +99,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T42 — M7.3 NewApplicationScreen with document picker and JD parsing — Session 13
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and assembleDebug passed (50 tasks, 18 executed); implemented NewApplicationViewModel and NewApplicationScreen with document picker launcher (PDF/DOCX/TXT), clipboard paste, requirement extraction preview, and application creation with JdDocumentReader, JdParser, and EligibilityEngine integration; `BUILD SUCCESSFUL in 1m 16s`.
+
 ### T41 — M7.2 ProfileScreen with confirmed facts and proposal diff review — Session 13
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
 **Exit code:** 0
