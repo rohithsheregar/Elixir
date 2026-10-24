@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-M2 in progress — M2.1–M2.4 ✅. M2.5 is next.
+M3 in progress — M2 complete and awaiting the `cp-m2-1` milestone checkpoint. M3.1 is next.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -17,13 +17,13 @@ M2 in progress — M2.1–M2.4 ✅. M2.5 is next.
 | 9 | Codex / GPT-5.6 | 2026-10-24 | afb0f48 |
 
 ## Last Green Commit
-32709f7 — [M2.3] add profile confirmation workflow
+4a83dbe — [M2.4] import unconfirmed resume facts
 
 ## IN PROGRESS
-M2.5 — Re-run the M2 milestone unit suite, tag `cp-m2-1`, then begin M3.1.
+M3.1 — Define typed JD requirement models with source snippets and confidence, plus JVM model tests.
 
 ## NEXT ACTION
-Run `testDebugUnitTest`, tick M2.5, and create the `cp-m2-1` tag at the verified milestone commit.
+Create `app/src/main/kotlin/com/cellclaw/jd/JdRequirement.kt` and `JdRequirementModelTest.kt` with only synthetic facts.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

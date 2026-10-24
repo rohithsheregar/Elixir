@@ -99,6 +99,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T18 — M2.5 milestone suite — Session 9
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** M2 milestone unit suite passed; `BUILD SUCCESSFUL in 20s` (31 tasks, all up-to-date).
+
 ### T17 — M2.4 tests and build — Session 9
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.profile.ResumeImporterTest`
 **Exit code:** 0
