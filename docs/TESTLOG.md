@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T30 — M4.1 EligibilityResult and EligibilityReport data models — Session 13
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.eligibility.EligibilityModelTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `EligibilityModelTest` passed (8 tests: mandatory PASS -> ELIGIBLE, mandatory FAIL -> NOT_ELIGIBLE, mandatory FAIL precedence over UNKNOWN, mandatory UNKNOWN -> UNKNOWN, preferred FAIL/UNKNOWN do not fail overall, empty criteria -> ELIGIBLE, serialization round-trip); `BUILD SUCCESSFUL in 40s` (31 tasks, 11 executed).
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and debug assembly passed; `BUILD SUCCESSFUL in 32s` (50 tasks, 5 executed, 45 up-to-date).
+
 ### T29 — S5 Profile export and full wipe — Session 13
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.profile.ProfileManagerTest --tests com.cellclaw.profile.ProfileRepositoryTest; exit $LASTEXITCODE`
 **Exit code:** 0

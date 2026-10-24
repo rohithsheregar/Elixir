@@ -57,7 +57,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 
 ## M4 — Eligibility engine (PASS / FAIL / UNKNOWN, never guess equivalences)
 
-- [ ] M4.1 | Define EligibilityResult data class (criterion, status: PASS/FAIL/UNKNOWN, reason); define EligibilityReport (overall: ELIGIBLE/NOT_ELIGIBLE/UNKNOWN, list of criteria) | test: EligibilityModelTest | deps: M3.4
+- [x] M4.1 | Define EligibilityResult data class (criterion, status: PASS/FAIL/UNKNOWN, reason); define EligibilityReport (overall: ELIGIBLE/NOT_ELIGIBLE/UNKNOWN, list of criteria) | test: EligibilityModelTest | deps: M3.4
 - [ ] M4.2 | EligibilityEngine: check each JD criterion against confirmed profile facts; overall ELIGIBLE only if every mandatory criterion is PASS; preferred skills never fail; never guess equivalences (cgpa/percentage, branch mappings) | test: EligibilityEngineTest — all paths including UNKNOWN and border CGPA | deps: M4.1
 - [ ] M4.3 | Build passes; tag `cp-m4-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M4.2
 
