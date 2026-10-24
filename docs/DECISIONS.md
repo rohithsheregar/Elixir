@@ -82,3 +82,19 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Use `androidx.security:security-crypto:1.0.0` with `MasterKeys` and `EncryptedSharedPreferences` for M2.2.
 **Why:** The current 1.1 release deprecates the entire wrapper in favour of direct platform Keystore APIs, but the committed M2.2 plan specifically requires AndroidX Security Crypto and encrypted preferences. Version 1.0.0 is the stable, non-deprecated API line and provides the required Keystore-backed encrypted JSON store.
 **Alternatives:** Security Crypto 1.1.0 — rejected because it immediately introduces deprecated APIs. Direct Android Keystore encryption — deferred because it would depart from the current plan; reconsider when the plan is revised.
+
+---
+
+## D13 — Audit remediation added to plan (2026-10-24)
+**Choice:** Added steps S1–S5, A2, A3 to PLAN.md in a new "Audit remediation" section inserted before M3.2, and updated existing step deps (M3.2 now depends on S4; M3.4 on A3; M8.1 on S3).
+**Why:** Independent audit (Antigravity / Claude Sonnet 4.6, 2026-10-24) found issues not tracked in the plan:
+- SmsReceiver + PhoneStateReceiver still active in manifest; PhoneStateReceiver logs real phone numbers.
+- app.launch / app.automate (in registry) call Runtime.exec() — shell access via registered tool.
+- BrowserOpenTool in registry without URL validation (accepts file:, javascript:, etc.).
+- allowBackup=true with no exclusion rules — profile ciphertext could be ADB-extracted.
+- No prompt-injection test despite skill file §6 requiring one.
+- ApprovalPolicyTest and ApprovalQueueTest never appeared in TESTLOG with real execution counts.
+- Profile export and full wipe (skill file §3.1) not implemented.
+**Steps added:** S1 (manifest + PII log), S2 (shell exec tools), S3 (BrowserOpenTool deregister), S4 (force test re-run), A2 (backup exclusion), A3 (prompt injection test), S5 (export + wipe).
+**Not added as duplicate:** A1 (phone-number log) — merged into S1.
+**Pre-existing steps not duplicated:** M3.2–M3.4, M4.1–M4.3, M8.1 — only their deps updated.
