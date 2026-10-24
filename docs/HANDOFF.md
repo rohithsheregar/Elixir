@@ -17,7 +17,7 @@ M3 in progress — M2 complete and awaiting the `cp-m2-1` milestone checkpoint. 
 | 9 | Codex / GPT-5.6 | 2026-10-24 | afb0f48 |
 
 ## Last Green Commit
-4a83dbe — [M2.4] import unconfirmed resume facts
+4b4629f — [M2.5] verify candidate profile milestone
 
 ## IN PROGRESS
 M3.1 — Define typed JD requirement models with source snippets and confidence, plus JVM model tests.
