@@ -12,13 +12,10 @@ class PhoneStateReceiver : BroadcastReceiver() {
         if (intent.action != TelephonyManager.ACTION_PHONE_STATE_CHANGED) return
 
         val state = intent.getStringExtra(TelephonyManager.EXTRA_STATE)
-        val number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)
-
-        Log.d(TAG, "Phone state: $state, number: $number")
+        // NOTE: EXTRA_INCOMING_NUMBER not read — logging phone numbers is a PII violation (S1).
 
         val notifyIntent = Intent("com.cellclaw.PHONE_STATE").apply {
             putExtra("state", state)
-            number?.let { putExtra("number", it) }
             setPackage(context.packageName)
         }
         context.sendBroadcast(notifyIntent)
