@@ -20,13 +20,13 @@ Audit remediation inserted — M2 complete (`cp-m2-1`); M3.1 ✅. S1 is the next
 | 12 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 377dceb |
 
 ## Last Green Commit
-d52545d — [M3.2] implement JdParser for text ingestion and extraction with evidence
+b409a1e — [A3] add prompt injection tests in JdParserTest ensuring untrusted text cannot override policy or profile
 
 ## IN PROGRESS
-A3 — Prompt-injection test: verify JD prompt injection treated as literal text
+M3.3 — Document picker integration (PDF/DOCX/TXT): plain text extraction behind interface
 
 ## NEXT ACTION
-Implement A3: expand prompt-injection test coverage in JdParserTest to cover override attempts on CGPA, profile facts, and approval policy.
+Implement M3.3: create JdDocumentReader interface and text extractors in com.cellclaw.jd; write JdDocumentReaderTest.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

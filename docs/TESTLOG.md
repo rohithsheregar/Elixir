@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T27 — M3.3 JdDocumentReader document text extraction — Session 12
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.jd.JdDocumentReaderTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `JdDocumentReaderTest` passed (7 tests: plain text extraction, synthetic DOCX XML parsing, empty file fallback, scanned PDF fallback, PDF text extraction, corrupted DOCX fallback, unsupported file fallback); `BUILD SUCCESSFUL in 41s` (31 tasks, 10 executed).
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and debug assembly passed; `BUILD SUCCESSFUL in 27s` (50 tasks, 4 executed, 46 up-to-date).
+
 ### T26 — A3 prompt injection test in JdParser — Session 12
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.jd.JdParserTest; exit $LASTEXITCODE`
 **Exit code:** 0
