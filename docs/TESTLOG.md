@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T25 — M3.2 JdParser text ingestion and parsing — Session 12
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.jd.JdParserTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `JdParserTest` passed (5 tests: campus placement JD, internship JD with percentage, empty/null graceful handling, huge/malformed input, prompt injection literal handling); `BUILD SUCCESSFUL in 39s` (31 tasks, 10 executed).
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and debug assembly passed; `BUILD SUCCESSFUL in 23s` (50 tasks, 4 executed, 46 up-to-date).
+
 ### T24 — A2 backup disabled and profile data protection verified — Session 12
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.ElixirManifestTest; exit $LASTEXITCODE`
 **Exit code:** 0

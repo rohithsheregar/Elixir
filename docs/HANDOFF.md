@@ -20,13 +20,13 @@ Audit remediation inserted — M2 complete (`cp-m2-1`); M3.1 ✅. S1 is the next
 | 12 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 377dceb |
 
 ## Last Green Commit
-64994c7 — [S4] rerun full unit suite with --rerun-tasks and verify Approval tests execute
+769fdb7 — [A2] verify allowBackup=false in manifest to prevent ADB backup extraction
 
 ## IN PROGRESS
-A2 — verify backup disabled and profile data protected
+M3.2 — JdParser: extract from pasted/shared text using regex + heuristics
 
 ## NEXT ACTION
-Implement A2: confirm allowBackup=false and verify ElixirManifestTest coverage.
+Implement M3.2: implement JdParser in com.cellclaw.jd; write JdParserTest with multiple synthetic JD samples.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
