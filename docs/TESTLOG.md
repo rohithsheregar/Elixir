@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T37 — M6.1 ApplicationRecord and ApplicationState models — Session 13
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.tracker.ApplicationTrackerModelTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `ApplicationTrackerModelTest` passed (5 tests: valid lifecycle transitions DRAFT -> READY_FOR_REVIEW -> SUBMITTING -> SUBMITTED_CONFIRMED, submission unknown timeout path, failed and cancelled recovery transitions, invalid transition rejections including prohibition on auto-resubmitting SUBMISSION_UNKNOWN and terminal SUBMITTED_CONFIRMED, duplicate detection by company+role and URL, JSON serialization round-trip); `BUILD SUCCESSFUL in 1m 39s` (31 tasks, 11 executed).
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and debug assembly passed; `BUILD SUCCESSFUL in 56s` (50 tasks, 5 executed, 45 up-to-date).
+
 ### T36 — M5.4 milestone verification and tag cp-m5-1 — Session 13
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
 **Exit code:** 0

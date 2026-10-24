@@ -21,13 +21,13 @@ Milestone M5 complete (`cp-m5-1`). M6.1 (ApplicationRecord data model & states) 
 | 13 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 38b4dd2 |
 
 ## Last Green Commit
-(pending commit for [M5.4])
+(pending commit for [M6.1])
 
 ## IN PROGRESS
-M6.1 — Define ApplicationRecord data model and states
+M6.2 — Implement ApplicationTracker with Room persistence and state transitions
 
 ## NEXT ACTION
-Define ApplicationRecord and states (DRAFT, READY_FOR_REVIEW, SUBMITTING, SUBMITTED_CONFIRMED, SUBMISSION_UNKNOWN, FAILED, CANCELLED) in ApplicationRecord.kt; write unit tests in ApplicationTrackerModelTest.
+Implement ApplicationEntity, ApplicationDao, and ApplicationTracker repository with duplicate detection and state transition management; write unit tests in ApplicationTrackerTest.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
