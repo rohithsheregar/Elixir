@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T38 — M6.2 ApplicationTracker with Room persistence and state transitions — Session 13
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.tracker.ApplicationTrackerTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `ApplicationTrackerTest` passed (7 tests: register and get application, duplicate detection warning for same company+role and same URL, valid state transition flow DRAFT -> READY_FOR_REVIEW -> SUBMITTING -> SUBMISSION_UNKNOWN -> SUBMITTED_CONFIRMED, explicit confirmation requirement enforcement, disallowance of auto-resubmit from SUBMISSION_UNKNOWN, non-existent ID error handling, flow updates and deletions); `BUILD SUCCESSFUL in 2m 18s` (31 tasks, 9 executed).
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and debug assembly passed; `BUILD SUCCESSFUL in 34s` (50 tasks, 5 executed, 45 up-to-date).
+
 ### T37 — M6.1 ApplicationRecord and ApplicationState models — Session 13
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.tracker.ApplicationTrackerModelTest; exit $LASTEXITCODE`
 **Exit code:** 0

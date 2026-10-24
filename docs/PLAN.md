@@ -75,7 +75,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 ## M6 — Application tracker and state machine
 
 - [x] M6.1 | Define ApplicationRecord (company, role, jobId, sourceUrl, jdHash, deadline, eligibilityResult, resumeVersion, resumeHash, state) and states: DRAFT, READY_FOR_REVIEW, SUBMITTING, SUBMITTED_CONFIRMED, SUBMISSION_UNKNOWN, FAILED, CANCELLED | test: ApplicationTrackerModelTest | deps: M5.4
-- [ ] M6.2 | ApplicationTracker: persist records in Room; implement state transitions; warn on likely duplicates (same company+role or URL); mark SUBMITTED_CONFIRMED only on explicit confirmation | test: ApplicationTrackerTest | deps: M6.1
+- [x] M6.2 | ApplicationTracker: persist records in Room; implement state transitions; warn on likely duplicates (same company+role or URL); mark SUBMITTED_CONFIRMED only on explicit confirmation | test: ApplicationTrackerTest | deps: M6.1
 - [ ] M6.3 | Build passes; tag `cp-m6-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M6.2
 
 ---

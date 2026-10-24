@@ -41,6 +41,14 @@ object AppModule {
     fun provideScheduledTaskDao(db: MemoryDb): com.cellclaw.scheduler.ScheduledTaskDao = db.scheduledTaskDao()
 
     @Provides
+    fun provideApplicationDao(db: MemoryDb): com.cellclaw.tracker.ApplicationDao = db.applicationDao()
+
+    @Provides
+    @Singleton
+    fun provideApplicationTracker(dao: com.cellclaw.tracker.ApplicationDao): com.cellclaw.tracker.ApplicationTracker =
+        com.cellclaw.tracker.RoomApplicationTracker(dao)
+
+    @Provides
     @Singleton
     fun provideAnthropicProvider(): AnthropicProvider = AnthropicProvider()
 

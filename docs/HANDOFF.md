@@ -21,13 +21,13 @@ Milestone M5 complete (`cp-m5-1`). M6.1 (ApplicationRecord data model & states) 
 | 13 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 38b4dd2 |
 
 ## Last Green Commit
-(pending commit for [M6.1])
+(pending commit for [M6.2])
 
 ## IN PROGRESS
-M6.2 — Implement ApplicationTracker with Room persistence and state transitions
+M6.3 — Verify application tracker milestone suite and tag cp-m6-1
 
 ## NEXT ACTION
-Implement ApplicationEntity, ApplicationDao, and ApplicationTracker repository with duplicate detection and state transition management; write unit tests in ApplicationTrackerTest.
+Run full test suite and assembleDebug to verify M6 milestone, tag cp-m6-1.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
