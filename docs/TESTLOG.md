@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T31 — M4.2 EligibilityEngine implementation and tests — Session 13
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.eligibility.EligibilityEngineTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `EligibilityEngineTest` passed (9 tests: all criteria pass -> ELIGIBLE, preferred skill missing never fails overall, exact/below/above border CGPA, percentage border, never guess CGPA/percentage equivalence, never guess CGPA scale conversions, never guess degree/branch equivalence, unconfirmed profile facts -> UNKNOWN, backlog evaluation); `BUILD SUCCESSFUL in 34s` (31 tasks, 4 executed).
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and debug assembly passed; `BUILD SUCCESSFUL in 36s` (50 tasks, 4 executed, 46 up-to-date).
+
 ### T30 — M4.1 EligibilityResult and EligibilityReport data models — Session 13
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.eligibility.EligibilityModelTest; exit $LASTEXITCODE`
 **Exit code:** 0

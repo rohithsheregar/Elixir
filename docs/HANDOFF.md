@@ -21,13 +21,13 @@ Milestone M3 and audit remediation complete (`cp-m3-1`, S1–S5). M4.1 (Eligibil
 | 13 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 38b4dd2 |
 
 ## Last Green Commit
-4c42815 — [S5] implement profile export and full wipe
+e9f97bb — [M4.1] define eligibility result and report models
 
 ## IN PROGRESS
-M4.2 — Implement EligibilityEngine
+M4.3 — Build passes; tag cp-m4-1
 
 ## NEXT ACTION
-Implement EligibilityEngine checking criteria against confirmed profile facts; write unit tests in EligibilityEngineTest.
+Verify full unit suite and assembleDebug, tag cp-m4-1, log in TESTLOG.md, tick M4.3 in PLAN.md.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
