@@ -73,6 +73,7 @@ class MainActivity : ComponentActivity() {
                                 onNavigateToSettings = { navController.navigate("settings") },
                                 onNavigateToSkills = { navController.navigate("skills") },
                                 onNavigateToApprovals = { navController.navigate("approvals") },
+                                onNavigateToTracker = { navController.navigate("tracker") },
                                 initialMessage = pendingMessage
                             )
                         }
@@ -84,6 +85,45 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("approvals") {
                             ApprovalScreen(onBack = { navController.popBackStack() })
+                        }
+                        composable("tracker") {
+                            TrackerScreen(
+                                onNavigateToNewApp = { navController.navigate("new_application") },
+                                onNavigateToProfile = { navController.navigate("profile") },
+                                onSelectApplication = { appId -> navController.navigate("review/$appId") }
+                            )
+                        }
+                        composable("profile") {
+                            ProfileScreen(onBack = { navController.popBackStack() })
+                        }
+                        composable("new_application") {
+                            NewApplicationScreen(
+                                onBack = { navController.popBackStack() },
+                                onApplicationCreated = { appId -> navController.navigate("eligibility_report/$appId") }
+                            )
+                        }
+                        composable("eligibility_report/{appId}") { backStackEntry ->
+                            val appId = backStackEntry.arguments?.getString("appId").orEmpty()
+                            EligibilityReportScreen(
+                                appId = appId,
+                                onBack = { navController.popBackStack() },
+                                onProceedToResume = { id -> navController.navigate("resume_preview/$id") }
+                            )
+                        }
+                        composable("resume_preview/{appId}") { backStackEntry ->
+                            val appId = backStackEntry.arguments?.getString("appId").orEmpty()
+                            ResumePreviewScreen(
+                                appId = appId,
+                                onBack = { navController.popBackStack() },
+                                onApproveResume = { id -> navController.navigate("review/$id") }
+                            )
+                        }
+                        composable("review/{appId}") { backStackEntry ->
+                            val appId = backStackEntry.arguments?.getString("appId").orEmpty()
+                            ReviewScreen(
+                                appId = appId,
+                                onBack = { navController.popBackStack() }
+                            )
                         }
                     }
                 }

@@ -44,6 +44,7 @@ fun ChatScreen(
     onNavigateToSettings: () -> Unit,
     onNavigateToSkills: () -> Unit,
     onNavigateToApprovals: () -> Unit,
+    onNavigateToTracker: () -> Unit = {},
     initialMessage: String? = null,
     viewModel: ChatViewModel = hiltViewModel()
 ) {
@@ -90,6 +91,9 @@ fun ChatScreen(
                                 Icon(Icons.Default.Notifications, "Approvals")
                             }
                         }
+                    }
+                    IconButton(onClick = onNavigateToTracker) {
+                        Icon(Icons.Default.List, "Elixir Tracker")
                     }
                     IconButton(onClick = onNavigateToSkills) {
                         Icon(Icons.Default.Star, "Skills")

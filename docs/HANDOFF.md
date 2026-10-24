@@ -21,13 +21,13 @@ Milestone M6 complete (`cp-m6-1`). M7.1 (Navigation scaffold and screen routes) 
 | 13 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 38b4dd2 |
 
 ## Last Green Commit
-(pending commit for [M6.3])
+(pending commit for [M7.1])
 
 ## IN PROGRESS
-M7.1 — Navigation scaffold and screen routes: Profile, NewApplication, EligibilityReport, ResumePreview, Tracker, ReviewScreen
+M7.2 — ProfileScreen: display/edit confirmed facts, show unconfirmed proposals as diff, approve/reject each
 
 ## NEXT ACTION
-Implement ElixirNavHost and screen routes for Profile, NewApplication, EligibilityReport, ResumePreview, Tracker, ReviewScreen; verify assembleDebug.
+Implement ProfileViewModel and ProfileScreen UI with confirmed facts list, proposal diffs, and approve/reject actions; verify assembleDebug.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

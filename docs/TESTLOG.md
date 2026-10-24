@@ -99,6 +99,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T40 — M7.1 Navigation scaffold and screen routes — Session 13
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and assembleDebug passed (50 tasks, 16 executed); verified Compose routes for Profile, NewApplication, EligibilityReport, ResumePreview, Tracker, and ReviewScreen integrated in MainActivity NavHost with ChatScreen navigation hook (visual inspection: NEEDS_USER_DEVICE); `BUILD SUCCESSFUL in 2m 13s`.
+
 ### T39 — M6.3 milestone verification and tag cp-m6-1 — Session 13
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
 **Exit code:** 0
