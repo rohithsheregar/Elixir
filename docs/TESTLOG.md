@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T35 — M5.3 ResumeDiff against master resume — Session 13
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.resume.ResumeDiffTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `ResumeDiffTest` passed (4 tests: identical resumes yield no material change, reordered lines trigger material change and require approval, added/removed lines detected, added/removed sections detected); `BUILD SUCCESSFUL in 51s` (31 tasks, 9 executed).
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and debug assembly passed; `BUILD SUCCESSFUL in 33s` (50 tasks, 4 executed, 46 up-to-date).
+
 ### T34 — M5.2 PDF generation for tailored resume — Session 13
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.resume.PdfGeneratorTest; exit $LASTEXITCODE`
 **Exit code:** 0
