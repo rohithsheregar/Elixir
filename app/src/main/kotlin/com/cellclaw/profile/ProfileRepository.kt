@@ -14,6 +14,8 @@ interface ProfileRepository {
     suspend fun saveProfile(profile: CandidateProfile)
 
     suspend fun deleteProfile()
+
+    suspend fun wipeAll()
 }
 
 /** JVM-testable repository used by unit tests and callers that do not have Android storage. */
@@ -27,6 +29,10 @@ class InMemoryProfileRepository : ProfileRepository {
     }
 
     override suspend fun deleteProfile() {
+        profile = null
+    }
+
+    override suspend fun wipeAll() {
         profile = null
     }
 }
@@ -66,6 +72,12 @@ class EncryptedSharedPreferencesProfileRepository(
     override suspend fun deleteProfile() {
         check(preferences.edit().remove(PROFILE_JSON_KEY).commit()) {
             "Unable to delete the encrypted candidate profile"
+        }
+    }
+
+    override suspend fun wipeAll() {
+        check(preferences.edit().clear().commit()) {
+            "Unable to wipe all profile preferences"
         }
     }
 

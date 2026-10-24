@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T29 — S5 Profile export and full wipe — Session 13
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.profile.ProfileManagerTest --tests com.cellclaw.profile.ProfileRepositoryTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `ProfileManagerTest` (6 tests: UNKNOWN on unconfirmed/missing, proposal diff, export null on empty, export full profile round-trip, export confirmedOnly filter, fullWipe clears repository and facts) and `ProfileRepositoryTest` (4 tests: save/get, replace/delete, round-trip, wipeAll) passed; `BUILD SUCCESSFUL in 41s` (31 tasks, 9 executed).
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and debug assembly passed; `BUILD SUCCESSFUL in 24s` (50 tasks, 4 executed, 46 up-to-date).
+
 ### T28 — M3.4 milestone suite and assembleDebug — Session 13
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
 **Exit code:** 0

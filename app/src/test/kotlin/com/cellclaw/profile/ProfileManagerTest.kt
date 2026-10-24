@@ -43,6 +43,81 @@ class ProfileManagerTest {
         )
     }
 
+    @Test fun `exportProfileJson returns null when no profile exists`() = runTest {
+        val repository = InMemoryProfileRepository()
+        val manager = ProfileManager(repository)
+
+        assertEquals(null, manager.exportProfileJson())
+    }
+
+    @Test fun `exportProfileJson exports full profile and round trip restores facts`() = runTest {
+        val repository = InMemoryProfileRepository()
+        val profile = CandidateProfile(
+            name = fact("name", "Ravi Kumar", confirmed = true),
+            email = fact("email", "ravi@example.invalid", confirmed = true),
+            skills = listOf(
+                fact("skill", "Kotlin", confirmed = true),
+                fact("skill", "Python", confirmed = false)
+            )
+        )
+        repository.saveProfile(profile)
+        val manager = ProfileManager(repository)
+
+        val exportedJson = manager.exportProfileJson()
+        org.junit.Assert.assertNotNull(exportedJson)
+        assertTrue(exportedJson!!.contains("Ravi Kumar"))
+        assertTrue(exportedJson.contains("Kotlin"))
+        assertTrue(exportedJson.contains("Python"))
+
+        val restored = kotlinx.serialization.json.Json.decodeFromString<CandidateProfile>(exportedJson)
+        assertEquals(profile, restored)
+    }
+
+    @Test fun `exportProfileJson with confirmedOnly excludes unconfirmed facts`() = runTest {
+        val repository = InMemoryProfileRepository()
+        val profile = CandidateProfile(
+            name = fact("name", "Ravi Kumar", confirmed = true),
+            email = fact("email", "unconfirmed@example.invalid", confirmed = false),
+            skills = listOf(
+                fact("skill", "Kotlin", confirmed = true),
+                fact("skill", "Rust", confirmed = false)
+            )
+        )
+        repository.saveProfile(profile)
+        val manager = ProfileManager(repository)
+
+        val exportedJson = manager.exportProfileJson(confirmedOnly = true)
+        org.junit.Assert.assertNotNull(exportedJson)
+        assertTrue(exportedJson!!.contains("Ravi Kumar"))
+        assertTrue(exportedJson.contains("Kotlin"))
+        assertFalse(exportedJson.contains("unconfirmed@example.invalid"))
+        assertFalse(exportedJson.contains("Rust"))
+
+        val restored = kotlinx.serialization.json.Json.decodeFromString<CandidateProfile>(exportedJson)
+        org.junit.Assert.assertNull(restored.email)
+        assertEquals(1, restored.skills.size)
+        assertEquals("Kotlin", restored.skills.single().value)
+    }
+
+    @Test fun `fullWipe clears repository and resets all facts to UNKNOWN`() = runTest {
+        val repository = InMemoryProfileRepository()
+        val profile = CandidateProfile(
+            name = fact("name", "Ravi Kumar", confirmed = true),
+            cgpa = fact("cgpa", "8.9", confirmed = true)
+        )
+        repository.saveProfile(profile)
+        val manager = ProfileManager(repository)
+
+        assertEquals("Ravi Kumar", (manager.getConfirmedFact("name") as ConfirmedFactResult.Confirmed).fact.value)
+
+        manager.fullWipe()
+
+        org.junit.Assert.assertNull(repository.getProfile())
+        assertEquals(ConfirmedFactResult.Unknown, manager.getConfirmedFact("name"))
+        assertEquals(ConfirmedFactResult.Unknown, manager.getConfirmedFact("cgpa"))
+        org.junit.Assert.assertNull(manager.exportProfileJson())
+    }
+
     private fun fact(field: String, value: String, confirmed: Boolean) = ProfileFact(
         id = "$field-1",
         field = field,

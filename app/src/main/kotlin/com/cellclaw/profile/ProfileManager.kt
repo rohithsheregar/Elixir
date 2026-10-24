@@ -1,5 +1,8 @@
 package com.cellclaw.profile
 
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+
 /** The only two outcomes callers can use for a requested profile fact. */
 sealed interface ConfirmedFactResult {
     data class Confirmed(val fact: ProfileFact) : ConfirmedFactResult
@@ -16,7 +19,10 @@ class ProfileFactProposal internal constructor(
  * Applies the profile confirmation boundary: proposed values are never usable until explicitly
  * confirmed, and fact reads return [ConfirmedFactResult.Unknown] for missing or unconfirmed data.
  */
-class ProfileManager(private val repository: ProfileRepository) {
+class ProfileManager(
+    private val repository: ProfileRepository,
+    private val json: Json = Json { prettyPrint = true; encodeDefaults = true }
+) {
     suspend fun getConfirmedFact(field: String): ConfirmedFactResult {
         val fact = repository.getProfile()
             ?.allFacts()
@@ -36,6 +42,46 @@ class ProfileManager(private val repository: ProfileRepository) {
         repository.saveProfile(existing.replace(confirmed))
         return confirmed
     }
+
+    /**
+     * Exports the candidate profile as formatted JSON.
+     *
+     * @param confirmedOnly If true, only facts explicitly confirmed by the user are included.
+     * @return The JSON representation, or null if no profile exists.
+     */
+    suspend fun exportProfileJson(confirmedOnly: Boolean = false): String? {
+        val profile = repository.getProfile() ?: return null
+        val target = if (confirmedOnly) profile.filterConfirmedOnly() else profile
+        return json.encodeToString(target)
+    }
+
+    /**
+     * Performs a full wipe of candidate profile data and preferences.
+     */
+    suspend fun fullWipe() {
+        repository.wipeAll()
+    }
+
+    private fun CandidateProfile.filterConfirmedOnly(): CandidateProfile = CandidateProfile(
+        name = name?.takeIf { it.confirmed },
+        email = email?.takeIf { it.confirmed },
+        phone = phone?.takeIf { it.confirmed },
+        college = college?.takeIf { it.confirmed },
+        university = university?.takeIf { it.confirmed },
+        degree = degree?.takeIf { it.confirmed },
+        branch = branch?.takeIf { it.confirmed },
+        graduationYear = graduationYear?.takeIf { it.confirmed },
+        cgpa = cgpa?.takeIf { it.confirmed },
+        cgpaScale = cgpaScale?.takeIf { it.confirmed },
+        marks10th = marks10th?.takeIf { it.confirmed },
+        marks12th = marks12th?.takeIf { it.confirmed },
+        skills = skills.filter { it.confirmed },
+        projects = projects.filter { it.confirmed },
+        internships = internships.filter { it.confirmed },
+        certificates = certificates.filter { it.confirmed },
+        links = links.filter { it.confirmed },
+        reusableAnswers = reusableAnswers.filter { it.confirmed }
+    )
 
     private fun CandidateProfile.allFacts(): List<ProfileFact> =
         listOfNotNull(

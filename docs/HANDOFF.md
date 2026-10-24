@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Milestone M3 complete (`cp-m3-1`). S5 (profile export and full wipe) is the next step.
+Milestone M3 and audit remediation complete (`cp-m3-1`, S1–S5). M4.1 (Eligibility data models) is the next step.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -21,13 +21,13 @@ Milestone M3 complete (`cp-m3-1`). S5 (profile export and full wipe) is the next
 | 13 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 38b4dd2 |
 
 ## Last Green Commit
-38b4dd2 — [M3.3] implement JdDocumentReader for PDF, DOCX, and TXT with graceful paste fallback
+fa95351 — [M3.4] verify M3 milestone suite and tag cp-m3-1
 
 ## IN PROGRESS
-S5 — Profile export and full wipe (skill file 3.1)
+M4.1 — Define EligibilityResult and EligibilityReport data models
 
 ## NEXT ACTION
-Implement exportProfileJson() and wipeAllProfileData() in ProfileManager and ProfileRepository with unit tests in ProfileManagerTest.
+Define EligibilityResult and EligibilityReport data models with unit tests in EligibilityModelTest.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

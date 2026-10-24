@@ -47,6 +47,15 @@ class ProfileRepositoryTest {
         assertEquals(false, restored.projects.single().confirmed)
     }
 
+    @Test fun `wipeAll removes profile from repository`() = runTest {
+        val repository = InMemoryProfileRepository()
+        repository.saveProfile(CandidateProfile(name = fact("name", "Test User", confirmed = true)))
+        org.junit.Assert.assertNotNull(repository.getProfile())
+
+        repository.wipeAll()
+        assertNull(repository.getProfile())
+    }
+
     private fun fact(field: String, value: String, confirmed: Boolean) = ProfileFact(
         id = "$field-1",
         field = field,
