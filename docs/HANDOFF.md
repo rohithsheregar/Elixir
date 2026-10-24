@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-M2 in progress — M2.1–M2.3 ✅. M2.4 is next.
+M2 in progress — M2.1–M2.4 ✅. M2.5 is next.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -17,13 +17,13 @@ M2 in progress — M2.1–M2.3 ✅. M2.4 is next.
 | 9 | Codex / GPT-5.6 | 2026-10-24 | afb0f48 |
 
 ## Last Green Commit
-3fc1089 — [M2.2] add encrypted profile repository
+32709f7 — [M2.3] add profile confirmation workflow
 
 ## IN PROGRESS
-M2.4 — Import resume text into unconfirmed profile proposals with synthetic parser tests.
+M2.5 — Re-run the M2 milestone unit suite, tag `cp-m2-1`, then begin M3.1.
 
 ## NEXT ACTION
-Create `app/src/main/kotlin/com/cellclaw/profile/ResumeImporter.kt` and `ResumeImporterTest.kt`; parse only explicit synthetic resume facts into `confirmed=false` proposals.
+Run `testDebugUnitTest`, tick M2.5, and create the `cp-m2-1` tag at the verified milestone commit.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
