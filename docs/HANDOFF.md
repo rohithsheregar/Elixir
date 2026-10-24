@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Milestone M3 and audit remediation complete (`cp-m3-1`, S1–S5). M4.1 (Eligibility data models) is the next step.
+Milestone M4 complete (`cp-m4-1`). M5.1 (ResumeContent and EvidenceMap) is the next step.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -21,13 +21,13 @@ Milestone M3 and audit remediation complete (`cp-m3-1`, S1–S5). M4.1 (Eligibil
 | 13 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 38b4dd2 |
 
 ## Last Green Commit
-e9f97bb — [M4.1] define eligibility result and report models
+d56c317 — [M4.2] implement eligibility engine
 
 ## IN PROGRESS
-M4.3 — Build passes; tag cp-m4-1
+M5.1 — Define ResumeContent data class and EvidenceMap; ResumeBuilder ranking
 
 ## NEXT ACTION
-Verify full unit suite and assembleDebug, tag cp-m4-1, log in TESTLOG.md, tick M4.3 in PLAN.md.
+Define ResumeContent and EvidenceMap models, implement ResumeBuilder skill/project ranking with tests in ResumeBuilderTest.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
