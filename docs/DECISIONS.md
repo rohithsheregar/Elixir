@@ -98,3 +98,9 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Steps added:** S1 (manifest + PII log), S2 (shell exec tools), S3 (BrowserOpenTool deregister), S4 (force test re-run), A2 (backup exclusion), A3 (prompt injection test), S5 (export + wipe).
 **Not added as duplicate:** A1 (phone-number log) — merged into S1.
 **Pre-existing steps not duplicated:** M3.2–M3.4, M4.1–M4.3, M8.1 — only their deps updated.
+
+---
+
+## D14 — Session 13 state sync and verification
+**Choice:** Resume loop at M3.4 following completed M3.3 commit `38b4dd2`.
+**Why:** Git history and test log confirm S1–S4, A2, M3.2, A3, and M3.3 passed. HANDOFF state section was updated to align with `38b4dd2` as the last green commit. Full unit suite was verified at session start with exit code 0.

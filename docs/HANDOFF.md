@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Audit remediation inserted — M2 complete (`cp-m2-1`); M3.1 ✅. S1 is the next step (clears safety blockers before M3.2).
+Milestone M3 complete (`cp-m3-1`). S5 (profile export and full wipe) is the next step.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -18,15 +18,16 @@ Audit remediation inserted — M2 complete (`cp-m2-1`); M3.1 ✅. S1 is the next
 | 10 | Antigravity / Claude Sonnet 4.6 (Thinking) | 2026-10-24 | d846d92 |
 | 11 | Antigravity / Claude Sonnet 4.6 (Thinking) | 2026-10-24 | 377dceb |
 | 12 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 377dceb |
+| 13 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 38b4dd2 |
 
 ## Last Green Commit
-b409a1e — [A3] add prompt injection tests in JdParserTest ensuring untrusted text cannot override policy or profile
+38b4dd2 — [M3.3] implement JdDocumentReader for PDF, DOCX, and TXT with graceful paste fallback
 
 ## IN PROGRESS
-M3.3 — Document picker integration (PDF/DOCX/TXT): plain text extraction behind interface
+S5 — Profile export and full wipe (skill file 3.1)
 
 ## NEXT ACTION
-Implement M3.3: create JdDocumentReader interface and text extractors in com.cellclaw.jd; write JdDocumentReaderTest.
+Implement exportProfileJson() and wipeAllProfileData() in ProfileManager and ProfileRepository with unit tests in ProfileManagerTest.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
