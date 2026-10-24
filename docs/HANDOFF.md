@@ -20,13 +20,13 @@ Audit remediation inserted — M2 complete (`cp-m2-1`); M3.1 ✅. S1 is the next
 | 12 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 377dceb |
 
 ## Last Green Commit
-b2b5e59 — [S2] remove app.launch and app.automate from registry and eliminate Runtime.exec shell calls
+6fbbe1b — [S3] deregister BrowserOpenTool from AppModule until M8.1 validated opener
 
 ## IN PROGRESS
-S3 — deregister BrowserOpenTool until validated opener exists
+A2 — verify backup disabled and profile data protected
 
 ## NEXT ACTION
-Implement S3: remove browserOpen from AppModule.provideToolRegistry; update ElixirDisabledToolsTest.
+Implement A2: confirm allowBackup=false and verify ElixirManifestTest coverage.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

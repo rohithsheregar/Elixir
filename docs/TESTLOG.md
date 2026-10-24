@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T23 — S4 full unit suite rerun with --rerun-tasks — Session 12
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --rerun-tasks; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite re-executed with `--rerun-tasks` (31 tasks executed, 0 cached); 25 test suites, 107 total tests, 0 failures, 0 errors, 0 skipped. Confirmed `ApprovalPolicyTest` (4 tests) and `ApprovalQueueTest` (4 tests) both executed fresh and passed; `BUILD SUCCESSFUL in 1m 30s`.
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Debug assembly passed; `BUILD SUCCESSFUL in 17s` (41 tasks, 4 executed, 37 up-to-date).
+
 ### T22 — S3 BrowserOpenTool deregistered until M8.1 — Session 12
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.tools.ElixirDisabledToolsTest; exit $LASTEXITCODE`
 **Exit code:** 0

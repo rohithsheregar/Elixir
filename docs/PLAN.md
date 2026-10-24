@@ -42,7 +42,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] S1 | Remove SmsReceiver and PhoneStateReceiver from the manifest, remove unused dangerous permissions (SMS, calls, contacts, camera, location, record audio) not needed by Elixir, and remove the phone-number Log.d in PhoneStateReceiver | test: ElixirManifestTest (parses manifest, asserts none of those permissions or receivers) plus grep shows no phone number logged | deps: M3.1
 - [x] S2 | Remove app.launch / app.automate (Runtime.exec) from the Elixir tool registry, or replace with intent-based launch; confirm ScriptExecTool and shell tools are unreachable | test: extend ElixirDisabledToolsTest | deps: S1
 - [x] S3 | Deregister BrowserOpenTool until the validated opener from M8.1 exists | test: extend ElixirDisabledToolsTest | deps: S1
-- [ ] S4 | Re-run the full unit suite with `--rerun-tasks` (no cached results) and confirm ApprovalPolicyTest and ApprovalQueueTest actually execute; log real test counts in docs/TESTLOG.md | test: TESTLOG entry with command, exit code, tests run/passed/failed | deps: S3
+- [x] S4 | Re-run the full unit suite with `--rerun-tasks` (no cached results) and confirm ApprovalPolicyTest and ApprovalQueueTest actually execute; log real test counts in docs/TESTLOG.md | test: TESTLOG entry with command, exit code, tests run/passed/failed | deps: S3
 - [ ] A2 | Set allowBackup=false, or add dataExtractionRules / fullBackupContent excluding the encrypted profile prefs, resumes and keys | test: ElixirManifestTest asserts backup is disabled or excluded | deps: S1
 
 ---
