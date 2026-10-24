@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T19 — M3.1 tests and build — Session 9
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.jd.JdRequirementModelTest`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `JdRequirementModelTest` passed; `BUILD SUCCESSFUL in 1m 5s` (31 tasks, 11 executed).
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and debug assembly passed; `BUILD SUCCESSFUL in 51s` (50 tasks, 5 executed). Existing Gradle 10 deprecation warning only.
+
 ### T18 — M2.5 milestone suite — Session 9
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest`
 **Exit code:** 0

@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-M3 in progress — M2 complete and awaiting the `cp-m2-1` milestone checkpoint. M3.1 is next.
+M3 in progress — M2 complete (`cp-m2-1`); M3.1 ✅. M3.2 is next.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -20,10 +20,10 @@ M3 in progress — M2 complete and awaiting the `cp-m2-1` milestone checkpoint. 
 4b4629f — [M2.5] verify candidate profile milestone
 
 ## IN PROGRESS
-M3.1 — Define typed JD requirement models with source snippets and confidence, plus JVM model tests.
+M3.2 — Parse pasted/shared JD text with deterministic regex/heuristics and preserve source snippets.
 
 ## NEXT ACTION
-Create `app/src/main/kotlin/com/cellclaw/jd/JdRequirement.kt` and `JdRequirementModelTest.kt` with only synthetic facts.
+Create `app/src/main/kotlin/com/cellclaw/jd/JdParser.kt` and `JdParserTest.kt` with multiple synthetic JD samples plus empty/malformed input.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

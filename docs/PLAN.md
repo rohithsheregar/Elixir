@@ -33,7 +33,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 
 ## M3 — JD ingestion and parsing (paste, share sheet, document picker)
 
-- [ ] M3.1 | Define JdRequirement data class (company, role, jobType, location, requiredSkills, preferredSkills, degree, branch, passingYear, minCgpa, cgpaScale, backlogRule, deadline, questions; each field has sourceSnippet and confidence) | test: JdRequirementModelTest | deps: M2.5
+- [x] M3.1 | Define JdRequirement data class (company, role, jobType, location, requiredSkills, preferredSkills, degree, branch, passingYear, minCgpa, cgpaScale, backlogRule, deadline, questions; each field has sourceSnippet and confidence) | test: JdRequirementModelTest | deps: M2.5
 - [ ] M3.2 | JdParser: extract from pasted/shared text using regex + heuristics; return typed JdRequirement; attach source snippets; handle empty/malformed gracefully | test: JdParserTest — multiple synthetic JD text samples | deps: M3.1
 - [ ] M3.3 | Document picker integration (PDF/DOCX/TXT): use Android content resolver to read bytes; plain text extraction only (PDF text layer via PdfRenderer); fall back to "paste text" on failure | test: JdDocumentReaderTest (pure logic only; file I/O behind interface) | deps: M3.2
 - [ ] M3.4 | Build passes; tag `cp-m3-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M3.3
