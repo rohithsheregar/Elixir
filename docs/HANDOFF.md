@@ -20,7 +20,7 @@ Audit remediation inserted — M2 complete (`cp-m2-1`); M3.1 ✅. S1 is the next
 | 12 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 377dceb |
 
 ## Last Green Commit
-6fbbe1b — [S3] deregister BrowserOpenTool from AppModule until M8.1 validated opener
+64994c7 — [S4] rerun full unit suite with --rerun-tasks and verify Approval tests execute
 
 ## IN PROGRESS
 A2 — verify backup disabled and profile data protected

@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T24 — A2 backup disabled and profile data protection verified — Session 12
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.ElixirManifestTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `ElixirManifestTest` passed (4 tests: allowBackup=false explicitly asserted to prevent ADB data extraction, forbidden permissions excluded, receivers removed, PII phone logging absent); `BUILD SUCCESSFUL in 24s` (31 tasks, 4 executed).
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and debug assembly passed; `BUILD SUCCESSFUL in 17s` (50 tasks, 1 executed, 49 up-to-date).
+
 ### T23 — S4 full unit suite rerun with --rerun-tasks — Session 12
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --rerun-tasks; exit $LASTEXITCODE`
 **Exit code:** 0

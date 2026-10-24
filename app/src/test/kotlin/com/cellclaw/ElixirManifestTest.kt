@@ -52,9 +52,10 @@ class ElixirManifestTest {
     }
 
     @Test
-    fun `manifest sets allowBackup to false`() {
+    fun `manifest sets allowBackup to false to prevent ADB extraction`() {
         val manifest = loadManifest()
-        assertTrue("allowBackup must be false", manifest.contains("android:allowBackup=\"false\""))
+        assertTrue("allowBackup must be false (A2)", manifest.contains("android:allowBackup=\"false\""))
+        assertFalse("allowBackup must not be true", manifest.contains("android:allowBackup=\"true\""))
     }
 
     @Test
