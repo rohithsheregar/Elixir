@@ -21,15 +21,16 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (235 unit tests pass, ass
 | 13 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 38b4dd2 |
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 | 15 | Antigravity / Claude 3.5 Sonnet (Thinking) | 2026-10-25 | b3a758c |
+| 16 | Antigravity / Claude 3.5 Sonnet (Thinking) | 2026-10-25 | b4ef8ec |
 
 ## Last Green Commit
 4b6390d — [M12.5] verify final full unit test suite and assembleDebug, tag cp-m12-1
 
 ## IN PROGRESS
-R1 — Make Elixir the start destination (Tracker) with access to Profile, Settings and legacy chat
+R2 — Fix lintDebug: remove WakeWordService and wake-word code from the Elixir build, fix RECEIVER_NOT_EXPORTED in CellClawAccessibility, remove or justify QUERY_ALL_PACKAGES
 
 ## NEXT ACTION
-R1: Set startDestination to "tracker" in MainActivity.kt, provide navigation to Profile, Settings and legacy Chat, verify with NavigationWiringTest.
+R2: Remove WakeWordService/wake-word code from manifest and build, fix RECEIVER_NOT_EXPORTED in CellClawAccessibility, remove/justify QUERY_ALL_PACKAGES, verify with ./gradlew lintDebug.
 
 ## Blockers
 None. Gradle must be invoked with scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on Windows.

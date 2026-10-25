@@ -9,11 +9,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -39,6 +41,8 @@ import java.util.Locale
 fun TrackerScreen(
     onNavigateToNewApp: () -> Unit = {},
     onNavigateToProfile: () -> Unit = {},
+    onNavigateToSettings: () -> Unit = {},
+    onNavigateToChat: () -> Unit = {},
     onSelectApplication: (appId: String) -> Unit = {},
     viewModel: TrackerViewModel = hiltViewModel()
 ) {
@@ -63,9 +67,16 @@ fun TrackerScreen(
                     IconButton(onClick = onNavigateToProfile) {
                         Icon(Icons.Default.Person, contentDescription = "Profile")
                     }
+                    IconButton(onClick = onNavigateToSettings) {
+                        Icon(Icons.Default.Settings, contentDescription = "Settings")
+                    }
+                    IconButton(onClick = onNavigateToChat) {
+                        Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = "Legacy Chat")
+                    }
                 }
             )
         },
+
         floatingActionButton = {
             FloatingActionButton(onClick = onNavigateToNewApp) {
                 Icon(Icons.Default.Add, contentDescription = "New Application")

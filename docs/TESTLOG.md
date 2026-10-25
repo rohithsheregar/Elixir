@@ -566,3 +566,10 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** `BUILD SUCCESSFUL in 25s`; 41 tasks (3 executed, 38 up-to-date).
+
+### T16 — NavigationWiringTest, unit suite & assembleDebug (R1) — Session 16
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** NavigationWiringTest verified startDestination is tracker, routes configured to profile/settings/chat/new_application; full unit suite and assembleDebug passed (`BUILD SUCCESSFUL in 1m 57s`, 50 tasks, 11 executed).
+

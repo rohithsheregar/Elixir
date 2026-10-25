@@ -54,71 +54,73 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    val startDest = if (appConfig.isSetupComplete) "chat" else "setup"
+                    val startDest = NavigationRoutes.START_DESTINATION
 
                     NavHost(navController = navController, startDestination = startDest) {
-                        composable("setup") {
+                        composable(NavigationRoutes.SETUP) {
                             SetupScreen(
                                 onComplete = {
                                     appConfig.isSetupComplete = true
                                     startService()
-                                    navController.navigate("chat") {
-                                        popUpTo("setup") { inclusive = true }
+                                    navController.navigate(NavigationRoutes.TRACKER) {
+                                        popUpTo(NavigationRoutes.SETUP) { inclusive = true }
                                     }
                                 }
                             )
                         }
-                        composable("chat") {
+                        composable(NavigationRoutes.CHAT) {
                             ChatScreen(
-                                onNavigateToSettings = { navController.navigate("settings") },
-                                onNavigateToSkills = { navController.navigate("skills") },
-                                onNavigateToApprovals = { navController.navigate("approvals") },
-                                onNavigateToTracker = { navController.navigate("tracker") },
+                                onNavigateToSettings = { navController.navigate(NavigationRoutes.SETTINGS) },
+                                onNavigateToSkills = { navController.navigate(NavigationRoutes.SKILLS) },
+                                onNavigateToApprovals = { navController.navigate(NavigationRoutes.APPROVALS) },
+                                onNavigateToTracker = { navController.navigate(NavigationRoutes.TRACKER) },
                                 initialMessage = pendingMessage
                             )
                         }
-                        composable("settings") {
+                        composable(NavigationRoutes.SETTINGS) {
                             SettingsScreen(onBack = { navController.popBackStack() })
                         }
-                        composable("skills") {
+                        composable(NavigationRoutes.SKILLS) {
                             SkillsScreen(onBack = { navController.popBackStack() })
                         }
-                        composable("approvals") {
+                        composable(NavigationRoutes.APPROVALS) {
                             ApprovalScreen(onBack = { navController.popBackStack() })
                         }
-                        composable("tracker") {
+                        composable(NavigationRoutes.TRACKER) {
                             TrackerScreen(
-                                onNavigateToNewApp = { navController.navigate("new_application") },
-                                onNavigateToProfile = { navController.navigate("profile") },
-                                onSelectApplication = { appId -> navController.navigate("review/$appId") }
+                                onNavigateToNewApp = { navController.navigate(NavigationRoutes.NEW_APPLICATION) },
+                                onNavigateToProfile = { navController.navigate(NavigationRoutes.PROFILE) },
+                                onNavigateToSettings = { navController.navigate(NavigationRoutes.SETTINGS) },
+                                onNavigateToChat = { navController.navigate(NavigationRoutes.CHAT) },
+                                onSelectApplication = { appId -> navController.navigate(NavigationRoutes.reviewRoute(appId)) }
                             )
                         }
-                        composable("profile") {
+                        composable(NavigationRoutes.PROFILE) {
                             ProfileScreen(onBack = { navController.popBackStack() })
                         }
-                        composable("new_application") {
+                        composable(NavigationRoutes.NEW_APPLICATION) {
                             NewApplicationScreen(
                                 onBack = { navController.popBackStack() },
-                                onApplicationCreated = { appId -> navController.navigate("eligibility_report/$appId") }
+                                onApplicationCreated = { appId -> navController.navigate(NavigationRoutes.eligibilityReportRoute(appId)) }
                             )
                         }
-                        composable("eligibility_report/{appId}") { backStackEntry ->
+                        composable(NavigationRoutes.ELIGIBILITY_REPORT) { backStackEntry ->
                             val appId = backStackEntry.arguments?.getString("appId").orEmpty()
                             EligibilityReportScreen(
                                 appId = appId,
                                 onBack = { navController.popBackStack() },
-                                onProceedToResume = { id -> navController.navigate("resume_preview/$id") }
+                                onProceedToResume = { id -> navController.navigate(NavigationRoutes.resumePreviewRoute(id)) }
                             )
                         }
-                        composable("resume_preview/{appId}") { backStackEntry ->
+                        composable(NavigationRoutes.RESUME_PREVIEW) { backStackEntry ->
                             val appId = backStackEntry.arguments?.getString("appId").orEmpty()
                             ResumePreviewScreen(
                                 appId = appId,
                                 onBack = { navController.popBackStack() },
-                                onApproveResume = { id -> navController.navigate("review/$id") }
+                                onApproveResume = { id -> navController.navigate(NavigationRoutes.reviewRoute(id)) }
                             )
                         }
-                        composable("review/{appId}") { backStackEntry ->
+                        composable(NavigationRoutes.REVIEW) { backStackEntry ->
                             val appId = backStackEntry.arguments?.getString("appId").orEmpty()
                             ReviewScreen(
                                 appId = appId,
@@ -126,6 +128,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
+
                 }
             }
         }
