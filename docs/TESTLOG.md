@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T48 — M8.1 BrowserOpener with URL validation and Chrome intent — Session 14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.browser.BrowserOpenerTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `BrowserOpenerTest` passed (6 tests: valid HTTPS URLs, insecure HTTP warning, rejection of dangerous schemes javascript/file/intent/data/content/ftp/blob, rejection of localhost/loopback/private IP ranges, rejection of blank/malformed inputs, Chrome package name intent constants); `BUILD SUCCESSFUL in 1m 29s`.
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and assembleDebug passed (50 tasks, 5 executed, 45 up-to-date); `BUILD SUCCESSFUL in 55s`.
+
 ### T47 — M7.8 milestone verification and tag cp-m7-1 — Session 14
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest; exit $LASTEXITCODE`
 **Exit code:** 0

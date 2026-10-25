@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Milestone M7 complete (`cp-m7-1`). M8.1 (BrowserOpener) in progress.
+Milestone M7 complete (`cp-m7-1`). M8.1 complete. M8.2 (AccessibilitySession) in progress.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -22,13 +22,13 @@ Milestone M7 complete (`cp-m7-1`). M8.1 (BrowserOpener) in progress.
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-8b1d435 — [M7.7] implement ReviewScreen with supervised approval gate
+daaf560 — [M7.8] verify milestone M7 suite and tag cp-m7-1
 
 ## IN PROGRESS
-M8.1 — BrowserOpener: URL validation and Chrome opener
+M8.1 — committing BrowserOpener
 
 ## NEXT ACTION
-Implement BrowserOpener with URL validation (https only, reject dangerous schemes, warn http) and write BrowserOpenerTest.
+Commit M8.1, then implement M8.2 AccessibilitySession state machine with package scoping and bounded polling.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
