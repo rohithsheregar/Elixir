@@ -99,6 +99,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T45 — M7.6 TrackerScreen with state chips and search — Session 14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and assembleDebug passed (50 tasks, 18 executed); implemented TrackerViewModel (reactive StateFlow combining observeApplications with filter by ApplicationState and company/role query) and TrackerScreen with TopAppBar search bar, horizontal filter chip row with per-state counts, ApplicationCard list with state and eligibility badges, updated timestamp, deadline, reference ID, and delete confirmation dialog; `BUILD SUCCESSFUL in 1m 54s`.
+
 ### T44 — M7.5 ResumePreviewScreen with PDF preview, evidence map, and approval gate — Session 14
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
 **Exit code:** 0

@@ -1,25 +1,65 @@
 package com.cellclaw.ui.screens
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.cellclaw.tracker.ApplicationRecord
+import com.cellclaw.tracker.ApplicationState
+import com.cellclaw.ui.viewmodel.TrackerViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrackerScreen(
     onNavigateToNewApp: () -> Unit = {},
     onNavigateToProfile: () -> Unit = {},
-    onSelectApplication: (appId: String) -> Unit = {}
+    onSelectApplication: (appId: String) -> Unit = {},
+    viewModel: TrackerViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+    var searchVisible by remember { mutableStateOf(false) }
+    var applicationToDelete by remember { mutableStateOf<ApplicationRecord?>(null) }
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Elixir Applications") },
+                title = { Text("Applications Tracker") },
                 actions = {
+                    IconButton(onClick = {
+                        searchVisible = !searchVisible
+                        if (!searchVisible) viewModel.setSearchQuery("")
+                    }) {
+                        Icon(
+                            if (searchVisible) Icons.Default.Close else Icons.Default.Search,
+                            contentDescription = if (searchVisible) "Close Search" else "Search"
+                        )
+                    }
                     IconButton(onClick = onNavigateToProfile) {
                         Icon(Icons.Default.Person, contentDescription = "Profile")
                     }
@@ -37,7 +77,263 @@ fun TrackerScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            Text("Tracked placement applications")
+            if (searchVisible) {
+                OutlinedTextField(
+                    value = uiState.searchQuery,
+                    onValueChange = { viewModel.setSearchQuery(it) },
+                    label = { Text("Search by company or role") },
+                    trailingIcon = {
+                        if (uiState.searchQuery.isNotEmpty()) {
+                            IconButton(onClick = { viewModel.setSearchQuery("") }) {
+                                Icon(Icons.Default.Close, contentDescription = "Clear")
+                            }
+                        }
+                    },
+                    singleLine = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                )
+            }
+
+            // State filter chips
+            val totalCount = uiState.countsByState.values.sum()
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                FilterChip(
+                    selected = uiState.selectedFilter == null,
+                    onClick = { viewModel.setFilter(null) },
+                    label = { Text("All ($totalCount)") }
+                )
+                ApplicationState.values().forEach { state ->
+                    val count = uiState.countsByState[state] ?: 0
+                    FilterChip(
+                        selected = uiState.selectedFilter == state,
+                        onClick = {
+                            viewModel.setFilter(if (uiState.selectedFilter == state) null else state)
+                        },
+                        label = { Text("${stateDisplayName(state)} ($count)") }
+                    )
+                }
+            }
+
+            if (uiState.isLoading) {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+            } else if (uiState.applications.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(24.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = if (uiState.selectedFilter != null || uiState.searchQuery.isNotBlank())
+                                "No applications match your filter."
+                            else
+                                "No applications tracked yet.",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Button(onClick = onNavigateToNewApp) {
+                            Icon(Icons.Default.Add, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("New Application")
+                        }
+                    }
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(uiState.applications, key = { it.id }) { app ->
+                        ApplicationCard(
+                            application = app,
+                            onClick = { onSelectApplication(app.id) },
+                            onDelete = { applicationToDelete = app }
+                        )
+                    }
+                }
+            }
         }
+    }
+
+    applicationToDelete?.let { app ->
+        AlertDialog(
+            onDismissRequest = { applicationToDelete = null },
+            title = { Text("Delete Application") },
+            text = { Text("Are you sure you want to delete the application for ${app.company} — ${app.role}?") },
+            confirmButton = {
+                TextButton(onClick = {
+                    viewModel.deleteApplication(app.id)
+                    applicationToDelete = null
+                }) {
+                    Text("Delete", color = MaterialTheme.colorScheme.error)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { applicationToDelete = null }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+}
+
+@Composable
+private fun ApplicationCard(
+    application: ApplicationRecord,
+    onClick: () -> Unit,
+    onDelete: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = application.company,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = application.role,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                IconButton(onClick = onDelete) {
+                    Icon(
+                        Icons.Default.Delete,
+                        contentDescription = "Delete",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            // State & Eligibility Chips
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                StateBadge(state = application.state)
+                EligibilityBadge(result = application.eligibilityResult)
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Metadata row
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                val dateFormat = remember { SimpleDateFormat("MMM d, yyyy HH:mm", Locale.getDefault()) }
+                Text(
+                    text = "Updated: ${dateFormat.format(Date(application.updatedAt))}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                if (application.deadline != null) {
+                    Text(
+                        text = "Deadline: ${application.deadline}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+
+            if (application.confirmationReference != null) {
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "Ref: ${application.confirmationReference}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color(0xFF2E7D32),
+                    fontWeight = FontWeight.Medium
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun StateBadge(state: ApplicationState) {
+    val (bgColor, textColor) = when (state) {
+        ApplicationState.DRAFT -> Color(0xFFEEEEEE) to Color(0xFF424242)
+        ApplicationState.READY_FOR_REVIEW -> Color(0xFFE3F2FD) to Color(0xFF1565C0)
+        ApplicationState.SUBMITTING -> Color(0xFFFFF3E0) to Color(0xFFE65100)
+        ApplicationState.SUBMITTED_CONFIRMED -> Color(0xFFE8F5E9) to Color(0xFF2E7D32)
+        ApplicationState.SUBMISSION_UNKNOWN -> Color(0xFFFFF8E1) to Color(0xFFF57F17)
+        ApplicationState.FAILED -> Color(0xFFFFEBEE) to Color(0xFFC62828)
+        ApplicationState.CANCELLED -> Color(0xFFECEFF1) to Color(0xFF37474F)
+    }
+
+    Box(
+        modifier = Modifier
+            .background(bgColor, shape = RoundedCornerShape(12.dp))
+            .padding(horizontal = 10.dp, vertical = 4.dp)
+    ) {
+        Text(
+            text = stateDisplayName(state),
+            color = textColor,
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+private fun EligibilityBadge(result: String) {
+    val (bgColor, textColor, label) = when (result.uppercase()) {
+        "ELIGIBLE" -> Triple(Color(0xFFE8F5E9), Color(0xFF2E7D32), "ELIGIBLE")
+        "NOT_ELIGIBLE" -> Triple(Color(0xFFFFEBEE), Color(0xFFC62828), "NOT ELIGIBLE")
+        else -> Triple(Color(0xFFFFF8E1), Color(0xFFF57F17), "UNKNOWN")
+    }
+
+    Box(
+        modifier = Modifier
+            .background(bgColor, shape = RoundedCornerShape(12.dp))
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+    ) {
+        Text(
+            text = label,
+            color = textColor,
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.SemiBold
+        )
+    }
+}
+
+private fun stateDisplayName(state: ApplicationState): String {
+    return when (state) {
+        ApplicationState.DRAFT -> "Draft"
+        ApplicationState.READY_FOR_REVIEW -> "Ready"
+        ApplicationState.SUBMITTING -> "Submitting"
+        ApplicationState.SUBMITTED_CONFIRMED -> "Submitted"
+        ApplicationState.SUBMISSION_UNKNOWN -> "Unknown"
+        ApplicationState.FAILED -> "Failed"
+        ApplicationState.CANCELLED -> "Cancelled"
     }
 }

@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-M7.1-M7.5 complete. M7.6 (TrackerScreen) in progress.
+M7.1-M7.6 complete. M7.7 (ReviewScreen) in progress.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -22,13 +22,13 @@ M7.1-M7.5 complete. M7.6 (TrackerScreen) in progress.
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-8df1bd8 — [M7.4] implement EligibilityReportScreen with PASS/FAIL/UNKNOWN criteria table
+63e83af — [M7.5] implement ResumePreviewScreen with PDF preview and evidence map
 
 ## IN PROGRESS
-M7.5 — committing ResumePreviewScreen
+M7.6 — committing TrackerScreen
 
 ## NEXT ACTION
-Commit M7.5, then implement M7.6 TrackerScreen with application list, state filter chips, and navigation to details.
+Commit M7.6, then implement M7.7 ReviewScreen showing company, role, domain, filled values, resume name/hash, and uncertainties.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
