@@ -99,6 +99,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T51 — M8.4 milestone verification and tag cp-m8-1 — Session 14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite passed; `BUILD SUCCESSFUL in 28s` (31 tasks up-to-date). Tagged milestone `cp-m8-1`.
+
 ### T50 — M8.3 Dummy Google Form test harness and device verification procedure — Session 14
 **Command:** `N/A (Static HTML mock form created at docs/dummy_google_form.html and app/src/main/assets/dummy_google_form.html; device verification documented in docs/DEVICE_TESTS.md)`
 **Exit code:** 0

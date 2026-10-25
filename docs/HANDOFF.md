@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Milestone M7 complete (`cp-m7-1`). M8.1-M8.3 complete. M8.4 (verify build and tag cp-m8-1) in progress.
+Milestone M8 complete (`cp-m8-1`). M9.1 (FieldClassifier) in progress.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -22,13 +22,13 @@ Milestone M7 complete (`cp-m7-1`). M8.1-M8.3 complete. M8.4 (verify build and ta
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-5c98da1 — [M8.2] implement Elixir-scoped AccessibilitySession with state machine and bounded polling
+fb4851e — [M8.3] create dummy Google Form test harness and document device verification in DEVICE_TESTS.md
 
 ## IN PROGRESS
-M8.3 — committing dummy Google Form test harness
+M9.1 — FieldClassifier: classify accessibility nodes by label/type
 
 ## NEXT ACTION
-Commit M8.3, run testDebugUnitTest, and tag cp-m8-1 for M8.4.
+Implement FieldClassifier for classifying form fields from node text/labels and write FieldClassifierTest.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
