@@ -259,6 +259,52 @@ fun ReviewScreen(
                                                 color = Color(0xFFB71C1C)
                                             )
                                         }
+                                        Spacer(modifier = Modifier.height(12.dp))
+                                        Button(
+                                            onClick = { viewModel.openNeedsInputModal() },
+                                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFC62828))
+                                        ) {
+                                            Text("Resolve Missing Questions")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // Sensitive & Custom Questions (Needs Input card)
+                        if (uiState.needsInputItems.isNotEmpty()) {
+                            item {
+                                Card(
+                                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(16.dp),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Column(modifier = Modifier.weight(1f)) {
+                                            Text(
+                                                text = "Needs Your Input",
+                                                style = MaterialTheme.typography.titleMedium,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                            val pendingCount = uiState.needsInputItems.count { !it.isResolved }
+                                            Text(
+                                                text = if (pendingCount > 0)
+                                                    "$pendingCount question(s) awaiting explicit approval"
+                                                else
+                                                    "All questions reviewed & resolved",
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = if (pendingCount > 0) Color(0xFFE65100) else Color(0xFF2E7D32)
+                                            )
+                                        }
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        OutlinedButton(onClick = { viewModel.openNeedsInputModal() }) {
+                                            Text("Review & Answer")
+                                        }
                                     }
                                 }
                             }
@@ -452,6 +498,125 @@ fun ReviewScreen(
                 }
             }
         )
+    }
+
+    if (uiState.showNeedsInputModal) {
+        NeedsInputModalDialog(
+            items = uiState.needsInputItems,
+            onResolve = { id, value -> viewModel.resolveFieldInput(id, value) },
+            onDismiss = { viewModel.dismissNeedsInputModal() }
+        )
+    }
+}
+
+@Composable
+private fun NeedsInputModalDialog(
+    items: List<com.cellclaw.ui.viewmodel.NeedsInputReviewItem>,
+    onResolve: (id: String, value: String) -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            val pendingCount = items.count { !it.isResolved }
+            Text(if (pendingCount > 0) "Needs Your Input ($pendingCount Pending)" else "Needs Your Input (All Resolved)")
+        },
+        text = {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 420.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                item {
+                    Text(
+                        text = "PlacementOS hard rule: answers to sensitive questions (salary, bond, legal terms) and missing profile facts must be reviewed and answered by you directly.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                items(items, key = { it.id }) { item ->
+                    NeedsInputItemCard(
+                        item = item,
+                        onSave = { value -> onResolve(item.id, value) }
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            Button(onClick = onDismiss) {
+                Text("Done")
+            }
+        }
+    )
+}
+
+@Composable
+private fun NeedsInputItemCard(
+    item: com.cellclaw.ui.viewmodel.NeedsInputReviewItem,
+    onSave: (String) -> Unit
+) {
+    var textValue by remember(item.currentValue) { mutableStateOf(item.currentValue) }
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = if (item.isResolved) Color(0xFFF1F8E9) else Color(0xFFFFF8E1)
+        ),
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Column(modifier = Modifier.padding(12.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = item.label,
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = if (item.isResolved) "Resolved" else "Pending",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = if (item.isResolved) Color(0xFF2E7D32) else Color(0xFFE65100),
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Text(
+                text = item.category,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.primary
+            )
+            if (item.description.isNotBlank()) {
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = item.description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                OutlinedTextField(
+                    value = textValue,
+                    onValueChange = { textValue = it },
+                    label = { Text("Your Answer") },
+                    singleLine = true,
+                    modifier = Modifier.weight(1f)
+                )
+                Button(
+                    onClick = { onSave(textValue) },
+                    enabled = textValue.trim() != item.currentValue.trim() || !item.isResolved
+                ) {
+                    Text("Save")
+                }
+            }
+        }
     }
 }
 

@@ -17,6 +17,7 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 | **DT-M11.2** | M11.2 | Supervised Submit & Receipt Detection | `SubmitSupervisor` | `NEEDS_USER_DEVICE` | User / Physical Device |
 | **DT-R10** | R10 | RunScreen live status, notification Pause/Stop, CAPTCHA handoff | `RunScreen`, `CellClawService` | `NEEDS_USER_DEVICE` | User / Physical Device |
 | **DT-R11** | R11 | ResultScreen confirmation receipt, manual confirmation, failure retry | `ResultScreen`, `ResultViewModel` | `NEEDS_USER_DEVICE` | User / Physical Device |
+| **DT-R12** | R12 | Needs-Input modal and interactive sensitive/missing field resolution | `ReviewScreen`, `ReviewViewModel` | `NEEDS_USER_DEVICE` | User / Physical Device |
 | **DT-M12.1** | M12 | Live Google Form Supervised Validation | User-Approved Test Form | `WAITING_ON_USER` | User / Physical Device |
 
 ---
@@ -129,6 +130,17 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 3. For ambiguous or timed-out submissions (`SUBMISSION_UNKNOWN`), verify manual reference entry box and "Confirm Submission" CTA updates the application to `SUBMITTED_CONFIRMED`.
 4. For failed runs, verify "Retry Application Review & Submit" button resets the application state to `READY_FOR_REVIEW` and routes back to ReviewScreen.
 5. Tap "Return to Application Tracker": verify return to TrackerScreen with updated status chips.
+
+### DT-R12 — Needs-Input Modal & Interactive Sensitive/Missing Field Resolution
+**Status:** NEEDS_USER_DEVICE
+**Steps:**
+1. Open an application in ReviewScreen that has missing profile fields (e.g. phone or branch).
+2. Verify "Missing Profile Fields" warning card displays with "Resolve Missing Questions" button.
+3. Verify "Needs Your Input" card displays showing count of unresolved sensitive/missing questions.
+4. Tap "Resolve Missing Questions" or "Review & Answer" to open NeedsInputModal dialog.
+5. In the modal, provide answers for the questions and tap Save for each.
+6. Verify status transitions to Resolved and the field is added to Form Values to Fill with 100% Fact badge.
+7. Tap "Approve & Submit": verify ApprovalToken issues binding the user-resolved values.
 
 ---
 

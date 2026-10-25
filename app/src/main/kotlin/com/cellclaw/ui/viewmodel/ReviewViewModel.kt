@@ -28,6 +28,15 @@ data class FormFieldReviewItem(
     val sourceFactId: String? = null
 )
 
+data class NeedsInputReviewItem(
+    val id: String,
+    val label: String,
+    val category: String,
+    val description: String = "",
+    val currentValue: String = "",
+    val isResolved: Boolean = false
+)
+
 data class ReviewUiState(
     val isLoading: Boolean = true,
     val application: ApplicationRecord? = null,
@@ -46,7 +55,9 @@ data class ReviewUiState(
     val errorMessage: String? = null,
     val actionSuccessMessage: String? = null,
     val approvalToken: ApprovalToken? = null,
-    val showAccessibilityPrompt: Boolean = false
+    val showAccessibilityPrompt: Boolean = false,
+    val needsInputItems: List<NeedsInputReviewItem> = emptyList(),
+    val showNeedsInputModal: Boolean = false
 )
 
 @HiltViewModel
@@ -170,6 +181,59 @@ class ReviewViewModel @Inject constructor(
                     "I approve submitting this application to $domain on my behalf."
                 )
 
+                val needsInputItems = mutableListOf<NeedsInputReviewItem>()
+                unanswered.forEach { fieldName ->
+                    val fieldId = "missing_${fieldName.lowercase().replace(" ", "_").replace("/", "_")}"
+                    val savedVal: String? = savedStateHandle["resolved_$fieldId"]
+                    needsInputItems.add(
+                        NeedsInputReviewItem(
+                            id = fieldId,
+                            label = fieldName,
+                            category = "Missing Profile Fact",
+                            description = "Required profile fact is missing or unconfirmed. Enter a value to fill this field.",
+                            currentValue = savedVal ?: "",
+                            isResolved = !savedVal.isNullOrBlank()
+                        )
+                    )
+                }
+
+                // Add sensitive placement questions requiring explicit user approval
+                val sensitiveQuestions = listOf(
+                    NeedsInputReviewItem(
+                        id = "sensitive_stipend_ctc",
+                        label = "Expected CTC / Stipend",
+                        category = "Sensitive Compensation Question",
+                        description = "PlacementOS rule: salary expectations must never be auto-filled without explicit approval."
+                    ),
+                    NeedsInputReviewItem(
+                        id = "sensitive_service_bond",
+                        label = "Service Bond / Agreement",
+                        category = "Legal / Bond Declaration",
+                        description = "PlacementOS rule: bond or legal commitment terms require explicit user review."
+                    )
+                )
+
+                sensitiveQuestions.forEach { item ->
+                    val savedVal: String? = savedStateHandle["resolved_${item.id}"]
+                    needsInputItems.add(
+                        item.copy(
+                            currentValue = savedVal ?: "",
+                            isResolved = !savedVal.isNullOrBlank()
+                        )
+                    )
+                }
+
+                val activeFilledFields = filledFields.toMutableList()
+                val activeUnanswered = unanswered.toMutableList()
+                val activeUncertainties = uncertainties.toMutableList()
+
+                needsInputItems.filter { it.isResolved }.forEach { resolved ->
+                    activeFilledFields.removeAll { it.label.equals(resolved.label, ignoreCase = true) }
+                    activeFilledFields.add(FormFieldReviewItem(resolved.label, resolved.currentValue, 1.0f))
+                    activeUnanswered.removeAll { it.equals(resolved.label, ignoreCase = true) }
+                    activeUncertainties.removeAll { it.contains(resolved.label, ignoreCase = true) }
+                }
+
                 val restoredSuccess: String? = savedStateHandle[KEY_ACTION_SUCCESS]
                 _uiState.value = ReviewUiState(
                     isLoading = false,
@@ -181,12 +245,13 @@ class ReviewViewModel @Inject constructor(
                     resumeFileName = resumeFileName,
                     resumeHash = app.resumeHash,
                     resumeVersion = app.resumeVersion,
-                    filledFields = filledFields,
-                    unansweredFields = unanswered,
+                    filledFields = activeFilledFields,
+                    unansweredFields = activeUnanswered,
                     declarations = declarations,
-                    uncertainties = uncertainties,
+                    uncertainties = activeUncertainties,
                     currentState = app.state,
-                    actionSuccessMessage = restoredSuccess
+                    actionSuccessMessage = restoredSuccess,
+                    needsInputItems = needsInputItems
                 )
             } catch (e: Exception) {
                 _uiState.value = ReviewUiState(
@@ -195,6 +260,53 @@ class ReviewViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun openNeedsInputModal() {
+        _uiState.value = _uiState.value.copy(showNeedsInputModal = true)
+    }
+
+    fun dismissNeedsInputModal() {
+        _uiState.value = _uiState.value.copy(showNeedsInputModal = false)
+    }
+
+    fun resolveFieldInput(id: String, value: String) {
+        val trimmed = value.trim()
+        val currentItems = _uiState.value.needsInputItems
+        val target = currentItems.find { it.id == id } ?: return
+
+        savedStateHandle["resolved_$id"] = trimmed
+
+        val updatedItems = currentItems.map {
+            if (it.id == id) it.copy(currentValue = trimmed, isResolved = trimmed.isNotBlank()) else it
+        }
+
+        val updatedFilled = _uiState.value.filledFields.filterNot {
+            it.label.equals(target.label, ignoreCase = true)
+        }.toMutableList()
+
+        if (trimmed.isNotBlank()) {
+            updatedFilled.add(FormFieldReviewItem(label = target.label, value = trimmed, confidence = 1.0f))
+        }
+
+        val updatedUnanswered = if (trimmed.isNotBlank()) {
+            _uiState.value.unansweredFields.filterNot { it.equals(target.label, ignoreCase = true) }
+        } else {
+            if (target.category == "Missing Profile Fact" && target.label !in _uiState.value.unansweredFields) {
+                _uiState.value.unansweredFields + target.label
+            } else _uiState.value.unansweredFields
+        }
+
+        val updatedUncertainties = if (trimmed.isNotBlank()) {
+            _uiState.value.uncertainties.filterNot { it.contains(target.label, ignoreCase = true) }
+        } else _uiState.value.uncertainties
+
+        _uiState.value = _uiState.value.copy(
+            needsInputItems = updatedItems,
+            filledFields = updatedFilled,
+            unansweredFields = updatedUnanswered,
+            uncertainties = updatedUncertainties
+        )
     }
 
     fun approveSubmission(

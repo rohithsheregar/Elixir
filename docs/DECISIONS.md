@@ -186,6 +186,12 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Implement `ResultScreen` and `ResultViewModel` displaying application outcome banners (`SUBMITTED_CONFIRMED`, `SUBMISSION_UNKNOWN`, `FAILED`, `CANCELLED`), persistent confirmation reference receipts, and details (resume version/hash, submission timestamp). For `SUBMISSION_UNKNOWN`, provide an explicit manual verification input that consumes user-verified reference receipts to transition the application to `SUBMITTED_CONFIRMED` in `ApplicationTracker`. For `FAILED` and `SUBMISSION_UNKNOWN`, implement `retrySubmission` resetting the application state through `DRAFT` to `READY_FOR_REVIEW` and returning to `ReviewScreen`. Connect `RunScreen`'s `onComplete` to `NavigationRoutes.resultRoute(id)`.
 **Why:** Addresses Audit 2 Journey Hop 7 ("Run -> Result -> Tracker") and Phase 1 §3.5 / Phase 3 §5 rules. Enforces that a tap on Submit is not treated as guaranteed success, prevents automatic re-submissions on ambiguous timeouts while giving the user full supervised agency to confirm or retry after manual inspection in Chrome. Verified by `ResultScreenTest`.
 
+---
+
+## D28 — Needs-Input Modal and Interactive Sensitive/Missing Field Resolution (R12)
+**Choice:** Add `NeedsInputReviewItem` model and interactive resolution in `ReviewViewModel` (`resolveFieldInput`) and `ReviewScreen` (`NeedsInputModalDialog`). Missing profile facts and sensitive placement questions (salary expectations, bond agreements, legal commitments) are explicitly catalogued as needs-input items. In `ReviewScreen`, provide direct access via "Resolve Missing Questions" on the warning card and a dedicated "Needs Your Input" review card. Upon user resolution, update `filledFields`, clear `unansweredFields`, and persist resolution to `SavedStateHandle` so `ApprovalToken` cryptographically binds the user-entered answers.
+**Why:** Enforces PlacementOS Hard Rule 5 ("Pause and ask on: declarations/terms/consent boxes, salary, bond, backlog, work authorisation, disability or demographic questions, anything legal, and any question with no matching confirmed fact"). Eliminates dead ends where missing fields simply blocked review without recourse, giving the candidate interactive agency to review and supply verified answers directly before supervised automation. Verified by `NeedsInputResolutionTest`.
+
 
 
 

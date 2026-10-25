@@ -639,6 +639,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** ResultScreenTest (asserting ResultViewModel loading of SUBMITTED_CONFIRMED records and confirmation reference, manual verification input updating tracker to SUBMITTED_CONFIRMED on SUBMISSION_UNKNOWN, retrySubmission resetting FAILED/SUBMISSION_UNKNOWN applications to READY_FOR_REVIEW through DRAFT, and markAsFailed state transition), full unit suite, and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 2m 25s`, 50 actionable tasks, 18 executed, 32 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R11` (NEEDS_USER_DEVICE).
 
+### T28 — NeedsInputResolutionTest, full unit suite & assembleDebug (R12) — Session 17
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** NeedsInputResolutionTest (verifying that missing profile facts and sensitive compensation/bond questions are collected into needsInputItems, interactive user answers resolve questions, update filledFields, clear unanswered status, remove warnings, and bind to issued ApprovalToken; verifying process-death restoration via SavedStateHandle), full unit suite, and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 2m 11s`, 50 actionable tasks, 4 executed, 46 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R12` (NEEDS_USER_DEVICE).
+
 
 
 
