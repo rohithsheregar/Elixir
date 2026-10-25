@@ -99,6 +99,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T46 — M7.7 ReviewScreen with supervised approval gate — Session 14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and assembleDebug passed (50 tasks, 18 executed); implemented ReviewViewModel (aggregates company, role, target form domain, resume file details with SHA-256 hash, synthesized form field values from confirmed CandidateProfile facts, list of uncertainties, unanswered fields, declarations, and supervised state transitions to SUBMITTING or manual SUBMITTED_CONFIRMED) and ReviewScreen with target domain card, attached resume card, uncertainties/warnings card, missing fields card, confirmed facts review cards, declaration affirmation checkboxes, and user approval dialog; `BUILD SUCCESSFUL in 2m 10s`.
+
 ### T45 — M7.6 TrackerScreen with state chips and search — Session 14
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
 **Exit code:** 0

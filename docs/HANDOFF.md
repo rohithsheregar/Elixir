@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-M7.1-M7.6 complete. M7.7 (ReviewScreen) in progress.
+M7.1-M7.7 complete. M7.8 (Milestone verification & tag) in progress.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -22,13 +22,13 @@ M7.1-M7.6 complete. M7.7 (ReviewScreen) in progress.
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-63e83af — [M7.5] implement ResumePreviewScreen with PDF preview and evidence map
+9fa7579 — [M7.6] implement TrackerScreen with state chips and search
 
 ## IN PROGRESS
-M7.6 — committing TrackerScreen
+M7.7 — committing ReviewScreen
 
 ## NEXT ACTION
-Commit M7.6, then implement M7.7 ReviewScreen showing company, role, domain, filled values, resume name/hash, and uncertainties.
+Commit M7.7, then verify full suite and tag cp-m7-1 for M7.8.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

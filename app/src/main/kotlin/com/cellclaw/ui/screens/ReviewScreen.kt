@@ -1,19 +1,53 @@
 package com.cellclaw.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.cellclaw.tracker.ApplicationState
+import com.cellclaw.ui.viewmodel.FormFieldReviewItem
+import com.cellclaw.ui.viewmodel.ReviewViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReviewScreen(
     appId: String,
     onBack: () -> Unit = {},
-    onApproveSubmission: (appId: String) -> Unit = {}
+    onApproveSubmission: (appId: String) -> Unit = {},
+    viewModel: ReviewViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+    var showApproveDialog by remember { mutableStateOf(false) }
+    var showConfirmDialog by remember { mutableStateOf(false) }
+    var referenceInput by remember { mutableStateOf("") }
+    var declaredAccepted by remember { mutableStateOf(false) }
+
+    LaunchedEffect(appId) {
+        viewModel.load(appId)
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -26,12 +60,447 @@ fun ReviewScreen(
             )
         }
     ) { innerPadding ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            Text("Supervised review before user approval: $appId")
+            when {
+                uiState.isLoading -> {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                }
+                uiState.errorMessage != null && uiState.application == null -> {
+                    Column(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = uiState.errorMessage ?: "Unknown error",
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Button(onClick = onBack) {
+                            Text("Go Back")
+                        }
+                    }
+                }
+                else -> {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        // Success message banner if any
+                        uiState.actionSuccessMessage?.let { msg ->
+                            item {
+                                Card(
+                                    colors = CardDefaults.cardColors(containerColor = Color(0xFFE8F5E9)),
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Row(
+                                        modifier = Modifier.padding(16.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Icon(Icons.Default.CheckCircle, contentDescription = null, tint = Color(0xFF2E7D32))
+                                        Spacer(modifier = Modifier.width(12.dp))
+                                        Text(msg, color = Color(0xFF2E7D32), fontWeight = FontWeight.SemiBold)
+                                    }
+                                }
+                            }
+                        }
+
+                        // Target Company & Role Card
+                        item {
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                            ) {
+                                Column(modifier = Modifier.padding(16.dp)) {
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Column {
+                                            Text(
+                                                text = uiState.company,
+                                                style = MaterialTheme.typography.headlineSmall,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                            Text(
+                                                text = uiState.role,
+                                                style = MaterialTheme.typography.titleMedium,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                            )
+                                        }
+                                        StateChip(uiState.currentState)
+                                    }
+
+                                    Spacer(modifier = Modifier.height(12.dp))
+                                    HorizontalDivider()
+                                    Spacer(modifier = Modifier.height(12.dp))
+
+                                    // Form Domain
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Icon(
+                                            Icons.Default.Lock,
+                                            contentDescription = "Domain",
+                                            modifier = Modifier.size(16.dp),
+                                            tint = if (uiState.sourceUrl?.startsWith("https://") == true)
+                                                Color(0xFF2E7D32)
+                                            else
+                                                MaterialTheme.colorScheme.error
+                                        )
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                        Text(
+                                            text = "Target Domain: ${uiState.domain}",
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            fontWeight = FontWeight.Medium
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        // Resume File & Hash Card
+                        item {
+                            Card(modifier = Modifier.fillMaxWidth()) {
+                                Column(modifier = Modifier.padding(16.dp)) {
+                                    Text(
+                                        text = "Attached Resume",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = "File: ${uiState.resumeFileName}",
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                    Text(
+                                        text = "Version: v${uiState.resumeVersion}",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                    if (uiState.resumeHash != null) {
+                                        Text(
+                                            text = "SHA-256: ${uiState.resumeHash}",
+                                            style = MaterialTheme.typography.bodySmall,
+                                            fontFamily = FontFamily.Monospace,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    } else {
+                                        Text(
+                                            text = "SHA-256: Will be computed upon PDF build",
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        // Uncertainties & Warnings (if any)
+                        if (uiState.uncertainties.isNotEmpty()) {
+                            item {
+                                Card(
+                                    colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF3E0)),
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Column(modifier = Modifier.padding(16.dp)) {
+                                        Row(verticalAlignment = Alignment.CenterVertically) {
+                                            Icon(Icons.Default.Warning, contentDescription = null, tint = Color(0xFFE65100))
+                                            Spacer(modifier = Modifier.width(8.dp))
+                                            Text(
+                                                text = "Uncertainties (${uiState.uncertainties.size})",
+                                                style = MaterialTheme.typography.titleMedium,
+                                                fontWeight = FontWeight.Bold,
+                                                color = Color(0xFFE65100)
+                                            )
+                                        }
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        uiState.uncertainties.forEach { unc ->
+                                            Text(
+                                                text = "• $unc",
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = Color(0xFFBF360C)
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // Unanswered Fields (if any)
+                        if (uiState.unansweredFields.isNotEmpty()) {
+                            item {
+                                Card(
+                                    colors = CardDefaults.cardColors(containerColor = Color(0xFFFFEBEE)),
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Column(modifier = Modifier.padding(16.dp)) {
+                                        Row(verticalAlignment = Alignment.CenterVertically) {
+                                            Icon(Icons.Default.Info, contentDescription = null, tint = Color(0xFFC62828))
+                                            Spacer(modifier = Modifier.width(8.dp))
+                                            Text(
+                                                text = "Missing Profile Fields (${uiState.unansweredFields.size})",
+                                                style = MaterialTheme.typography.titleMedium,
+                                                fontWeight = FontWeight.Bold,
+                                                color = Color(0xFFC62828)
+                                            )
+                                        }
+                                        Spacer(modifier = Modifier.height(8.dp))
+                                        uiState.unansweredFields.forEach { f ->
+                                            Text(
+                                                text = "• $f",
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = Color(0xFFB71C1C)
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // Form Values to be Filled
+                        item {
+                            Text(
+                                text = "Form Values to Fill (${uiState.filledFields.size})",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+
+                        items(uiState.filledFields) { item ->
+                            FormFieldRow(item)
+                        }
+
+                        // Declarations & Approvals
+                        item {
+                            Card(
+                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Column(modifier = Modifier.padding(16.dp)) {
+                                    Text(
+                                        text = "Declarations & Affirmations",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    uiState.declarations.forEach { dec ->
+                                        Text(
+                                            text = "✓ $dec",
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                    }
+
+                                    Spacer(modifier = Modifier.height(12.dp))
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Checkbox(
+                                            checked = declaredAccepted,
+                                            onCheckedChange = { declaredAccepted = it }
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Text(
+                                            text = "I have reviewed all fields and confirm they are strictly derived from confirmed facts.",
+                                            style = MaterialTheme.typography.bodySmall,
+                                            fontWeight = FontWeight.SemiBold
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        // Submission Action Gate
+                        item {
+                            Card(
+                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Column(modifier = Modifier.padding(16.dp)) {
+                                    Text(
+                                        text = "Supervised Submission Gate",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                    )
+                                    Spacer(modifier = Modifier.height(6.dp))
+                                    Text(
+                                        text = "Elixir requires explicit user consent before submitting any application. The final submit tap belongs to you.",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                    )
+                                    Spacer(modifier = Modifier.height(16.dp))
+
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                    ) {
+                                        Button(
+                                            onClick = { showApproveDialog = true },
+                                            enabled = declaredAccepted && uiState.currentState != ApplicationState.SUBMITTED_CONFIRMED,
+                                            modifier = Modifier.weight(1f)
+                                        ) {
+                                            Text("Approve & Submit")
+                                        }
+
+                                        OutlinedButton(
+                                            onClick = { showConfirmDialog = true },
+                                            enabled = uiState.currentState != ApplicationState.SUBMITTED_CONFIRMED,
+                                            modifier = Modifier.weight(1f)
+                                        ) {
+                                            Text("Mark Confirmed")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        item { Spacer(modifier = Modifier.height(24.dp)) }
+                    }
+                }
+            }
         }
+    }
+
+    if (showApproveDialog) {
+        AlertDialog(
+            onDismissRequest = { showApproveDialog = false },
+            title = { Text("Confirm Supervised Submission") },
+            text = {
+                Text("Are you ready to initiate submission for ${uiState.company} (${uiState.role})? Elixir will fill the verified form fields and require your supervision.")
+            },
+            confirmButton = {
+                Button(onClick = {
+                    showApproveDialog = false
+                    viewModel.approveSubmission {
+                        onApproveSubmission(appId)
+                    }
+                }) {
+                    Text("Proceed")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showApproveDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
+    if (showConfirmDialog) {
+        AlertDialog(
+            onDismissRequest = { showConfirmDialog = false },
+            title = { Text("Manual Confirmation Reference") },
+            text = {
+                Column {
+                    Text("Enter confirmation number or acknowledgement reference from the company portal:")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = referenceInput,
+                        onValueChange = { referenceInput = it },
+                        label = { Text("Reference / Confirmation ID") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            },
+            confirmButton = {
+                Button(onClick = {
+                    showConfirmDialog = false
+                    viewModel.markManualConfirmed(referenceInput)
+                }) {
+                    Text("Confirm")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showConfirmDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+}
+
+@Composable
+private fun FormFieldRow(item: FormFieldReviewItem) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = item.label,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = item.value,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+                if (item.sourceFactId != null) {
+                    Text(
+                        text = "Source: ${item.sourceFactId}",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Color(0xFF2E7D32)
+                    )
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .background(Color(0xFFE8F5E9), shape = RoundedCornerShape(8.dp))
+                    .padding(horizontal = 8.dp, vertical = 4.dp)
+            ) {
+                Text(
+                    text = "100% Fact",
+                    color = Color(0xFF2E7D32),
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun StateChip(state: ApplicationState) {
+    val (bgColor, textColor) = when (state) {
+        ApplicationState.DRAFT -> Color(0xFFEEEEEE) to Color(0xFF424242)
+        ApplicationState.READY_FOR_REVIEW -> Color(0xFFE3F2FD) to Color(0xFF1565C0)
+        ApplicationState.SUBMITTING -> Color(0xFFFFF3E0) to Color(0xFFE65100)
+        ApplicationState.SUBMITTED_CONFIRMED -> Color(0xFFE8F5E9) to Color(0xFF2E7D32)
+        ApplicationState.SUBMISSION_UNKNOWN -> Color(0xFFFFF8E1) to Color(0xFFF57F17)
+        ApplicationState.FAILED -> Color(0xFFFFEBEE) to Color(0xFFC62828)
+        ApplicationState.CANCELLED -> Color(0xFFECEFF1) to Color(0xFF37474F)
+    }
+
+    Box(
+        modifier = Modifier
+            .background(bgColor, shape = RoundedCornerShape(12.dp))
+            .padding(horizontal = 10.dp, vertical = 4.dp)
+    ) {
+        Text(
+            text = state.name,
+            color = textColor,
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
