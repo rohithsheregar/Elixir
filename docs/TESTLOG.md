@@ -99,6 +99,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T43 — M7.4 EligibilityReportScreen PASS/FAIL/UNKNOWN criteria table — Session 13/14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and assembleDebug passed (50 tasks, 18 executed); implemented EligibilityReportViewModel (loads ApplicationRecord, decodes EligibilityReport from notes JSON, falls back to eligibilityResult string) and EligibilityReportScreen with overall status banner (ELIGIBLE/NOT_ELIGIBLE/UNKNOWN colour-coded) and per-criterion cards with PASS/FAIL/UNKNOWN badges and reason text; serialisation fix in NewApplicationViewModel stores EligibilityReport JSON in notes field; `BUILD SUCCESSFUL in 2m 17s`.
+
 ### T42 — M7.3 NewApplicationScreen with document picker and JD parsing — Session 13
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
 **Exit code:** 0

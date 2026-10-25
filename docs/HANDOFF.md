@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Milestone M6 complete (`cp-m6-1`). M7.1 (Navigation scaffold and screen routes) is the next step.
+M7.1-M7.3 complete. M7.4 (EligibilityReportScreen) code written, needs commit.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -19,15 +19,16 @@ Milestone M6 complete (`cp-m6-1`). M7.1 (Navigation scaffold and screen routes) 
 | 11 | Antigravity / Claude Sonnet 4.6 (Thinking) | 2026-10-24 | 377dceb |
 | 12 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 377dceb |
 | 13 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 38b4dd2 |
+| 14 | Antigravity / Claude Sonnet 4.6 (Thinking) | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-Pending commit — [M7.3] implement NewApplicationScreen with document picker and JD parsing
+a1e11d5 — [M7.3] implement NewApplicationScreen with document picker and JD parsing
 
 ## IN PROGRESS
-M7.4 — EligibilityReportScreen: table of criteria with PASS/FAIL/UNKNOWN badges
+M7.4 — EligibilityReportScreen: committing written code
 
 ## NEXT ACTION
-Implement EligibilityReportViewModel and EligibilityReportScreen to render criteria table with PASS/FAIL/UNKNOWN badges and proceed to resume preview; verify assembleDebug.
+Commit EligibilityReportScreen + ViewModel (code already written and build verified in session 13), then implement M7.5 ResumePreviewScreen.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

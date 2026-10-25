@@ -21,6 +21,8 @@ import java.io.InputStream
 import java.security.MessageDigest
 import java.util.UUID
 import javax.inject.Inject
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 data class NewApplicationUiState(
     val jdText: String = "",
@@ -130,7 +132,8 @@ class NewApplicationViewModel @Inject constructor(
                 deadline = parsed.deadline.value?.toString(),
                 eligibilityResult = eligibilityReport.overall.name,
                 resumeVersion = 1,
-                state = ApplicationState.DRAFT
+                state = ApplicationState.DRAFT,
+                notes = Json.encodeToString(eligibilityReport)
             )
 
             val dupCheck = applicationTracker.registerApplication(record)

@@ -85,7 +85,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] M7.1 | Navigation scaffold and screen routes: Profile, NewApplication, EligibilityReport, ResumePreview, Tracker, ReviewScreen | test: `.\gradlew.bat assembleDebug` exits 0; visual inspection NEEDS_USER_DEVICE | deps: M6.3
 - [x] M7.2 | ProfileScreen: display/edit confirmed facts, show unconfirmed proposals as diff, approve/reject each | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.1
 - [x] M7.3 | NewApplicationScreen: paste JD text or pick document; trigger parse | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.2
-- [ ] M7.4 | EligibilityReportScreen: table of criteria with PASS/FAIL/UNKNOWN badges | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.3
+- [x] M7.4 | EligibilityReportScreen: table of criteria with PASS/FAIL/UNKNOWN badges | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.3
 - [ ] M7.5 | ResumePreviewScreen: show generated PDF preview (WebView or PdfRenderer) + evidence map; prompt for approval | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.4
 - [ ] M7.6 | TrackerScreen: list of applications with state chips | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.5
 - [ ] M7.7 | ReviewScreen: company, role, domain, all filled values, resume name+hash, uncertainties | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.6
