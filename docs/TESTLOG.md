@@ -99,6 +99,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T55 — M9.4 milestone verification and tag cp-m9-1 — Session 14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite passed; `BUILD SUCCESSFUL in 13s` (31 tasks up-to-date). Tagged milestone `cp-m9-1`.
+
 ### T54 — M9.3 NeedsInputCollector for collecting unmatched and sensitive fields — Session 14
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.form.FieldFillerTest; exit $LASTEXITCODE`
 **Exit code:** 0

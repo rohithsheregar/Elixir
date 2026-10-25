@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Milestone M8 complete (`cp-m8-1`). M9.1-M9.3 complete. M9.4 (verify build and tag cp-m9-1) in progress.
+Milestone M9 complete (`cp-m9-1`). Next step M10.1.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -22,13 +22,13 @@ Milestone M8 complete (`cp-m8-1`). M9.1-M9.3 complete. M9.4 (verify build and ta
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-d96d8ab — [M9.2] implement FieldFiller with read-back verification and exact matching
+675676c — [M9.3] implement NeedsInputCollector for collecting unmatched and sensitive fields
 
 ## IN PROGRESS
-M9.3 — committing NeedsInputCollector
+M9.4 — milestone M9 verification and cp-m9-1 tag
 
 ## NEXT ACTION
-Commit M9.3, run testDebugUnitTest, and tag cp-m9-1 for M9.4.
+Implement M10.1 (ResumeFileProvider and scoped file_paths.xml).
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
