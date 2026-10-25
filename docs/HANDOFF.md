@@ -25,7 +25,7 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (235 unit tests pass, ass
 | 17 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | e554d2e |
 
 ## Last Green Commit
-ceac4aa — [R3] persist parsed JdRequirement in ApplicationPayload and load in ResumePreviewViewModel for tailored resume ranking
+0dd8a7c — [R4] add ACTION_SEND intent-filters, handle shared text/documents in MainActivity and NewApplicationScreen
 
 ## IN PROGRESS
 R5 — Add SavedStateHandle to NewApplication and Review view models
