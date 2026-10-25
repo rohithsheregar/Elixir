@@ -25,24 +25,23 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (235 unit tests pass, ass
 | 17 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | e554d2e |
 
 ## Last Green Commit
-2ee9400 — [R9] add AccessibilityChecker and accessibility service enablement prompt in ReviewScreen
+f9a4ff3 — [R10] implement RunScreen, RunViewModel, and foreground service notification wiring
 
 ## IN PROGRESS
-R10 — RunScreen with live status, foreground notification with Pause and Stop, and CAPTCHA/OTP/login handoff
+R11 — ResultScreen with confirmation reference, failure retry, and tracker update
 Plan:
-1. Define RunUiState and RunViewModel observing AutomationOrchestrator.step StateFlow, supporting user Pause/Resume and Cancel actions.
-2. Build RunScreen in Jetpack Compose showing animated live step indicator, target company/role, clear progress description, Pause/Resume button, and CAPTCHA/OTP manual intervention handoff banner.
-3. Wire Foreground service notification actions (Pause, Stop) to AutomationOrchestrator and RunViewModel.
-4. Add RunScreen route in NavigationRoutes and MainActivity NavHost.
-5. Write RunScreenTest asserting step transitions, pause/resume interaction, and state changes.
-6. Verify with testDebugUnitTest and assembleDebug.
+1. Implement ResultViewModel loading ApplicationRecord, supporting manual confirmation entry and retry to READY_FOR_REVIEW.
+2. Build ResultScreen in Jetpack Compose with status banners (confirmed, unknown, failed), reference receipt card, retry CTA, and tracker return.
+3. Wire RunScreen onComplete and TrackerScreen navigation to ResultScreen via NavigationRoutes.RESULT.
+4. Add ResultScreenTest testing state transitions, manual confirmation reference, and failure retry.
+5. Verify with testDebugUnitTest and assembleDebug.
 Expected files:
-- `app/src/main/kotlin/com/cellclaw/ui/screens/RunScreen.kt`
-- `app/src/main/kotlin/com/cellclaw/ui/viewmodel/RunViewModel.kt`
-- `app/src/test/kotlin/com/cellclaw/ui/RunScreenTest.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/screens/ResultScreen.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/viewmodel/ResultViewModel.kt`
+- `app/src/test/kotlin/com/cellclaw/ui/ResultScreenTest.kt`
 
 ## NEXT ACTION
-R10: Implement RunViewModel and RunScreen with live status, pause/resume controls and handoff banner, test and verify.
+R11: Implement ResultViewModel, ResultScreen, navigation hook, and ResultScreenTest.
 
 ## Blockers
 None. Gradle must be invoked with scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on Windows.
