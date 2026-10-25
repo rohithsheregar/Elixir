@@ -1,5 +1,6 @@
 package com.cellclaw.ui.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cellclaw.profile.CandidateProfile
@@ -45,13 +46,27 @@ data class ReviewUiState(
 @HiltViewModel
 class ReviewViewModel @Inject constructor(
     private val applicationTracker: ApplicationTracker,
-    private val profileRepository: ProfileRepository
+    private val profileRepository: ProfileRepository,
+    private val savedStateHandle: SavedStateHandle = SavedStateHandle()
 ) : ViewModel() {
+
+    companion object {
+        const val KEY_APP_ID = "appId"
+        const val KEY_ACTION_SUCCESS = "key_action_success"
+    }
 
     private val _uiState = MutableStateFlow(ReviewUiState())
     val uiState: StateFlow<ReviewUiState> = _uiState.asStateFlow()
 
+    init {
+        val appId: String? = savedStateHandle[KEY_APP_ID]
+        if (!appId.isNullOrBlank()) {
+            load(appId)
+        }
+    }
+
     fun load(appId: String) {
+        savedStateHandle[KEY_APP_ID] = appId
         viewModelScope.launch {
             _uiState.value = ReviewUiState(isLoading = true)
             try {
@@ -147,6 +162,7 @@ class ReviewViewModel @Inject constructor(
                     "I approve submitting this application to $domain on my behalf."
                 )
 
+                val restoredSuccess: String? = savedStateHandle[KEY_ACTION_SUCCESS]
                 _uiState.value = ReviewUiState(
                     isLoading = false,
                     application = app,
@@ -161,7 +177,8 @@ class ReviewViewModel @Inject constructor(
                     unansweredFields = unanswered,
                     declarations = declarations,
                     uncertainties = uncertainties,
-                    currentState = app.state
+                    currentState = app.state,
+                    actionSuccessMessage = restoredSuccess
                 )
             } catch (e: Exception) {
                 _uiState.value = ReviewUiState(
@@ -189,10 +206,12 @@ class ReviewViewModel @Inject constructor(
                     intermediate
                 }
 
+                val msg = "Approved! Status transitioned to ${updated.state}."
+                savedStateHandle[KEY_ACTION_SUCCESS] = msg
                 _uiState.value = _uiState.value.copy(
                     application = updated,
                     currentState = updated.state,
-                    actionSuccessMessage = "Approved! Status transitioned to ${updated.state}."
+                    actionSuccessMessage = msg
                 )
                 onApproved()
             } catch (e: Exception) {
@@ -222,10 +241,12 @@ class ReviewViewModel @Inject constructor(
                     notes = "Manually confirmed by user",
                     confirmationReference = reference.ifBlank { "MANUAL-${System.currentTimeMillis()}" }
                 )
+                val msg = "Application marked as SUBMITTED_CONFIRMED (Ref: ${confirmed.confirmationReference})."
+                savedStateHandle[KEY_ACTION_SUCCESS] = msg
                 _uiState.value = _uiState.value.copy(
                     application = confirmed,
                     currentState = confirmed.state,
-                    actionSuccessMessage = "Application marked as SUBMITTED_CONFIRMED (Ref: ${confirmed.confirmationReference})."
+                    actionSuccessMessage = msg
                 )
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(

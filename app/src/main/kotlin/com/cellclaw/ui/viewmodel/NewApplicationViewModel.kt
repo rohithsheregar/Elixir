@@ -1,5 +1,6 @@
 package com.cellclaw.ui.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cellclaw.eligibility.EligibilityEngine
@@ -40,6 +41,7 @@ data class NewApplicationUiState(
 
 @HiltViewModel
 class NewApplicationViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle = SavedStateHandle(),
     private val jdParser: JdParser,
     private val jdDocumentReader: JdDocumentReader,
     private val eligibilityEngine: EligibilityEngine,
@@ -47,22 +49,40 @@ class NewApplicationViewModel @Inject constructor(
     private val applicationTracker: ApplicationTracker
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(NewApplicationUiState())
+    companion object {
+        const val KEY_JD_TEXT = "key_jd_text"
+        const val KEY_SOURCE_URL = "key_source_url"
+        const val KEY_COMPANY = "key_company"
+        const val KEY_ROLE = "key_role"
+    }
+
+    private val _uiState = MutableStateFlow(
+        NewApplicationUiState(
+            jdText = savedStateHandle[KEY_JD_TEXT] ?: "",
+            sourceUrl = savedStateHandle[KEY_SOURCE_URL] ?: "",
+            company = savedStateHandle[KEY_COMPANY] ?: "",
+            role = savedStateHandle[KEY_ROLE] ?: ""
+        )
+    )
     val uiState: StateFlow<NewApplicationUiState> = _uiState.asStateFlow()
 
     fun onJdTextChanged(text: String) {
+        savedStateHandle[KEY_JD_TEXT] = text
         _uiState.value = _uiState.value.copy(jdText = text, errorMessage = null)
     }
 
     fun onSourceUrlChanged(url: String) {
+        savedStateHandle[KEY_SOURCE_URL] = url
         _uiState.value = _uiState.value.copy(sourceUrl = url)
     }
 
     fun onCompanyChanged(company: String) {
+        savedStateHandle[KEY_COMPANY] = company
         _uiState.value = _uiState.value.copy(company = company)
     }
 
     fun onRoleChanged(role: String) {
+        savedStateHandle[KEY_ROLE] = role
         _uiState.value = _uiState.value.copy(role = role)
     }
 
@@ -72,11 +92,16 @@ class NewApplicationViewModel @Inject constructor(
             when (val result = jdDocumentReader.read(inputStream, mimeType, fileName)) {
                 is DocumentReadResult.Success -> {
                     val parsed = jdParser.parse(result.text)
+                    val comp = _uiState.value.company.ifBlank { parsed.company.value.orEmpty() }
+                    val r = _uiState.value.role.ifBlank { parsed.role.value.orEmpty() }
+                    savedStateHandle[KEY_JD_TEXT] = result.text
+                    savedStateHandle[KEY_COMPANY] = comp
+                    savedStateHandle[KEY_ROLE] = r
                     _uiState.value = _uiState.value.copy(
                         jdText = result.text,
                         parsedRequirement = parsed,
-                        company = _uiState.value.company.ifBlank { parsed.company.value.orEmpty() },
-                        role = _uiState.value.role.ifBlank { parsed.role.value.orEmpty() },
+                        company = comp,
+                        role = r,
                         isParsing = false
                     )
                 }
@@ -97,10 +122,14 @@ class NewApplicationViewModel @Inject constructor(
             return
         }
         val parsed = jdParser.parse(text)
+        val comp = _uiState.value.company.ifBlank { parsed.company.value.orEmpty() }
+        val r = _uiState.value.role.ifBlank { parsed.role.value.orEmpty() }
+        savedStateHandle[KEY_COMPANY] = comp
+        savedStateHandle[KEY_ROLE] = r
         _uiState.value = _uiState.value.copy(
             parsedRequirement = parsed,
-            company = _uiState.value.company.ifBlank { parsed.company.value.orEmpty() },
-            role = _uiState.value.role.ifBlank { parsed.role.value.orEmpty() },
+            company = comp,
+            role = r,
             errorMessage = null
         )
     }

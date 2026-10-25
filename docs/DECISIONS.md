@@ -144,6 +144,13 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Add `ACTION_SEND` intent filters to `MainActivity` in `AndroidManifest.xml` for `text/plain`, `application/pdf`, docx, and `text/*`. In `MainActivity`, extract shared text or stream URI and navigate to `NewApplicationScreen` via `LaunchedEffect(isShareIntent)` while preserving `startDestination = NavigationRoutes.START_DESTINATION` (Tracker).
 **Why:** Fulfills PlacementOS §3.2 requirement ("Inputs, in order: pasted text, Android share-sheet text, user-picked PDF/DOCX/TXT through the system document picker"). Resolves Audit 2 Hop 1 gap where external apps had no share target into Elixir. Using `LaunchedEffect` preserves the backstack so popping back returns to TrackerScreen, while keeping `NavigationWiringTest` assertions intact.
 
+---
+
+## D21 — State persistence across process death with SavedStateHandle in ViewModels (R5)
+**Choice:** Inject `SavedStateHandle` into `NewApplicationViewModel` and `ReviewViewModel` with `= SavedStateHandle()` default parameter for seamless testing. In `NewApplicationViewModel`, persist entered `jdText`, `sourceUrl`, `company`, and `role` to `SavedStateHandle` and initialize `_uiState` from it. In `ReviewViewModel`, persist `appId` and `actionSuccessMessage`, automatically reloading the application and review item synthesis in `init` if `appId` is present in `SavedStateHandle` (supporting navigation arguments and process death).
+**Why:** Addresses Audit 2 Section 2 finding on process death and activity recreation ("State across rotation and process death"). User inputs into `NewApplicationScreen` (such as lengthy pasted JDs or custom company/role entries) and active review state in `ReviewScreen` are no longer wiped if the Android OS kills the process in the background. Pure JVM unit tests in `SavedStateHandleProcessDeathTest` verify complete state restoration without requiring instrumentation.
+
+
 
 
 

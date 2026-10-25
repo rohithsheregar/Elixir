@@ -597,6 +597,13 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** ShareIntentTest (verifying manifest ACTION_SEND intent-filters for text/plain, application/pdf, docx, and text/*, prefilling of shared text/URLs, stream document reading into NewApplicationScreen, and LaunchedEffect routing from MainActivity) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 32s`, 50 actionable tasks, 14 executed, 36 up-to-date).
 
+### T21 — SavedStateHandleProcessDeathTest, full unit suite & assembleDebug (R5) — Session 17
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** SavedStateHandleProcessDeathTest (asserting restoration of entered JD text, source URL, company, and role in NewApplicationViewModel across process death, preservation of parsed document stream inputs, auto-loading of application state in ReviewViewModel from SavedStateHandle arguments, and retention of review approval transitions and success message state across ViewModel recreation) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 34s`, 50 actionable tasks, 4 executed, 46 up-to-date).
+
+
 
 
 
