@@ -157,4 +157,25 @@ class FieldFillerTest {
         val needsInput = result as FillResult.NeedsUserInput
         assertTrue(needsInput.isSensitive)
     }
+
+    @Test
+    fun testNeedsInputCollectorAggregatesItems() {
+        assertFalse(filler.hasPendingInputs())
+        assertEquals(0, filler.getPendingInputs().size)
+
+        // 1. Fill unknown field
+        filler.fillField(AccessibilityNodeData(text = "Unmatched Question 1"), testProfile)
+        assertTrue(filler.hasPendingInputs())
+        assertEquals(1, filler.getPendingInputs().size)
+
+        // 2. Fill sensitive field
+        filler.fillField(AccessibilityNodeData(text = "Enter OTP *"), testProfile)
+        assertEquals(2, filler.getPendingInputs().size)
+        assertTrue(filler.getPendingInputs().any { it.isSensitive })
+
+        // 3. Fill normal field (should NOT add to needs input)
+        filler.fillField(AccessibilityNodeData(text = "Full Name *"), testProfile)
+        assertEquals(2, filler.getPendingInputs().size)
+    }
 }
+

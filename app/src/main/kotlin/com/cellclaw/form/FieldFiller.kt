@@ -43,6 +43,29 @@ sealed class FillResult {
     ) : FillResult()
 }
 
+data class NeedsInputField(
+    val node: AccessibilityNodeData,
+    val label: String,
+    val reason: String,
+    val isSensitive: Boolean = false,
+    val suggestedValue: String? = null
+)
+
+class NeedsInputCollector {
+    private val _items = mutableListOf<NeedsInputField>()
+    val items: List<NeedsInputField> get() = _items.toList()
+
+    fun add(node: AccessibilityNodeData, reason: String, isSensitive: Boolean = false, suggestedValue: String? = null) {
+        _items.add(NeedsInputField(node, node.combinedLabel, reason, isSensitive, suggestedValue))
+    }
+
+    fun hasPendingInputs(): Boolean = _items.isNotEmpty()
+
+    fun count(): Int = _items.size
+
+    fun clear() = _items.clear()
+}
+
 /**
  * Supervised form field filler implementing PlacementOS skill rules:
  * 1. Fills strictly from confirmed profile facts.
@@ -53,7 +76,8 @@ sealed class FillResult {
  */
 class FieldFiller(
     private val classifier: FieldClassifier = FieldClassifier(),
-    private val operator: FormNodeOperator
+    private val operator: FormNodeOperator,
+    val needsInputCollector: NeedsInputCollector = NeedsInputCollector()
 ) {
     companion object {
         private val SENSITIVE_KEYWORDS = listOf(
@@ -61,7 +85,19 @@ class FieldFiller(
         )
     }
 
+    fun hasPendingInputs(): Boolean = needsInputCollector.hasPendingInputs()
+
+    fun getPendingInputs(): List<NeedsInputField> = needsInputCollector.items
+
     fun fillField(node: AccessibilityNodeData, profile: CandidateProfile): FillResult {
+        val result = executeFillField(node, profile)
+        if (result is FillResult.NeedsUserInput) {
+            needsInputCollector.add(node, result.reason, result.isSensitive)
+        }
+        return result
+    }
+
+    private fun executeFillField(node: AccessibilityNodeData, profile: CandidateProfile): FillResult {
         val label = node.combinedLabel.lowercase(Locale.ROOT)
 
         // Check for sensitive fields first
@@ -131,22 +167,26 @@ class FieldFiller(
         }
 
         if (fact == null || !fact.confirmed || fact.value.isBlank()) {
-            return FillResult.NeedsUserInput(
+            val res = FillResult.NeedsUserInput(
                 fieldLabel = node.combinedLabel,
                 reason = "Confirmed fact for dropdown is missing or unconfirmed in profile",
                 isSensitive = false
             )
+            needsInputCollector.add(node, res.reason, res.isSensitive)
+            return res
         }
 
         val matched = availableOptions.firstOrNull { it.equals(fact.value, ignoreCase = true) }
             ?: availableOptions.firstOrNull { it.contains(fact.value, ignoreCase = true) || fact.value.contains(it, ignoreCase = true) }
 
         if (matched == null) {
-            return FillResult.NeedsUserInput(
+            val res = FillResult.NeedsUserInput(
                 fieldLabel = node.combinedLabel,
                 reason = "Profile value '${fact.value}' not found in available options $availableOptions",
                 isSensitive = false
             )
+            needsInputCollector.add(node, res.reason, res.isSensitive)
+            return res
         }
 
         val clicked = operator.clickNode(AccessibilityNodeData(text = matched))

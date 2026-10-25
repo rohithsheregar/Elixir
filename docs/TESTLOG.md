@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T54 — M9.3 NeedsInputCollector for collecting unmatched and sensitive fields — Session 14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.form.FieldFillerTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `FieldFillerTest` passed (8 tests including `testNeedsInputCollectorAggregatesItems`: aggregation of unmatched and sensitive fields, hasPendingInputs status, pending inputs count and inspection); `BUILD SUCCESSFUL in 1m 26s`.
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and assembleDebug passed (50 tasks, 4 executed, 46 up-to-date); `BUILD SUCCESSFUL in 51s`.
+
 ### T53 — M9.2 FieldFiller with confirmed facts, read-back verification, and exact match — Session 14
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.form.FieldFillerTest; exit $LASTEXITCODE`
 **Exit code:** 0
