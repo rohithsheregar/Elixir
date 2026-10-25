@@ -26,27 +26,26 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (235 unit tests pass, ass
 | 18 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | 168cf1f |
 
 ## Last Green Commit
-168cf1f — [R13] implement eligibility hard stop and explicit user override gate
+af750e7 — [U1] build Elixir Design System tokens and semantic theme palette
 
 ## IN PROGRESS
-U1 — Build Elixir Design System tokens (Typography scale, semantic palette with dark mode, spacing, shapes)
+U5 — Replace hardcoded color literals across all 6 screens with semantic theme tokens for full Dark Mode support
 Plan:
-1. Create Color.kt with semantic palette for Dark and Light modes (eligible, warning, error, slate neutrals, indigo primary).
-2. Create Typography.kt with full Material 3 typography scale.
-3. Create Shapes.kt and Spacing.kt design tokens.
-4. Update Theme.kt providing ElixirTheme with semantic color extensions and dark theme support.
-5. Add ThemeTest asserting semantic token properties and theme resolution in light and dark modes.
-6. Verify with testDebugUnitTest and assembleDebug.
+1. Replace hardcoded Color(0x...) literals in TrackerScreen, NewApplicationScreen, EligibilityReportScreen, ResumePreviewScreen, ReviewScreen, and ProfileScreen with MaterialTheme.colorScheme and MaterialTheme.elixirColors tokens.
+2. Ensure status badges (Eligible, Not Eligible, Unknown, Confirmed, Draft, Submitting, Failed) use semantic ElixirColors tokens with legible text contrast in both light and dark themes.
+3. Write DarkThemeContrastTest verifying semantic color contrast ratios and absence of hardcoded raw colors.
+4. Verify with testDebugUnitTest and assembleDebug.
 Expected files:
-- `app/src/main/kotlin/com/cellclaw/ui/theme/Color.kt`
-- `app/src/main/kotlin/com/cellclaw/ui/theme/Typography.kt`
-- `app/src/main/kotlin/com/cellclaw/ui/theme/Shape.kt`
-- `app/src/main/kotlin/com/cellclaw/ui/theme/Spacing.kt`
-- `app/src/main/kotlin/com/cellclaw/ui/theme/Theme.kt`
-- `app/src/test/kotlin/com/cellclaw/ui/ThemeTest.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/screens/TrackerScreen.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/screens/NewApplicationScreen.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/screens/EligibilityReportScreen.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/screens/ResumePreviewScreen.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/screens/ReviewScreen.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/screens/ProfileScreen.kt`
+- `app/src/test/kotlin/com/cellclaw/ui/DarkThemeContrastTest.kt`
 
 ## NEXT ACTION
-U1: Implement design tokens (Color, Type, Shape, Spacing, Theme) and ThemeTest.
+U5: Replace hardcoded colors in all 6 screens with semantic theme tokens and write DarkThemeContrastTest.kt.
 
 ## Blockers
 None. Gradle must be invoked with scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on Windows.
