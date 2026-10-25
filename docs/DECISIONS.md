@@ -104,3 +104,11 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 ## D14 — Session 13 state sync and verification
 **Choice:** Resume loop at M3.4 following completed M3.3 commit `38b4dd2`.
 **Why:** Git history and test log confirm S1–S4, A2, M3.2, A3, and M3.3 passed. HANDOFF state section was updated to align with `38b4dd2` as the last green commit. Full unit suite was verified at session start with exit code 0.
+
+---
+
+## D15 — ResumePreviewScreen uses blank JdRequirement (JD text not persisted)
+**Choice:** In `ResumePreviewViewModel`, build the resume using `JdRequirement()` (all defaults) since the raw JD text is not stored in `ApplicationRecord` — only `jdHash` is stored.
+**Why:** `ApplicationRecord` was designed with a minimal footprint; storing the full JD text would add unbounded storage and was not part of the M6 spec. The resume preview still shows all confirmed profile facts with their evidence IDs; skill ranking is alphabetical rather than JD-matched, which is safe and honest.
+**Alternatives:** Store JD text in `ApplicationRecord.notes` alongside the EligibilityReport JSON — considered but notes field is already used for the eligibility JSON and mixing two JSON blobs in one column is fragile. Proper solution (M8+): add a dedicated `jd_text` column in a future DB migration if JD-ranked resume preview becomes a priority.
+

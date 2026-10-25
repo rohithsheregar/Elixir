@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-M7.1-M7.3 complete. M7.4 (EligibilityReportScreen) code written, needs commit.
+M7.1-M7.5 complete. M7.6 (TrackerScreen) in progress.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -19,16 +19,16 @@ M7.1-M7.3 complete. M7.4 (EligibilityReportScreen) code written, needs commit.
 | 11 | Antigravity / Claude Sonnet 4.6 (Thinking) | 2026-10-24 | 377dceb |
 | 12 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 377dceb |
 | 13 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 38b4dd2 |
-| 14 | Antigravity / Claude Sonnet 4.6 (Thinking) | 2026-10-25 | a1e11d5 |
+| 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-a1e11d5 — [M7.3] implement NewApplicationScreen with document picker and JD parsing
+8df1bd8 — [M7.4] implement EligibilityReportScreen with PASS/FAIL/UNKNOWN criteria table
 
 ## IN PROGRESS
-M7.4 — EligibilityReportScreen: committing written code
+M7.5 — committing ResumePreviewScreen
 
 ## NEXT ACTION
-Commit EligibilityReportScreen + ViewModel (code already written and build verified in session 13), then implement M7.5 ResumePreviewScreen.
+Commit M7.5, then implement M7.6 TrackerScreen with application list, state filter chips, and navigation to details.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

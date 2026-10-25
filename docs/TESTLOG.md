@@ -99,6 +99,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T44 — M7.5 ResumePreviewScreen with PDF preview, evidence map, and approval gate — Session 14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and assembleDebug passed (50 tasks, 18 executed); implemented ResumePreviewViewModel (loads ApplicationRecord + CandidateProfile, builds ResumeContent and GeneratedPdf, verifies evidence integrity and material change flags) and ResumePreviewScreen with PDF info header (version, SHA-256 hash), evidence integrity badge, material change warning banner, structured resume section cards with evidence ID tags, and explicit user approval dialog; `BUILD SUCCESSFUL in 1m 13s`.
+
 ### T43 — M7.4 EligibilityReportScreen PASS/FAIL/UNKNOWN criteria table — Session 13/14
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
 **Exit code:** 0

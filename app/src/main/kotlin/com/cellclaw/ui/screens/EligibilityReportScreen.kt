@@ -8,7 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Help
+import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -194,7 +194,7 @@ private fun OverallStatusBanner(overall: OverallEligibility) {
         OverallEligibility.UNKNOWN -> Quad(
             Color(0xFFFFF8E1),
             Color(0xFFF57F17),
-            Icons.AutoMirrored.Filled.Help,
+            Icons.Default.HelpOutline,
             "UNKNOWN — Insufficient profile facts to verify all criteria"
         )
     }
