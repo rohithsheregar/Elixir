@@ -609,6 +609,13 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** DiBindingsTest (verifying Hilt AppModule DI provider bindings for ResumeBuilder, PdfGenerator, FieldClassifier, NeedsInputCollector, AccessibilityFormNodeOperator, FieldFiller, FileProviderResumeUriProvider, ResumeUploader, PostUploadVerifier, AccessibilitySession, ConfirmationDetector, and satisfying SubmitSupervisor dependencies, while strictly isolating FakeResumeUriProvider to test sources) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 39s`, 50 actionable tasks, 4 executed, 46 up-to-date).
 
+### T23 — ReviewApprovalWiringTest, full unit suite & assembleDebug (R7) — Session 17
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** ReviewApprovalWiringTest (asserting strict enforcement of direct user tap check for token issuance, cryptographic binding of ApprovalToken to company, role, URL origin, deterministic form state hash, and resume hash, strict state machine retention in READY_FOR_REVIEW without prematurely setting SUBMITTING, and detection of tampered or mismatched attributes) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 36s`, 50 actionable tasks, 4 executed, 46 up-to-date).
+
+
 
 
 

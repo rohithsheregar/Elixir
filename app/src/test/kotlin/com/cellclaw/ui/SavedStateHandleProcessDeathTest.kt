@@ -216,7 +216,7 @@ class SavedStateHandleProcessDeathTest {
         initialVm.approveSubmission()
         advanceUntilIdle()
 
-        assertEquals(ApplicationState.SUBMITTING, initialVm.uiState.value.currentState)
+        assertEquals(ApplicationState.READY_FOR_REVIEW, initialVm.uiState.value.currentState)
         assertTrue(initialVm.uiState.value.actionSuccessMessage?.contains("Approved!") == true)
 
         // 2. Simulate process death: recreate ViewModel from the surviving handle
@@ -230,7 +230,7 @@ class SavedStateHandleProcessDeathTest {
         val restoredState = restoredVm.uiState.value
         assertEquals(app.id, restoredState.application?.id)
         assertEquals("Nova Robotics", restoredState.company)
-        assertEquals(ApplicationState.SUBMITTING, restoredState.currentState)
+        assertEquals(ApplicationState.READY_FOR_REVIEW, restoredState.currentState)
         assertTrue(restoredState.actionSuccessMessage?.contains("Approved!") == true)
     }
 }

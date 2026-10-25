@@ -156,6 +156,13 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Add Hilt `@Provides` methods in `AppModule.kt` for `ResumeBuilder`, `PdfGenerator`, `FieldClassifier`, `NeedsInputCollector`, `AccessibilityFormNodeOperator`, `FieldFiller`, `FileProviderResumeUriProvider`, `ResumeUploader`, `PostUploadVerifier`, `AccessibilitySession`, and `ConfirmationDetector`. Relocate `FakeResumeUriProvider` from `app/src/main/` to `app/src/test/` and remove its default instantiation from `ResumeUploader`.
 **Why:** Resolves Audit 2 Section 2 finding on DI bindings where core resume and automation components were tested as standalone pure JVM classes but orphaned from the dependency graph. Moving `FakeResumeUriProvider` to `src/test/` ensures production builds strictly use Android's `FileProviderResumeUriProvider`, preventing fake test URIs from leaking into production uploads. Verified by `DiBindingsTest`.
 
+---
+
+## D23 — ReviewViewModel cryptographically bound ApprovalToken and state gating (R7)
+**Choice:** Inject `ApprovalTokenManager` into `ReviewViewModel` and issue an `ApprovalToken` upon `approveSubmission(userDirectTapConfirmed = true)`. Cryptographically bind the token to `app.company`, `app.role`, `urlOrigin`, deterministic `formStateHash` (computed from filled review fields), and `resumeHash`. Transition state in `ApplicationTracker` only from `DRAFT` to `READY_FOR_REVIEW`, explicitly prohibiting a premature transition to `SUBMITTING`.
+**Why:** Directly addresses Audit 2 Hop 7 & 8 gap where `ReviewViewModel` bypassed token issuance and transitioned to `SUBMITTING` immediately on review approval rather than when foreground automation actually begins. Enforces PlacementOS hard rule §7 ("Submit approval token is one-time use, expiring, and bound to the exact form state"). Verified by `ReviewApprovalWiringTest`.
+
+
 
 
 

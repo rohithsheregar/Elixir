@@ -3,6 +3,9 @@ package com.cellclaw.ui.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cellclaw.approval.ApprovalToken
+import com.cellclaw.approval.ApprovalTokenManager
+import com.cellclaw.approval.TokenIssuanceResult
 import com.cellclaw.profile.CandidateProfile
 import com.cellclaw.profile.ProfileRepository
 import com.cellclaw.tracker.ApplicationRecord
@@ -40,13 +43,15 @@ data class ReviewUiState(
     val uncertainties: List<String> = emptyList(),
     val currentState: ApplicationState = ApplicationState.DRAFT,
     val errorMessage: String? = null,
-    val actionSuccessMessage: String? = null
+    val actionSuccessMessage: String? = null,
+    val approvalToken: ApprovalToken? = null
 )
 
 @HiltViewModel
 class ReviewViewModel @Inject constructor(
     private val applicationTracker: ApplicationTracker,
     private val profileRepository: ProfileRepository,
+    private val tokenManager: ApprovalTokenManager = ApprovalTokenManager(),
     private val savedStateHandle: SavedStateHandle = SavedStateHandle()
 ) : ViewModel() {
 
@@ -189,34 +194,74 @@ class ReviewViewModel @Inject constructor(
         }
     }
 
-    fun approveSubmission(onApproved: () -> Unit = {}) {
+    fun approveSubmission(
+        userDirectTapConfirmed: Boolean = true,
+        onApproved: (ApprovalToken) -> Unit = {}
+    ) {
         val app = _uiState.value.application ?: return
         viewModelScope.launch {
             try {
-                // If in DRAFT, transition to READY_FOR_REVIEW then SUBMITTING
-                val intermediate = if (app.state == ApplicationState.DRAFT) {
-                    applicationTracker.transitionState(app.id, ApplicationState.READY_FOR_REVIEW, "User reviewed and approved for submission")
-                } else {
-                    app
-                }
+                val urlOrigin = app.sourceUrl?.let { url ->
+                    try {
+                        val uri = URI(url)
+                        val scheme = uri.scheme ?: "https"
+                        val host = uri.host ?: url
+                        val portStr = if (uri.port != -1) ":${uri.port}" else ""
+                        "$scheme://$host$portStr"
+                    } catch (e: Exception) {
+                        url
+                    }
+                } ?: "local"
 
-                val updated = if (intermediate.state.canTransitionTo(ApplicationState.SUBMITTING)) {
-                    applicationTracker.transitionState(intermediate.id, ApplicationState.SUBMITTING, "Submission initiated by user")
-                } else {
-                    intermediate
-                }
+                val formMap = _uiState.value.filledFields.associate { it.label to it.value }
+                val formHash = tokenManager.computeFormStateHash(formMap)
+                val resumeHash = app.resumeHash ?: "NO_RESUME_HASH"
 
-                val msg = "Approved! Status transitioned to ${updated.state}."
-                savedStateHandle[KEY_ACTION_SUCCESS] = msg
-                _uiState.value = _uiState.value.copy(
-                    application = updated,
-                    currentState = updated.state,
-                    actionSuccessMessage = msg
+                val tokenResult = tokenManager.issueToken(
+                    userDirectTapConfirmed = userDirectTapConfirmed,
+                    applicationId = app.id,
+                    company = app.company,
+                    role = app.role,
+                    urlOrigin = urlOrigin,
+                    formStateHash = formHash,
+                    resumeHash = resumeHash
                 )
-                onApproved()
+
+                when (tokenResult) {
+                    is TokenIssuanceResult.Rejected -> {
+                        _uiState.value = _uiState.value.copy(
+                            errorMessage = "Approval rejected: ${tokenResult.reason}"
+                        )
+                    }
+                    is TokenIssuanceResult.Success -> {
+                        val token = tokenResult.token
+                        // If in DRAFT, transition to READY_FOR_REVIEW.
+                        // Strictly do NOT transition to SUBMITTING until automation actually launches.
+                        val updated = if (app.state == ApplicationState.DRAFT) {
+                            applicationTracker.transitionState(
+                                app.id,
+                                ApplicationState.READY_FOR_REVIEW,
+                                "User approved submission; ApprovalToken issued: ${token.tokenId.take(8)}"
+                            )
+                        } else {
+                            app
+                        }
+
+                        val msg = "Approved! Approval token generated. Status: ${updated.state}."
+                        savedStateHandle[KEY_ACTION_SUCCESS] = msg
+                        _uiState.value = _uiState.value.copy(
+                            application = updated,
+                            currentState = updated.state,
+                            approvalToken = token,
+                            actionSuccessMessage = msg,
+                            errorMessage = null
+                        )
+                        onApproved(token)
+                    }
+                }
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
-                    errorMessage = "Transition failed: ${e.message}"
+                    errorMessage = "Approval failed: ${e.message}"
                 )
             }
         }
