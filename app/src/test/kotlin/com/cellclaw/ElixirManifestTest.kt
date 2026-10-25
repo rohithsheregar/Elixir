@@ -69,4 +69,26 @@ class ElixirManifestTest {
         assertFalse("PhoneStateReceiver must not log phone number", content.contains("number: \$number"))
         assertFalse("PhoneStateReceiver must not read EXTRA_INCOMING_NUMBER", content.contains("EXTRA_INCOMING_NUMBER)"))
     }
+
+    @Test
+    fun `manifest excludes QUERY_ALL_PACKAGES and declares scoped browser queries`() {
+        val manifestWithoutComments = loadManifest().replace(Regex("<!--[\\s\\S]*?-->"), "")
+        assertFalse(
+            "Manifest must not declare QUERY_ALL_PACKAGES (R2)",
+            manifestWithoutComments.contains("android.permission.QUERY_ALL_PACKAGES")
+        )
+        assertTrue(
+            "Manifest must declare scoped browser queries (R2)",
+            manifestWithoutComments.contains("<package android:name=\"com.android.chrome\" />")
+        )
+    }
+
+    @Test
+    fun `manifest does not register WakeWordService`() {
+        val manifestWithoutComments = loadManifest().replace(Regex("<!--[\\s\\S]*?-->"), "")
+        assertFalse(
+            "Manifest must not register WakeWordService (R2)",
+            manifestWithoutComments.contains("WakeWordService")
+        )
+    }
 }

@@ -26,7 +26,6 @@ import com.cellclaw.agent.PermissionProfile
 import com.cellclaw.agent.ToolApprovalPolicy
 import com.cellclaw.service.overlay.OverlayService
 import com.cellclaw.ui.viewmodel.SettingsViewModel
-import com.cellclaw.wakeword.WakeWordService
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,7 +45,6 @@ fun SettingsScreen(
     val autoSpeakResponses by viewModel.autoSpeakResponses.collectAsState()
     val overlayEnabled by viewModel.overlayEnabled.collectAsState()
     val maxIterations by viewModel.maxIterations.collectAsState()
-    val wakeWordEnabled by viewModel.wakeWordEnabled.collectAsState()
     val context = LocalContext.current
 
     Scaffold(
@@ -338,53 +336,6 @@ fun SettingsScreen(
                 }
             }
 
-            // Wake Word section
-            Text("Wake Word", style = MaterialTheme.typography.titleMedium)
-            Card(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text("Enable wake word")
-                            Text(
-                                "Say \"CellClaw\" to activate voice commands",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                        Switch(
-                            checked = wakeWordEnabled,
-                            onCheckedChange = { enabled ->
-                                viewModel.setWakeWordEnabled(enabled)
-                                if (enabled) {
-                                    context.startForegroundService(
-                                        Intent(context, WakeWordService::class.java).apply {
-                                            action = WakeWordService.ACTION_START
-                                        }
-                                    )
-                                } else {
-                                    context.startService(
-                                        Intent(context, WakeWordService::class.java).apply {
-                                            action = WakeWordService.ACTION_STOP
-                                        }
-                                    )
-                                }
-                            }
-                        )
-                    }
-                    if (wakeWordEnabled) {
-                        Spacer(Modifier.height(8.dp))
-                        Text(
-                            "Wake word detection uses continuous microphone access and may increase battery usage.",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.error
-                        )
-                    }
-                }
-            }
 
             // Permission profile
             Text("Permission Profile", style = MaterialTheme.typography.titleMedium)

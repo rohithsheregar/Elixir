@@ -4,6 +4,7 @@ import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.GestureDescription
 import android.content.BroadcastReceiver
 import android.content.Context
+import androidx.core.content.ContextCompat
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
@@ -92,13 +93,12 @@ class CellClawAccessibility : AccessibilityService() {
         updateScreenDimensions()
 
         val filter = IntentFilter(ACTION_COMMAND)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            // RECEIVER_EXPORTED so broadcasts from the test process (different PID) can reach us.
-            // Safety: we only act on intents with our specific action + setPackage.
-            registerReceiver(actionReceiver, filter, RECEIVER_EXPORTED)
-        } else {
-            registerReceiver(actionReceiver, filter)
-        }
+        ContextCompat.registerReceiver(
+            this,
+            actionReceiver,
+            filter,
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
 
         AccessibilityBridge.onServiceConnected()
         Log.d(TAG, "Accessibility service connected (${screenWidth}x${screenHeight})")

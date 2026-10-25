@@ -39,9 +39,20 @@
     <!-- Wake word service removed for Elixir (no microphone permission) -->
     <!-- RECORD_AUDIO removed (S1) -->
 
-    <!-- Package visibility (needed to launch any app by package name on Android 11+) -->
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
-        tools:ignore="QueryAllPackagesPermission" />
+    <!-- Package visibility: Elixir interacts only with user's web browsers (Chrome/system browsers) -->
+    <queries>
+        <package android:name="com.android.chrome" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="http" />
+        </intent>
+    </queries>
 
     <!-- REMOVED for Elixir profile (S1):
          READ_SMS, SEND_SMS, RECEIVE_SMS, READ_PHONE_STATE, CALL_PHONE, READ_CALL_LOG,
@@ -106,10 +117,6 @@
                 android:value="true" />
         </service>
 
-        <!-- Wake Word Service -->
-        <service
-            android:name=".wakeword.WakeWordService"
-            android:exported="false" />
 
         <!-- Overlay Service -->
         <service

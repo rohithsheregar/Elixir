@@ -573,3 +573,16 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** NavigationWiringTest verified startDestination is tracker, routes configured to profile/settings/chat/new_application; full unit suite and assembleDebug passed (`BUILD SUCCESSFUL in 1m 57s`, 50 tasks, 11 executed).
 
+### T17 — lintDebug verification (R2) — Session 17
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon lintDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** lintDebug passed cleanly (`BUILD SUCCESSFUL in 6m 30s`, 31 actionable tasks, 17 executed, 14 up-to-date); 0 errors reported. WakeWordService removed from active build (package relocated to `app/src/legacy/kotlin/com/cellclaw/wakeword`), dynamic receiver registration in CellClawAccessibility fixed with `ContextCompat.RECEIVER_NOT_EXPORTED`, and QUERY_ALL_PACKAGES replaced with scoped browser queries in manifest.
+
+### T18 — Full unit suite & assembleDebug (R2) — Session 17
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** All unit tests including ElixirManifestTest (asserting exclusion of QUERY_ALL_PACKAGES and WakeWordService) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 14s`, 50 actionable tasks, 12 executed, 38 up-to-date).
+
+

@@ -126,5 +126,12 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Why:** Independent second audit (2026-10-25) revealed that while 235 unit tests pass, the automation pipeline (M8.4, M9.4, M10.3, M11.3) was completely unwired to the UI, the entry-point was trapped on ChatScreen, ReviewScreen submission was an empty lambda, and lintDebug failed with 4 errors. A unit test with mocks does not constitute completion. Milestones M7, M8.4, M9.4, M10.3, M11.3, M12.1-M12.5 are reopened. Definition of done updated in AGENTS.md: a step is done only when (a) reachable from the real UI path, (b) tested through the real call path not just a mock, and (c) a device result is recorded or marked NEEDS_USER_DEVICE.
 **Remediation plan:** Added steps R1–R19 (functional & wiring) and U1–U10 (UI/UX design system & screens) to PLAN.md.
 
+---
+
+## D18 — Remove WakeWordService from active build and scope browser queries (R2)
+**Choice:** (1) Relocated `com.cellclaw.wakeword` package to `app/src/legacy/kotlin/com/cellclaw/wakeword/` (disabling from active compilation and lint while keeping source files intact for attribution under MIT license). (2) Removed `WakeWordService` from `AndroidManifest.xml` and removed wake-word startup logic from `BootReceiver.kt` and `SettingsScreen.kt`. (3) Replaced broad `QUERY_ALL_PACKAGES` permission in `AndroidManifest.xml` with scoped `<queries>` for Chrome and HTTPS browser intent. (4) Used `ContextCompat.registerReceiver` with `RECEIVER_NOT_EXPORTED` in `CellClawAccessibility.kt`.
+**Why:** Fixes all 4 fatal lint errors that caused `lintDebug` to fail with exit code 1. PlacementOS is an application assistant that must not require continuous background microphone audio recording (`RECORD_AUDIO`) or broad package query (`QUERY_ALL_PACKAGES`). Internal accessibility broadcast commands across `:a11y` process share the app UID; `RECEIVER_NOT_EXPORTED` secures the receiver from external app broadcast injection and resolves the Android 14+ lint requirement.
+
+
 
 

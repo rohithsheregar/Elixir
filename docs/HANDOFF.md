@@ -22,15 +22,26 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (235 unit tests pass, ass
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 | 15 | Antigravity / Claude 3.5 Sonnet (Thinking) | 2026-10-25 | b3a758c |
 | 16 | Antigravity / Claude 3.5 Sonnet (Thinking) | 2026-10-25 | b4ef8ec |
+| 17 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | e554d2e |
 
 ## Last Green Commit
-4b6390d — [M12.5] verify final full unit test suite and assembleDebug, tag cp-m12-1
+e554d2e — [R1] make Elixir start destination (Tracker) with access to Profile, Settings and legacy chat
 
 ## IN PROGRESS
-R2 — Fix lintDebug: remove WakeWordService and wake-word code from the Elixir build, fix RECEIVER_NOT_EXPORTED in CellClawAccessibility, remove or justify QUERY_ALL_PACKAGES
+R3 — Persist the parsed JdRequirement and load it in ResumePreviewViewModel instead of an empty JdRequirement()
+Plan:
+1. Serialize parsed JdRequirement (or structured JSON / JD text) when creating ApplicationRecord in NewApplicationViewModel.
+2. In ResumePreviewViewModel, deserialize and load the persisted JdRequirement and pass it to ResumeBuilder.build(profile, jd).
+3. Add unit test `ResumeTailoringWiringTest` verifying that skills matching the parsed JD are ranked higher than unmentioned skills.
+4. Verify with testDebugUnitTest and assembleDebug.
+Expected files:
+- `app/src/main/kotlin/com/cellclaw/ui/viewmodel/NewApplicationViewModel.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/viewmodel/ResumePreviewViewModel.kt`
+- `app/src/main/kotlin/com/cellclaw/tracker/ApplicationRecord.kt`
+- `app/src/test/kotlin/com/cellclaw/ui/ResumeTailoringWiringTest.kt`
 
 ## NEXT ACTION
-R2: Remove WakeWordService/wake-word code from manifest and build, fix RECEIVER_NOT_EXPORTED in CellClawAccessibility, remove/justify QUERY_ALL_PACKAGES, verify with ./gradlew lintDebug.
+R3: Persist parsed JdRequirement in ApplicationRecord notes/payload and load in ResumePreviewViewModel, write ResumeTailoringWiringTest, verify and commit.
 
 ## Blockers
 None. Gradle must be invoked with scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on Windows.
