@@ -43,6 +43,7 @@ Every 3 steps, or whenever the conversation gets long, re-read HANDOFF and confi
 - Accessibility, Chrome and real Google Form flows **cannot be verified without a physical device**. Write the steps into `docs/DEVICE_TESTS.md`, mark them `NEEDS_USER_DEVICE`, and never claim they pass.
 - Allowed TESTLOG statuses: `PASS`, `FAIL`, `NOT RUN (reason)`, `NEEDS_USER_DEVICE`. Write `PASS` only for something you ran in this session and saw succeed.
 - Before ticking any step, run the full unit suite to catch regressions.
+- A step is done only when (a) reachable from the real UI path, (b) tested through the real call path not just a mock, and (c) a device result is recorded or marked NEEDS_USER_DEVICE.
 
 ## 5. Honesty and correctness
 - "No mistakes" means **no false claims**. Say what you ran, what you did not, and what you do not know.

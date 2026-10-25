@@ -82,14 +82,14 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 
 ## M7 — Compose UI: profile, new application, eligibility table, resume preview, tracker, review screen
 
-- [x] M7.1 | Navigation scaffold and screen routes: Profile, NewApplication, EligibilityReport, ResumePreview, Tracker, ReviewScreen | test: `.\gradlew.bat assembleDebug` exits 0; visual inspection NEEDS_USER_DEVICE | deps: M6.3
-- [x] M7.2 | ProfileScreen: display/edit confirmed facts, show unconfirmed proposals as diff, approve/reject each | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.1
-- [x] M7.3 | NewApplicationScreen: paste JD text or pick document; trigger parse | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.2
-- [x] M7.4 | EligibilityReportScreen: table of criteria with PASS/FAIL/UNKNOWN badges | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.3
-- [x] M7.5 | ResumePreviewScreen: show generated PDF preview (WebView or PdfRenderer) + evidence map; prompt for approval | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.4
-- [x] M7.6 | TrackerScreen: list of applications with state chips | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.5
-- [x] M7.7 | ReviewScreen: company, role, domain, all filled values, resume name+hash, uncertainties | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.6
-- [x] M7.8 | Build passes; tag `cp-m7-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M7.7
+- [ ] M7.1 | Navigation scaffold and screen routes: Profile, NewApplication, EligibilityReport, ResumePreview, Tracker, ReviewScreen | test: `.\gradlew.bat assembleDebug` exits 0; visual inspection NEEDS_USER_DEVICE | deps: M6.3 | REOPENED: unit-tested but not wired (audit 2)
+- [ ] M7.2 | ProfileScreen: display/edit confirmed facts, show unconfirmed proposals as diff, approve/reject each | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.1 | REOPENED: unit-tested but not wired (audit 2)
+- [ ] M7.3 | NewApplicationScreen: paste JD text or pick document; trigger parse | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.2 | REOPENED: unit-tested but not wired (audit 2)
+- [ ] M7.4 | EligibilityReportScreen: table of criteria with PASS/FAIL/UNKNOWN badges | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.3 | REOPENED: unit-tested but not wired (audit 2)
+- [ ] M7.5 | ResumePreviewScreen: show generated PDF preview (WebView or PdfRenderer) + evidence map; prompt for approval | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.4 | REOPENED: unit-tested but not wired (audit 2)
+- [ ] M7.6 | TrackerScreen: list of applications with state chips | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.5 | REOPENED: unit-tested but not wired (audit 2)
+- [ ] M7.7 | ReviewScreen: company, role, domain, all filled values, resume name+hash, uncertainties | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.6 | REOPENED: unit-tested but not wired (audit 2)
+- [ ] M7.8 | Build passes; tag `cp-m7-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M7.7 | REOPENED: unit-tested but not wired (audit 2)
 
 ---
 
@@ -98,7 +98,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] M8.1 | BrowserOpener: URL validation (https only; warn http; reject file:, javascript:, intent:, data:, localhost); open in user's Chrome via intent | test: BrowserOpenerTest (URL validation logic, pure JVM) | deps: M7.8, S3
 - [x] M8.2 | Elixir-scoped AccessibilitySession: starts on user tap, stops on cancel/app-switch/screen-lock; inspects only selected browser + system file picker; bounded polling with timeout | test: AccessibilitySessionTest (state machine, pure JVM) | deps: M8.1
 - [x] M8.3 | Dummy Google Form test harness: create a static HTML mock form with text, dropdown, radio, checkbox, date and file-upload questions; write steps in DEVICE_TESTS.md | test: NEEDS_USER_DEVICE | deps: M8.2
-- [x] M8.4 | Build passes; tag `cp-m8-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M8.3
+- [ ] M8.4 | Build passes; tag `cp-m8-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M8.3 | REOPENED: unit-tested but not wired (audit 2)
 
 ---
 
@@ -107,7 +107,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] M9.1 | FieldClassifier: classify accessibility nodes by label/type (name, email, phone, institution, degree, branch, year, cgpa, marks, skills, links, yes/no, dropdown, radio, checkbox, file upload, free text, unknown) | test: FieldClassifierTest (synthetic AccessibilityNodeInfo mocks) | deps: M8.4
 - [x] M9.2 | FieldFiller: fill from confirmed profile facts only; read-back verification after each fill; dropdown/radio exact match; free-text shown to user before fill | test: FieldFillerTest | deps: M9.1
 - [x] M9.3 | "Needs your input" list: collect unmatched/sensitive fields; pause and present to user | test: FieldFillerTest (unknown field path) | deps: M9.2
-- [x] M9.4 | Build passes; tag `cp-m9-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M9.3
+- [ ] M9.4 | Build passes; tag `cp-m9-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M9.3 | REOPENED: unit-tested but not wired (audit 2)
 
 ---
 
@@ -115,7 +115,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 
 - [x] M10.1 | ResumeUploader: expose generated PDF via FileProvider content URI; check file exists, non-zero, PDF magic bytes, SHA-256 matches tracker before picker; handle cancelled/denied/too-large/server-rejected/timeout | test: ResumeUploaderTest (pure logic, hash check) | deps: M9.4
 - [x] M10.2 | Post-upload verify: read page to confirm filename attached; if no signal, ask user to confirm visually | test: NEEDS_USER_DEVICE | deps: M10.1
-- [x] M10.3 | Build passes; tag `cp-m10-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M10.2
+- [ ] M10.3 | Build passes; tag `cp-m10-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M10.2 | REOPENED: unit-tested but not wired (audit 2)
 
 ---
 
@@ -123,14 +123,49 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 
 - [x] M11.1 | Approval token: one-time, created by direct user tap; bound to company+role+URL origin+form-state-hash+resume-hash; expires on navigation/field-change/timeout/cancel; model cannot create or edit it | test: ApprovalTokenTest | deps: M10.3
 - [x] M11.2 | Submit flow: after approval, tap confirmed Submit once; look for confirmation page/reference number; update tracker (SUBMITTED_CONFIRMED / SUBMISSION_UNKNOWN); no auto-resubmit | test: NEEDS_USER_DEVICE (dummy form only) | deps: M11.1
-- [x] M11.3 | Build passes; tag `cp-m11-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M11.2
+- [ ] M11.3 | Build passes; tag `cp-m11-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M11.2 | REOPENED: unit-tested but not wired (audit 2)
 
 ---
 
 ## M12 — Hardening, README, DEVICE_TESTS.md checklist, final audit, optional package rename
 
-- [x] M12.1 | Security audit: confirm no secrets in code/logs/BuildConfig, HTTPS only, backups exclude profile/resumes, all components exported=false unless required | test: manual grep for secrets, manifest review | deps: M11.3
-- [x] M12.2 | Update README to describe Elixir, setup steps, privacy policy, how to use | test: README is accurate | deps: M12.1
-- [x] M12.3 | DEVICE_TESTS.md: complete checklist for all NEEDS_USER_DEVICE items | test: user walks through checklist | deps: M12.2
-- [x] M12.4 | Optional: rename package from com.cellclaw to com.elixir (only if user approves; requires all build/manifest/resource updates) | test: `.\gradlew.bat assembleDebug` exits 0 after rename | deps: M12.3
-- [x] M12.5 | Final build and test run; tag `cp-m12-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M12.4
+- [ ] M12.1 | Security audit: confirm no secrets in code/logs/BuildConfig, HTTPS only, backups exclude profile/resumes, all components exported=false unless required | test: manual grep for secrets, manifest review | deps: M11.3 | REOPENED: unit-tested but not wired (audit 2)
+- [ ] M12.2 | Update README to describe Elixir, setup steps, privacy policy, how to use | test: README is accurate | deps: M12.1 | REOPENED: unit-tested but not wired (audit 2)
+- [ ] M12.3 | DEVICE_TESTS.md: complete checklist for all NEEDS_USER_DEVICE items | test: user walks through checklist | deps: M12.2 | REOPENED: unit-tested but not wired (audit 2)
+- [ ] M12.4 | Optional: rename package from com.cellclaw to com.elixir (only if user approves; requires all build/manifest/resource updates) | test: `.\gradlew.bat assembleDebug` exits 0 after rename | deps: M12.3 | REOPENED: unit-tested but not wired (audit 2)
+- [ ] M12.5 | Final build and test run; tag `cp-m12-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M12.4 | REOPENED: unit-tested but not wired (audit 2)
+
+---
+
+## Audit 2 remediation
+
+- [ ] R1 | Make Elixir the start destination (Tracker) with access to Profile, Settings and legacy chat | test: NavigationWiringTest | deps: none
+- [ ] R2 | Fix lintDebug: remove WakeWordService and wake-word code from the Elixir build, fix RECEIVER_NOT_EXPORTED in CellClawAccessibility, remove or justify QUERY_ALL_PACKAGES | test: ./gradlew lintDebug exits 0 | deps: none
+- [ ] R3 | Persist the parsed JdRequirement and load it in ResumePreviewViewModel instead of an empty JdRequirement() | test: ResumeTailoringWiringTest asserting JD-specific skill ordering | deps: R1
+- [ ] R4 | Add ACTION_SEND intent-filter so text/documents shared from other apps open NewApplication prefilled | test: ShareIntentTest | deps: R1
+- [ ] R5 | Add SavedStateHandle to NewApplication and Review view models | test: process-death test | deps: R1
+- [ ] R6 | Hilt-bind every orphan (ResumeBuilder, PdfGenerator, FieldClassifier, FieldFiller, NeedsInputCollector, ResumeUploader with the real FileProvider URI provider, PostUploadVerifier, AccessibilitySession, ConfirmationDetector) and remove FakeResumeUriProvider from production | test: DiBindingsTest | deps: R1, R2
+- [ ] R7 | ReviewViewModel: issue the ApprovalToken only on a direct user tap, bound to company, role, URL origin, form hash and resume hash; do NOT set SUBMITTING until automation actually starts | test: ReviewApprovalWiringTest | deps: R6
+- [ ] R8 | AutomationOrchestrator (interfaces plus fakes): BrowserOpener -> wait for Chrome -> AccessibilitySession -> classify and fill fields -> NeedsInputCollector -> ResumeUploader -> stop before Submit -> SubmitSupervisor -> tracker; use a fake accessibility tree built from the dummy form | test: OrchestratorFlowTest | deps: R6, R7
+- [ ] R9 | Enable-Accessibility check and prompt inside the Elixir flow | test: AccessibilityEnablePromptTest | deps: R8
+- [ ] R10 | RunScreen with live status, foreground notification with Pause and Stop, and CAPTCHA/OTP/login handoff | test: RunScreenTest | deps: R8, R9
+- [ ] R11 | ResultScreen with confirmation reference, failure retry, and tracker update | test: ResultScreenTest | deps: R10
+- [ ] R12 | Needs-input modal on ReviewScreen for sensitive and unknown fields | test: NeedsInputResolutionTest | deps: R7, R8
+- [ ] R13 | Hard stop with explicit user override when overall eligibility is NOT_ELIGIBLE | test: EligibilityGateTest | deps: R3
+- [ ] U1 | Build Elixir Design System tokens (Typography scale, semantic palette with dark mode, spacing, shapes) | test: ThemeTest.kt | deps: R1, R2
+- [ ] U5 | Replace hardcoded color literals across all 6 screens with semantic theme tokens for full Dark Mode support | test: DarkThemeContrastTest.kt | deps: R1, R2, U1
+- [ ] U9 | Create brand identity: bespoke Elixir vector app icon, splash screen (SplashScreen API), and remove legacy branding | test: SplashThemeTest.kt | deps: R1, R2, U1
+- [ ] U2 | Implement multi-step ProgressStepper component (JD -> Eligibility -> Tailored Resume -> Supervised Review) | test: ProgressStepperPreviewTest.kt | deps: R1, R2, U1
+- [ ] U3 | Redesign ReviewScreen into Boarding-Pass style card with perforated divider, metadata grid, and clear submission gate | test: ReviewScreenUiTest.kt | deps: R1, R2, U1, U2
+- [ ] U6 | Design calm, illustrated empty states with actionable primary CTAs for Tracker and Profile | test: EmptyStateComponentTest.kt | deps: R1, R2, U1
+- [ ] U7 | Implement animated screen transitions and list reordering (AnimatedVisibility, animateItemPlacement) | test: MotionTransitionTest.kt | deps: R1, R2, U1
+- [ ] U4 | Build visual Resume Diff viewer with highlighted additions, deletions, and fact-source tags | test: ResumeDiffViewTest.kt | deps: R1, R2, U1
+- [ ] U8 | Categorize ProfileScreen facts into collapsible accordion groups (Personal, Academics, Experience, Skills) | test: ProfileScreenUiTest.kt | deps: R1, R2, U1
+- [ ] U10 | Add @Preview annotations and Roborazzi screenshot test suite for all 6 screens in light & dark mode | test: RoborazziScreenshotTest.kt | deps: R1, R2, U1, U3, U4, U5, U6
+- [ ] R14 | AiClient wrapper: retry with backoff on 429, per-application call budget, cache by JD hash, fallback provider, failure leaves the application in DRAFT | test: AiClientRetryTest simulating 429s | deps: none
+- [ ] R15 | Project details in the profile (problem, role, tools, challenge, verified results, short stories) | test: ProfileProjectDetailsTest | deps: R1
+- [ ] R16 | AnswerDrafter for new free-text questions from confirmed profile facts only, respecting the field length limit, shown for approval before filling | test: AnswerDrafterTest including no-fabrication and length-limit cases | deps: R15
+- [ ] R17 | Approved-answers library: offer to save approved answers and reuse them for similar questions with no AI call | test: ApprovedAnswersLibraryTest | deps: R16
+- [ ] R18 | Optional AI-assisted JD extraction with regex fallback and prompt-injection protection | test: AiJdExtractionTest | deps: R14
+- [ ] R19 | Device test pass on the dummy form per DEVICE_TESTS.md; record results | test: NEEDS_USER_DEVICE | deps: R8, R10, R11, U3
+

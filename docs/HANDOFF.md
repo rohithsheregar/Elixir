@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-All milestones M1 through M12 in `docs/PLAN.md` are complete and verified (`cp-m12-1`). Project implementation is complete.
+Audit 2 completed (2026-10-25). Verified score: 66.40% (235 unit tests pass, assembleDebug passes). Automation pipeline was unwired from UI; M7, M8.4, M9.4, M10.3, M11.3, M12 reopened. Definition of done updated in AGENTS.md. Remediation steps R1–R19 and U1–U10 queued in `docs/PLAN.md`.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -20,23 +20,25 @@ All milestones M1 through M12 in `docs/PLAN.md` are complete and verified (`cp-m
 | 12 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 377dceb |
 | 13 | Antigravity / Gemini 3.8 Flash | 2026-10-24 | 38b4dd2 |
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
+| 15 | Antigravity / Claude 3.5 Sonnet (Thinking) | 2026-10-25 | b3a758c |
 
 ## Last Green Commit
 4b6390d — [M12.5] verify final full unit test suite and assembleDebug, tag cp-m12-1
 
 ## IN PROGRESS
-M12.5 — milestone M12 verification and cp-m12-1 tag
+R1 — Make Elixir the start destination (Tracker) with access to Profile, Settings and legacy chat
 
 ## NEXT ACTION
-Perform physical device manual testing on Android device per docs/DEVICE_TESTS.md checklist (DT-M8.1 through DT-M12.1).
+R1: Set startDestination to "tracker" in MainActivity.kt, provide navigation to Profile, Settings and legacy Chat, verify with NavigationWiringTest.
 
 ## Blockers
-None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
+None. Gradle must be invoked with scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on Windows.
 
 ## Verify Command
 `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest`
 
 ## WAITING_ON_USER
 - Real profile data (name, email, CGPA, etc.) — needed for M2.
-- Device testing — needed for M8+.
+- Device testing — needed for M8+ and R19.
 - Real company form approval — needed before M9.
+
