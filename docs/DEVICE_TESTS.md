@@ -18,6 +18,7 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 | **DT-R10** | R10 | RunScreen live status, notification Pause/Stop, CAPTCHA handoff | `RunScreen`, `CellClawService` | `NEEDS_USER_DEVICE` | User / Physical Device |
 | **DT-R11** | R11 | ResultScreen confirmation receipt, manual confirmation, failure retry | `ResultScreen`, `ResultViewModel` | `NEEDS_USER_DEVICE` | User / Physical Device |
 | **DT-R12** | R12 | Needs-Input modal and interactive sensitive/missing field resolution | `ReviewScreen`, `ReviewViewModel` | `NEEDS_USER_DEVICE` | User / Physical Device |
+| **DT-R13** | R13 | Eligibility hard stop and explicit user override gate | `EligibilityReportScreen`, `EligibilityReportViewModel` | `NEEDS_USER_DEVICE` | User / Physical Device |
 | **DT-M12.1** | M12 | Live Google Form Supervised Validation | User-Approved Test Form | `WAITING_ON_USER` | User / Physical Device |
 
 ---
@@ -141,6 +142,16 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 5. In the modal, provide answers for the questions and tap Save for each.
 6. Verify status transitions to Resolved and the field is added to Form Values to Fill with 100% Fact badge.
 7. Tap "Approve & Submit": verify ApprovalToken issues binding the user-resolved values.
+
+### DT-R13 — Eligibility Hard Stop & Explicit User Override Gate
+**Status:** NEEDS_USER_DEVICE
+**Steps:**
+1. Open an application where candidate does not meet mandatory criteria (status `NOT_ELIGIBLE`).
+2. Verify EligibilityReportScreen renders "Eligibility Hard Stop" warning banner.
+3. Verify "Proceed to Tailored Resume (Override Required)" CTA is strictly disabled.
+4. Check the explicit override checkbox ("I understand the eligibility risks...").
+5. Verify button unlocks as "Proceed to Tailored Resume (Overridden)" in red tone.
+6. Tap the unlocked button: verify navigation proceeds to ResumePreviewScreen.
 
 ---
 

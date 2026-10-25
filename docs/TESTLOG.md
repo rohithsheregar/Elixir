@@ -645,6 +645,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** NeedsInputResolutionTest (verifying that missing profile facts and sensitive compensation/bond questions are collected into needsInputItems, interactive user answers resolve questions, update filledFields, clear unanswered status, remove warnings, and bind to issued ApprovalToken; verifying process-death restoration via SavedStateHandle), full unit suite, and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 2m 11s`, 50 actionable tasks, 4 executed, 46 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R12` (NEEDS_USER_DEVICE).
 
+### T29 — EligibilityGateTest, full unit suite & assembleDebug (R13) — Session 17
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** EligibilityGateTest (asserting that ELIGIBLE and UNKNOWN applications allow normal progression, NOT_ELIGIBLE applications strictly enforce a hard stop blocking progression, and affirmative user override unlocks progression on both structured reports and legacy string records), full unit suite, and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 27s`, 50 actionable tasks, 14 executed, 36 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R13` (NEEDS_USER_DEVICE).
+
 
 
 

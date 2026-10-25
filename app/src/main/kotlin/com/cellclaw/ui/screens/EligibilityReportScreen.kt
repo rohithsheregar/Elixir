@@ -160,14 +160,78 @@ fun EligibilityReportScreen(
                             }
                         }
 
+                        // Hard Stop Gate for NOT_ELIGIBLE applications
+                        if (uiState.isNotEligible) {
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFEBEE)),
+                                shape = RoundedCornerShape(12.dp)
+                            ) {
+                                Column(modifier = Modifier.padding(16.dp)) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Icon(
+                                            Icons.Default.Close,
+                                            contentDescription = null,
+                                            tint = Color(0xFFC62828),
+                                            modifier = Modifier.size(24.dp)
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Text(
+                                            text = "Eligibility Hard Stop",
+                                            style = MaterialTheme.typography.titleMedium,
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color(0xFFC62828)
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.height(6.dp))
+                                    Text(
+                                        text = "One or more mandatory criteria were not satisfied. PlacementOS enforces a strict stop to avoid sending non-compliant applications to campus recruiters.",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = Color(0xFFB71C1C)
+                                    )
+                                    Spacer(modifier = Modifier.height(10.dp))
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Checkbox(
+                                            checked = uiState.userOverrideConfirmed,
+                                            onCheckedChange = { viewModel.setOverrideConfirmed(it) }
+                                        )
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                        Text(
+                                            text = "I understand the eligibility risks and explicitly confirm my override to proceed anyway.",
+                                            style = MaterialTheme.typography.bodySmall,
+                                            fontWeight = FontWeight.Medium,
+                                            color = Color(0xFFB71C1C)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
                         Spacer(modifier = Modifier.height(8.dp))
                         Button(
                             onClick = { onProceedToResume(appId) },
+                            enabled = uiState.canProceed,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 12.dp)
+                                .padding(vertical = 12.dp),
+                            colors = if (uiState.isNotEligible && uiState.userOverrideConfirmed)
+                                ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                            else
+                                ButtonDefaults.buttonColors()
                         ) {
-                            Text("Proceed to Tailored Resume")
+                            val buttonText = when {
+                                uiState.isNotEligible && !uiState.userOverrideConfirmed ->
+                                    "Proceed to Tailored Resume (Override Required)"
+                                uiState.isNotEligible && uiState.userOverrideConfirmed ->
+                                    "Proceed to Tailored Resume (Overridden)"
+                                else ->
+                                    "Proceed to Tailored Resume"
+                            }
+                            Text(buttonText)
                         }
                     }
                 }

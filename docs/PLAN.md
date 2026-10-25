@@ -151,7 +151,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] R10 | RunScreen with live status, foreground notification with Pause and Stop, and CAPTCHA/OTP/login handoff | test: RunScreenTest | deps: R8, R9
 - [x] R11 | ResultScreen with confirmation reference, failure retry, and tracker update | test: ResultScreenTest | deps: R10
 - [x] R12 | Needs-input modal on ReviewScreen for sensitive and unknown fields | test: NeedsInputResolutionTest | deps: R7, R8
-- [ ] R13 | Hard stop with explicit user override when overall eligibility is NOT_ELIGIBLE | test: EligibilityGateTest | deps: R3
+- [x] R13 | Hard stop with explicit user override when overall eligibility is NOT_ELIGIBLE | test: EligibilityGateTest | deps: R3
 - [ ] U1 | Build Elixir Design System tokens (Typography scale, semantic palette with dark mode, spacing, shapes) | test: ThemeTest.kt | deps: R1, R2
 - [ ] U5 | Replace hardcoded color literals across all 6 screens with semantic theme tokens for full Dark Mode support | test: DarkThemeContrastTest.kt | deps: R1, R2, U1
 - [ ] U9 | Create brand identity: bespoke Elixir vector app icon, splash screen (SplashScreen API), and remove legacy branding | test: SplashThemeTest.kt | deps: R1, R2, U1

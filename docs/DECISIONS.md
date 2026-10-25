@@ -192,6 +192,12 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Add `NeedsInputReviewItem` model and interactive resolution in `ReviewViewModel` (`resolveFieldInput`) and `ReviewScreen` (`NeedsInputModalDialog`). Missing profile facts and sensitive placement questions (salary expectations, bond agreements, legal commitments) are explicitly catalogued as needs-input items. In `ReviewScreen`, provide direct access via "Resolve Missing Questions" on the warning card and a dedicated "Needs Your Input" review card. Upon user resolution, update `filledFields`, clear `unansweredFields`, and persist resolution to `SavedStateHandle` so `ApprovalToken` cryptographically binds the user-entered answers.
 **Why:** Enforces PlacementOS Hard Rule 5 ("Pause and ask on: declarations/terms/consent boxes, salary, bond, backlog, work authorisation, disability or demographic questions, anything legal, and any question with no matching confirmed fact"). Eliminates dead ends where missing fields simply blocked review without recourse, giving the candidate interactive agency to review and supply verified answers directly before supervised automation. Verified by `NeedsInputResolutionTest`.
 
+---
+
+## D29 — Eligibility Hard Stop and Explicit User Override Gate (R13)
+**Choice:** Add `isNotEligible`, `userOverrideConfirmed`, and `canProceed` properties to `EligibilityReportUiState` in `EligibilityReportViewModel`. When an application's overall eligibility evaluates to `NOT_ELIGIBLE`, `EligibilityReportScreen` displays an "Eligibility Hard Stop" warning banner and disables the primary "Proceed to Tailored Resume" CTA. Progression is strictly gated until the user actively confirms an explicit override checkbox ("I understand the eligibility risks and explicitly confirm my override to proceed anyway").
+**Why:** Enforces PlacementOS §3.3 hard rules and resolves Audit 2 Section 2 finding where candidates who failed mandatory criteria could advance through resume tailoring and form submission without friction. Prevents accidental non-compliant applications from reaching campus recruiters while preserving user sovereignty through an intentional, affirmative override mechanism. Verified by `EligibilityGateTest`.
+
 
 
 

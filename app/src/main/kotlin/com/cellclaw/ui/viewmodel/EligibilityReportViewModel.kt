@@ -21,8 +21,15 @@ data class EligibilityReportUiState(
     val isLoading: Boolean = true,
     val application: ApplicationRecord? = null,
     val report: EligibilityReport? = null,
+    val userOverrideConfirmed: Boolean = false,
     val errorMessage: String? = null
-)
+) {
+    val isNotEligible: Boolean
+        get() = report?.overall == OverallEligibility.NOT_ELIGIBLE
+
+    val canProceed: Boolean
+        get() = !isNotEligible || userOverrideConfirmed
+}
 
 @HiltViewModel
 class EligibilityReportViewModel @Inject constructor(
@@ -33,6 +40,12 @@ class EligibilityReportViewModel @Inject constructor(
     val uiState: StateFlow<EligibilityReportUiState> = _uiState.asStateFlow()
 
     private val json = Json { ignoreUnknownKeys = true }
+
+    fun setOverrideConfirmed(confirmed: Boolean) {
+        _uiState.value = _uiState.value.copy(userOverrideConfirmed = confirmed)
+    }
+
+    fun canProceed(): Boolean = _uiState.value.canProceed
 
     fun load(appId: String) {
         viewModelScope.launch {
