@@ -25,23 +25,22 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (235 unit tests pass, ass
 | 17 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | e554d2e |
 
 ## Last Green Commit
-79895c0 — [R11] implement ResultScreen, ResultViewModel, retry workflow, and tracker update
+76b7f93 — [R12] implement needs-input modal, sensitive field gating, and interactive resolution
 
 ## IN PROGRESS
-R12 — Needs-input modal on ReviewScreen for sensitive and unknown fields
+R13 — Hard stop with explicit user override when overall eligibility is NOT_ELIGIBLE
 Plan:
-1. Extend ReviewViewModel to support interactive resolution of missing, sensitive, and unmatched fields (resolveFieldInput).
-2. Build interactive NeedsInputModal dialog in ReviewScreen allowing the user to provide answers for sensitive or unknown questions.
-3. Update review fields and deterministic form state hash when fields are resolved.
-4. Add NeedsInputResolutionTest asserting resolution of pending fields, form state update, and token generation validity.
-5. Verify with testDebugUnitTest and assembleDebug.
+1. Extend EligibilityReportViewModel to track userOverrideConfirmed for NOT_ELIGIBLE applications.
+2. Update EligibilityReportScreen to enforce hard stop: disable progression until override is affirmed.
+3. Add EligibilityGateTest asserting hard stop on NOT_ELIGIBLE and unlocked progression on override.
+4. Verify with testDebugUnitTest and assembleDebug.
 Expected files:
-- `app/src/main/kotlin/com/cellclaw/ui/screens/ReviewScreen.kt`
-- `app/src/main/kotlin/com/cellclaw/ui/viewmodel/ReviewViewModel.kt`
-- `app/src/test/kotlin/com/cellclaw/ui/NeedsInputResolutionTest.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/screens/EligibilityReportScreen.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/viewmodel/EligibilityReportViewModel.kt`
+- `app/src/test/kotlin/com/cellclaw/ui/EligibilityGateTest.kt`
 
 ## NEXT ACTION
-R12: Implement interactive field resolution in ReviewViewModel and ReviewScreen, and write NeedsInputResolutionTest.
+R13: Implement hard-stop gate and override in EligibilityReportViewModel, EligibilityReportScreen, and write EligibilityGateTest.
 
 ## Blockers
 None. Gradle must be invoked with scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on Windows.
