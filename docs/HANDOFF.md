@@ -25,23 +25,23 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (235 unit tests pass, ass
 | 17 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | e554d2e |
 
 ## Last Green Commit
-f9a4ff3 — [R10] implement RunScreen, RunViewModel, and foreground service notification wiring
+79895c0 — [R11] implement ResultScreen, ResultViewModel, retry workflow, and tracker update
 
 ## IN PROGRESS
-R11 — ResultScreen with confirmation reference, failure retry, and tracker update
+R12 — Needs-input modal on ReviewScreen for sensitive and unknown fields
 Plan:
-1. Implement ResultViewModel loading ApplicationRecord, supporting manual confirmation entry and retry to READY_FOR_REVIEW.
-2. Build ResultScreen in Jetpack Compose with status banners (confirmed, unknown, failed), reference receipt card, retry CTA, and tracker return.
-3. Wire RunScreen onComplete and TrackerScreen navigation to ResultScreen via NavigationRoutes.RESULT.
-4. Add ResultScreenTest testing state transitions, manual confirmation reference, and failure retry.
+1. Extend ReviewViewModel to support interactive resolution of missing, sensitive, and unmatched fields (resolveFieldInput).
+2. Build interactive NeedsInputModal dialog in ReviewScreen allowing the user to provide answers for sensitive or unknown questions.
+3. Update review fields and deterministic form state hash when fields are resolved.
+4. Add NeedsInputResolutionTest asserting resolution of pending fields, form state update, and token generation validity.
 5. Verify with testDebugUnitTest and assembleDebug.
 Expected files:
-- `app/src/main/kotlin/com/cellclaw/ui/screens/ResultScreen.kt`
-- `app/src/main/kotlin/com/cellclaw/ui/viewmodel/ResultViewModel.kt`
-- `app/src/test/kotlin/com/cellclaw/ui/ResultScreenTest.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/screens/ReviewScreen.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/viewmodel/ReviewViewModel.kt`
+- `app/src/test/kotlin/com/cellclaw/ui/NeedsInputResolutionTest.kt`
 
 ## NEXT ACTION
-R11: Implement ResultViewModel, ResultScreen, navigation hook, and ResultScreenTest.
+R12: Implement interactive field resolution in ReviewViewModel and ReviewScreen, and write NeedsInputResolutionTest.
 
 ## Blockers
 None. Gradle must be invoked with scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on Windows.
