@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cellclaw.automation.AutomationStep
+import com.cellclaw.ui.theme.elixirColors
 import com.cellclaw.ui.viewmodel.RunUiState
 import com.cellclaw.ui.viewmodel.RunViewModel
 
@@ -95,17 +96,18 @@ fun RunScreen(
                 }
             }
 
+            val elixirColors = MaterialTheme.elixirColors
             // 2. CAPTCHA / OTP / Login Manual Intervention Handoff Banner
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF8E1))
+                colors = CardDefaults.cardColors(containerColor = elixirColors.warningContainer)
             ) {
                 Column(modifier = Modifier.padding(14.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             Icons.Default.Lock,
                             contentDescription = "Handoff",
-                            tint = Color(0xFFF57F17),
+                            tint = elixirColors.warning,
                             modifier = Modifier.size(20.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
@@ -113,14 +115,14 @@ fun RunScreen(
                             text = "Manual Intervention / CAPTCHA Handoff",
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFFF57F17)
+                            color = elixirColors.warning
                         )
                     }
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
                         text = "If Chrome prompts for CAPTCHA, two-factor authentication (OTP), or account login, complete it manually in Chrome. Elixir will pause while you intervene.",
                         style = MaterialTheme.typography.bodySmall,
-                        color = Color(0xFF5D4037)
+                        color = elixirColors.onWarningContainer
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -134,7 +136,7 @@ fun RunScreen(
                         } else {
                             Button(
                                 onClick = { viewModel.completeManualHandoff() },
-                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF57F17)),
+                                colors = ButtonDefaults.buttonColors(containerColor = elixirColors.warning),
                                 modifier = Modifier.weight(1f)
                             ) {
                                 Text("I've Completed It — Resume")
@@ -169,7 +171,7 @@ fun RunScreen(
                             Text("Connecting to browser session...", fontWeight = FontWeight.SemiBold)
                         }
                         is AutomationStep.SessionStarted -> {
-                            Icon(Icons.Default.CheckCircle, contentDescription = "Started", tint = Color(0xFF2E7D32), modifier = Modifier.size(36.dp))
+                            Icon(Icons.Default.CheckCircle, contentDescription = "Started", tint = elixirColors.success, modifier = Modifier.size(36.dp))
                             Spacer(modifier = Modifier.height(8.dp))
                             Text("Accessibility session active. Analyzing form...", fontWeight = FontWeight.SemiBold)
                         }
@@ -200,26 +202,26 @@ fun RunScreen(
                             Text("Verifying visible file upload in browser...", fontWeight = FontWeight.SemiBold)
                         }
                         is AutomationStep.NeedsUserInput -> {
-                            Icon(Icons.Default.Warning, contentDescription = "Input Needed", tint = Color(0xFFE65100), modifier = Modifier.size(36.dp))
+                            Icon(Icons.Default.Warning, contentDescription = "Input Needed", tint = elixirColors.warning, modifier = Modifier.size(36.dp))
                             Spacer(modifier = Modifier.height(8.dp))
-                            Text("Input Needed for ${step.pendingFields.size} field(s)", fontWeight = FontWeight.Bold, color = Color(0xFFE65100))
+                            Text("Input Needed for ${step.pendingFields.size} field(s)", fontWeight = FontWeight.Bold, color = elixirColors.warning)
                             Spacer(modifier = Modifier.height(4.dp))
                             Text("Please enter details directly in Chrome or review unanswered questions.", style = MaterialTheme.typography.bodySmall)
                         }
                         is AutomationStep.AwaitingUserFinalSubmitApproval -> {
-                            Icon(Icons.Default.CheckCircle, contentDescription = "Ready", tint = Color(0xFF2E7D32), modifier = Modifier.size(44.dp))
+                            Icon(Icons.Default.CheckCircle, contentDescription = "Ready", tint = elixirColors.success, modifier = Modifier.size(44.dp))
                             Spacer(modifier = Modifier.height(8.dp))
                             Text("All Verified Fields Filled!", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
                                 "PlacementOS Supervised Gate: Please switch to Chrome and review the complete form. When satisfied, tap Submit below.",
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = Color(0xFF2E7D32)
+                                color = elixirColors.success
                             )
                             Spacer(modifier = Modifier.height(14.dp))
                             Button(
                                 onClick = { viewModel.confirmFinalSubmit() },
-                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32)),
+                                colors = ButtonDefaults.buttonColors(containerColor = elixirColors.success),
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Text("Approve & Submit Application")
@@ -231,9 +233,9 @@ fun RunScreen(
                             Text("Tapping Submit and awaiting confirmation receipt...", fontWeight = FontWeight.SemiBold)
                         }
                         is AutomationStep.Completed -> {
-                            Icon(Icons.Default.CheckCircle, contentDescription = "Completed", tint = Color(0xFF2E7D32), modifier = Modifier.size(48.dp))
+                            Icon(Icons.Default.CheckCircle, contentDescription = "Completed", tint = elixirColors.success, modifier = Modifier.size(48.dp))
                             Spacer(modifier = Modifier.height(8.dp))
-                            Text("Application Submitted Successfully!", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = Color(0xFF2E7D32))
+                            Text("Application Submitted Successfully!", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = elixirColors.success)
                             Spacer(modifier = Modifier.height(4.dp))
                             Text("Reference: ${step.confirmationReference}", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
                             Spacer(modifier = Modifier.height(16.dp))
@@ -245,10 +247,10 @@ fun RunScreen(
                             }
                         }
                         is AutomationStep.Paused -> {
-                            Icon(Icons.Default.Info, contentDescription = "Paused", tint = Color(0xFF1565C0), modifier = Modifier.size(36.dp))
+                            Icon(Icons.Default.Info, contentDescription = "Paused", tint = elixirColors.info, modifier = Modifier.size(36.dp))
                             Spacer(modifier = Modifier.height(8.dp))
                             Text("Automation Paused", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                            Text(step.reason, style = MaterialTheme.typography.bodySmall, color = Color.Gray)
+                            Text(step.reason, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                         is AutomationStep.Failed -> {
                             Icon(Icons.Default.Warning, contentDescription = "Failed", tint = MaterialTheme.colorScheme.error, modifier = Modifier.size(36.dp))

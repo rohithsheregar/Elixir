@@ -165,10 +165,23 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-U5 — Dark Theme Contrast Across Placement Screens
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device that all 8 placement screens render with WCAG-compliant contrast and no glaring pastel blocks under system dark mode.
+**Steps:**
+1. Enable system dark theme on the Android device (Settings -> Display -> Dark Theme).
+2. Open Elixir: verify TrackerScreen displays dark slate cards, legible StateBadge chips, and high-contrast text.
+3. Open NewApplicationScreen and input a JD: verify text fields and buttons have distinct borders and readable hints.
+4. Open EligibilityReportScreen: verify pass/fail/unknown criteria chips use dark muted containers with bright legible text.
+5. Open ResumePreviewScreen, ReviewScreen, RunScreen, and ResultScreen: verify absence of hardcoded white backgrounds or low-contrast dark-on-dark text.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)
 **Status:** NEEDS_USER_DEVICE
 **WAITING_ON_USER:** User must choose a safe test form and approve before agent touches any real company form.
 **Steps:** (Same as DT-M8.1 but with a real Google Form against a real profile)
+
 

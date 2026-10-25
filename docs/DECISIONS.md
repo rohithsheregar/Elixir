@@ -204,6 +204,13 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Implement custom semantic design tokens (`Color.kt`, `Typography.kt`, `Shape.kt`, `Spacing.kt`, and `Theme.kt`) with `ElixirColors` for light/dark themes and `Spacing` exposed via `LocalElixirColors` and `LocalSpacing`, while maintaining backward-compatible `CellClawTheme` forwarding to `ElixirTheme`.
 **Why:** Audit 2 Section 4 identified that the app lacked design tokens, used raw hex literals across composables, lacked custom typography, and degraded in dark mode. Providing dedicated semantic tokens for application status (eligible, not eligible, unknown), criteria states (pass, fail, warning), card borders, and spacing scales establishes a foundation for modern UX and dark mode compliance across all screens. Verified by `ThemeTest`.
 
+---
+
+## D31 — Full Dark Mode Support & Elimination of Hardcoded Hex Colors (U5)
+**Choice:** Audit and replace every hardcoded `Color(0xFF...)` literal in all placement screens (`TrackerScreen`, `EligibilityReportScreen`, `ResumePreviewScreen`, `ProfileScreen`, `ReviewScreen`, `RunScreen`, and `ResultScreen`) with semantic tokens from `MaterialTheme.elixirColors` and `MaterialTheme.colorScheme`.
+**Why:** Addresses Audit 2 Section 4 finding where screens used raw pastel hex literals that rendered glaring white-on-black or unreadable low-contrast boxes when Android system dark mode was activated. All status badges, eligibility banners, warnings, and diff cards now adapt between light and dark modes with compliant WCAG contrast ratios. Verified by `DarkThemeContrastTest`.
+
+
 
 
 

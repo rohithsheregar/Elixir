@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cellclaw.resume.ResumeContent
 import com.cellclaw.resume.ResumeSection
+import com.cellclaw.ui.theme.elixirColors
 import com.cellclaw.ui.viewmodel.ResumePreviewViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -129,11 +130,12 @@ fun ResumePreviewScreen(
 
                         // Material change warning
                         if (uiState.materialChangeWarning) {
+                            val elixirColors = MaterialTheme.elixirColors
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(bottom = 8.dp),
-                                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF8E1))
+                                colors = CardDefaults.cardColors(containerColor = elixirColors.warningContainer)
                             ) {
                                 Row(
                                     modifier = Modifier.padding(12.dp),
@@ -142,14 +144,14 @@ fun ResumePreviewScreen(
                                     Icon(
                                         Icons.Default.Warning,
                                         contentDescription = null,
-                                        tint = Color(0xFFF57F17),
+                                        tint = elixirColors.warning,
                                         modifier = Modifier.size(20.dp)
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Text(
                                         text = "This resume differs materially from your master resume. Review carefully before approving.",
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = Color(0xFFF57F17)
+                                        color = elixirColors.onWarningContainer
                                     )
                                 }
                             }

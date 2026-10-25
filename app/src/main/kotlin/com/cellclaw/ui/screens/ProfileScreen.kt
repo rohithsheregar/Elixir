@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cellclaw.profile.ProfileFact
 import com.cellclaw.profile.ProfileFactProposal
+import com.cellclaw.ui.theme.elixirColors
 import com.cellclaw.ui.viewmodel.ProfileViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -289,18 +290,19 @@ fun ProposalDiffCard(
                 }
             }
 
+            val elixirColors = MaterialTheme.elixirColors
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(6.dp))
-                    .background(Color(0xFFE8F5E9))
+                    .background(elixirColors.successContainer)
                     .padding(8.dp)
             ) {
                 Text(
                     text = "Proposed: ${proposal.proposed.value}",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color(0xFF1B5E20)
+                    color = elixirColors.onSuccessContainer
                 )
             }
 
@@ -351,7 +353,7 @@ fun ConfirmedFactCard(
                     Icon(
                         Icons.Default.Check,
                         contentDescription = "Confirmed",
-                        tint = Color(0xFF2E7D32),
+                        tint = MaterialTheme.elixirColors.success,
                         modifier = Modifier.size(16.dp)
                     )
                 }

@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cellclaw.tracker.ApplicationState
+import com.cellclaw.ui.theme.elixirColors
 import com.cellclaw.ui.viewmodel.FormFieldReviewItem
 import com.cellclaw.ui.viewmodel.ReviewViewModel
 
@@ -96,17 +97,18 @@ fun ReviewScreen(
                         // Success message banner if any
                         uiState.actionSuccessMessage?.let { msg ->
                             item {
+                                val elixirColors = MaterialTheme.elixirColors
                                 Card(
-                                    colors = CardDefaults.cardColors(containerColor = Color(0xFFE8F5E9)),
+                                    colors = CardDefaults.cardColors(containerColor = elixirColors.successContainer),
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
                                     Row(
                                         modifier = Modifier.padding(16.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        Icon(Icons.Default.CheckCircle, contentDescription = null, tint = Color(0xFF2E7D32))
+                                        Icon(Icons.Default.CheckCircle, contentDescription = null, tint = elixirColors.success)
                                         Spacer(modifier = Modifier.width(12.dp))
-                                        Text(msg, color = Color(0xFF2E7D32), fontWeight = FontWeight.SemiBold)
+                                        Text(msg, color = elixirColors.onSuccessContainer, fontWeight = FontWeight.SemiBold)
                                     }
                                 }
                             }
@@ -150,7 +152,7 @@ fun ReviewScreen(
                                             contentDescription = "Domain",
                                             modifier = Modifier.size(16.dp),
                                             tint = if (uiState.sourceUrl?.startsWith("https://") == true)
-                                                Color(0xFF2E7D32)
+                                                MaterialTheme.elixirColors.success
                                             else
                                                 MaterialTheme.colorScheme.error
                                         )
@@ -205,19 +207,20 @@ fun ReviewScreen(
                         // Uncertainties & Warnings (if any)
                         if (uiState.uncertainties.isNotEmpty()) {
                             item {
+                                val elixirColors = MaterialTheme.elixirColors
                                 Card(
-                                    colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF3E0)),
+                                    colors = CardDefaults.cardColors(containerColor = elixirColors.warningContainer),
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
                                     Column(modifier = Modifier.padding(16.dp)) {
                                         Row(verticalAlignment = Alignment.CenterVertically) {
-                                            Icon(Icons.Default.Warning, contentDescription = null, tint = Color(0xFFE65100))
+                                            Icon(Icons.Default.Warning, contentDescription = null, tint = elixirColors.warning)
                                             Spacer(modifier = Modifier.width(8.dp))
                                             Text(
                                                 text = "Uncertainties (${uiState.uncertainties.size})",
                                                 style = MaterialTheme.typography.titleMedium,
                                                 fontWeight = FontWeight.Bold,
-                                                color = Color(0xFFE65100)
+                                                color = elixirColors.warning
                                             )
                                         }
                                         Spacer(modifier = Modifier.height(8.dp))
@@ -225,7 +228,7 @@ fun ReviewScreen(
                                             Text(
                                                 text = "• $unc",
                                                 style = MaterialTheme.typography.bodySmall,
-                                                color = Color(0xFFBF360C)
+                                                color = elixirColors.onWarningContainer
                                             )
                                         }
                                     }
@@ -236,19 +239,20 @@ fun ReviewScreen(
                         // Unanswered Fields (if any)
                         if (uiState.unansweredFields.isNotEmpty()) {
                             item {
+                                val elixirColors = MaterialTheme.elixirColors
                                 Card(
-                                    colors = CardDefaults.cardColors(containerColor = Color(0xFFFFEBEE)),
+                                    colors = CardDefaults.cardColors(containerColor = elixirColors.errorContainer),
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
                                     Column(modifier = Modifier.padding(16.dp)) {
                                         Row(verticalAlignment = Alignment.CenterVertically) {
-                                            Icon(Icons.Default.Info, contentDescription = null, tint = Color(0xFFC62828))
+                                            Icon(Icons.Default.Info, contentDescription = null, tint = elixirColors.error)
                                             Spacer(modifier = Modifier.width(8.dp))
                                             Text(
                                                 text = "Missing Profile Fields (${uiState.unansweredFields.size})",
                                                 style = MaterialTheme.typography.titleMedium,
                                                 fontWeight = FontWeight.Bold,
-                                                color = Color(0xFFC62828)
+                                                color = elixirColors.error
                                             )
                                         }
                                         Spacer(modifier = Modifier.height(8.dp))
@@ -256,13 +260,13 @@ fun ReviewScreen(
                                             Text(
                                                 text = "• $f",
                                                 style = MaterialTheme.typography.bodySmall,
-                                                color = Color(0xFFB71C1C)
+                                                color = elixirColors.onErrorContainer
                                             )
                                         }
                                         Spacer(modifier = Modifier.height(12.dp))
                                         Button(
                                             onClick = { viewModel.openNeedsInputModal() },
-                                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFC62828))
+                                            colors = ButtonDefaults.buttonColors(containerColor = elixirColors.error)
                                         ) {
                                             Text("Resolve Missing Questions")
                                         }
@@ -298,7 +302,7 @@ fun ReviewScreen(
                                                 else
                                                     "All questions reviewed & resolved",
                                                 style = MaterialTheme.typography.bodySmall,
-                                                color = if (pendingCount > 0) Color(0xFFE65100) else Color(0xFF2E7D32)
+                                                color = if (pendingCount > 0) MaterialTheme.elixirColors.warning else MaterialTheme.elixirColors.success
                                             )
                                         }
                                         Spacer(modifier = Modifier.width(8.dp))
@@ -558,10 +562,11 @@ private fun NeedsInputItemCard(
 ) {
     var textValue by remember(item.currentValue) { mutableStateOf(item.currentValue) }
 
+    val elixirColors = MaterialTheme.elixirColors
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = if (item.isResolved) Color(0xFFF1F8E9) else Color(0xFFFFF8E1)
+            containerColor = if (item.isResolved) elixirColors.successContainer else elixirColors.warningContainer
         ),
         shape = RoundedCornerShape(8.dp)
     ) {
@@ -579,7 +584,7 @@ private fun NeedsInputItemCard(
                 Text(
                     text = if (item.isResolved) "Resolved" else "Pending",
                     style = MaterialTheme.typography.labelSmall,
-                    color = if (item.isResolved) Color(0xFF2E7D32) else Color(0xFFE65100),
+                    color = if (item.isResolved) elixirColors.success else elixirColors.warning,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -648,19 +653,19 @@ private fun FormFieldRow(item: FormFieldReviewItem) {
                     Text(
                         text = "Source: ${item.sourceFactId}",
                         style = MaterialTheme.typography.labelSmall,
-                        color = Color(0xFF2E7D32)
+                        color = MaterialTheme.elixirColors.success
                     )
                 }
             }
 
             Box(
                 modifier = Modifier
-                    .background(Color(0xFFE8F5E9), shape = RoundedCornerShape(8.dp))
+                    .background(MaterialTheme.elixirColors.successContainer, shape = RoundedCornerShape(8.dp))
                     .padding(horizontal = 8.dp, vertical = 4.dp)
             ) {
                 Text(
                     text = "100% Fact",
-                    color = Color(0xFF2E7D32),
+                    color = MaterialTheme.elixirColors.onSuccessContainer,
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -671,14 +676,15 @@ private fun FormFieldRow(item: FormFieldReviewItem) {
 
 @Composable
 private fun StateChip(state: ApplicationState) {
+    val elixirColors = MaterialTheme.elixirColors
     val (bgColor, textColor) = when (state) {
-        ApplicationState.DRAFT -> Color(0xFFEEEEEE) to Color(0xFF424242)
-        ApplicationState.READY_FOR_REVIEW -> Color(0xFFE3F2FD) to Color(0xFF1565C0)
-        ApplicationState.SUBMITTING -> Color(0xFFFFF3E0) to Color(0xFFE65100)
-        ApplicationState.SUBMITTED_CONFIRMED -> Color(0xFFE8F5E9) to Color(0xFF2E7D32)
-        ApplicationState.SUBMISSION_UNKNOWN -> Color(0xFFFFF8E1) to Color(0xFFF57F17)
-        ApplicationState.FAILED -> Color(0xFFFFEBEE) to Color(0xFFC62828)
-        ApplicationState.CANCELLED -> Color(0xFFECEFF1) to Color(0xFF37474F)
+        ApplicationState.DRAFT -> MaterialTheme.colorScheme.surfaceVariant to MaterialTheme.colorScheme.onSurfaceVariant
+        ApplicationState.READY_FOR_REVIEW -> elixirColors.infoContainer to elixirColors.onInfoContainer
+        ApplicationState.SUBMITTING -> elixirColors.warningContainer to elixirColors.onWarningContainer
+        ApplicationState.SUBMITTED_CONFIRMED -> elixirColors.successContainer to elixirColors.onSuccessContainer
+        ApplicationState.SUBMISSION_UNKNOWN -> elixirColors.warningContainer to elixirColors.onWarningContainer
+        ApplicationState.FAILED -> elixirColors.errorContainer to elixirColors.onErrorContainer
+        ApplicationState.CANCELLED -> MaterialTheme.colorScheme.surfaceVariant to MaterialTheme.colorScheme.onSurfaceVariant
     }
 
     Box(

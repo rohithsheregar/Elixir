@@ -6,9 +6,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,6 +24,7 @@ import com.cellclaw.eligibility.EligibilityReport
 import com.cellclaw.eligibility.EligibilityResult
 import com.cellclaw.eligibility.EligibilityStatus
 import com.cellclaw.eligibility.OverallEligibility
+import com.cellclaw.ui.theme.elixirColors
 import com.cellclaw.ui.viewmodel.EligibilityReportViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -163,9 +164,10 @@ fun EligibilityReportScreen(
                         // Hard Stop Gate for NOT_ELIGIBLE applications
                         if (uiState.isNotEligible) {
                             Spacer(modifier = Modifier.height(8.dp))
+                            val elixirColors = MaterialTheme.elixirColors
                             Card(
                                 modifier = Modifier.fillMaxWidth(),
-                                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFEBEE)),
+                                colors = CardDefaults.cardColors(containerColor = elixirColors.errorContainer),
                                 shape = RoundedCornerShape(12.dp)
                             ) {
                                 Column(modifier = Modifier.padding(16.dp)) {
@@ -173,7 +175,7 @@ fun EligibilityReportScreen(
                                         Icon(
                                             Icons.Default.Close,
                                             contentDescription = null,
-                                            tint = Color(0xFFC62828),
+                                            tint = elixirColors.error,
                                             modifier = Modifier.size(24.dp)
                                         )
                                         Spacer(modifier = Modifier.width(8.dp))
@@ -181,14 +183,14 @@ fun EligibilityReportScreen(
                                             text = "Eligibility Hard Stop",
                                             style = MaterialTheme.typography.titleMedium,
                                             fontWeight = FontWeight.Bold,
-                                            color = Color(0xFFC62828)
+                                            color = elixirColors.error
                                         )
                                     }
                                     Spacer(modifier = Modifier.height(6.dp))
                                     Text(
                                         text = "One or more mandatory criteria were not satisfied. PlacementOS enforces a strict stop to avoid sending non-compliant applications to campus recruiters.",
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = Color(0xFFB71C1C)
+                                        color = elixirColors.onErrorContainer
                                     )
                                     Spacer(modifier = Modifier.height(10.dp))
                                     Row(
@@ -204,7 +206,7 @@ fun EligibilityReportScreen(
                                             text = "I understand the eligibility risks and explicitly confirm my override to proceed anyway.",
                                             style = MaterialTheme.typography.bodySmall,
                                             fontWeight = FontWeight.Medium,
-                                            color = Color(0xFFB71C1C)
+                                            color = elixirColors.onErrorContainer
                                         )
                                     }
                                 }
@@ -242,23 +244,24 @@ fun EligibilityReportScreen(
 
 @Composable
 private fun OverallStatusBanner(overall: OverallEligibility) {
+    val elixirColors = MaterialTheme.elixirColors
     val (bgColor, contentColor, icon, text) = when (overall) {
         OverallEligibility.ELIGIBLE -> Quad(
-            Color(0xFFE8F5E9),
-            Color(0xFF2E7D32),
+            elixirColors.badgeEligible,
+            elixirColors.onBadgeEligible,
             Icons.Default.CheckCircle,
             "ELIGIBLE — All mandatory requirements met"
         )
         OverallEligibility.NOT_ELIGIBLE -> Quad(
-            Color(0xFFFFEBEE),
-            Color(0xFFC62828),
+            elixirColors.badgeNotEligible,
+            elixirColors.onBadgeNotEligible,
             Icons.Default.Close,
             "NOT ELIGIBLE — One or more mandatory requirements failed"
         )
         OverallEligibility.UNKNOWN -> Quad(
-            Color(0xFFFFF8E1),
-            Color(0xFFF57F17),
-            Icons.Default.HelpOutline,
+            elixirColors.badgeUnknown,
+            elixirColors.onBadgeUnknown,
+            Icons.AutoMirrored.Filled.HelpOutline,
             "UNKNOWN — Insufficient profile facts to verify all criteria"
         )
     }
@@ -290,20 +293,21 @@ private fun OverallStatusBanner(overall: OverallEligibility) {
 
 @Composable
 private fun CriterionCard(criterion: EligibilityResult) {
+    val elixirColors = MaterialTheme.elixirColors
     val (badgeBg, badgeText, statusLabel) = when (criterion.status) {
         EligibilityStatus.PASS -> Triple(
-            Color(0xFFE8F5E9),
-            Color(0xFF2E7D32),
+            elixirColors.badgeEligible,
+            elixirColors.onBadgeEligible,
             "PASS"
         )
         EligibilityStatus.FAIL -> Triple(
-            Color(0xFFFFEBEE),
-            Color(0xFFC62828),
+            elixirColors.badgeNotEligible,
+            elixirColors.onBadgeNotEligible,
             "FAIL"
         )
         EligibilityStatus.UNKNOWN -> Triple(
-            Color(0xFFFFF8E1),
-            Color(0xFFF57F17),
+            elixirColors.badgeUnknown,
+            elixirColors.onBadgeUnknown,
             "UNKNOWN"
         )
     }

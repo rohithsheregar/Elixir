@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cellclaw.tracker.ApplicationRecord
 import com.cellclaw.tracker.ApplicationState
+import com.cellclaw.ui.theme.elixirColors
 import com.cellclaw.ui.viewmodel.TrackerViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -281,7 +282,7 @@ private fun ApplicationCard(
                 Text(
                     text = "Ref: ${application.confirmationReference}",
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color(0xFF2E7D32),
+                    color = MaterialTheme.elixirColors.success,
                     fontWeight = FontWeight.Medium
                 )
             }
@@ -291,14 +292,15 @@ private fun ApplicationCard(
 
 @Composable
 private fun StateBadge(state: ApplicationState) {
+    val elixirColors = MaterialTheme.elixirColors
     val (bgColor, textColor) = when (state) {
-        ApplicationState.DRAFT -> Color(0xFFEEEEEE) to Color(0xFF424242)
-        ApplicationState.READY_FOR_REVIEW -> Color(0xFFE3F2FD) to Color(0xFF1565C0)
-        ApplicationState.SUBMITTING -> Color(0xFFFFF3E0) to Color(0xFFE65100)
-        ApplicationState.SUBMITTED_CONFIRMED -> Color(0xFFE8F5E9) to Color(0xFF2E7D32)
-        ApplicationState.SUBMISSION_UNKNOWN -> Color(0xFFFFF8E1) to Color(0xFFF57F17)
-        ApplicationState.FAILED -> Color(0xFFFFEBEE) to Color(0xFFC62828)
-        ApplicationState.CANCELLED -> Color(0xFFECEFF1) to Color(0xFF37474F)
+        ApplicationState.DRAFT -> MaterialTheme.colorScheme.surfaceVariant to MaterialTheme.colorScheme.onSurfaceVariant
+        ApplicationState.READY_FOR_REVIEW -> elixirColors.infoContainer to elixirColors.onInfoContainer
+        ApplicationState.SUBMITTING -> elixirColors.warningContainer to elixirColors.onWarningContainer
+        ApplicationState.SUBMITTED_CONFIRMED -> elixirColors.successContainer to elixirColors.onSuccessContainer
+        ApplicationState.SUBMISSION_UNKNOWN -> elixirColors.warningContainer to elixirColors.onWarningContainer
+        ApplicationState.FAILED -> elixirColors.errorContainer to elixirColors.onErrorContainer
+        ApplicationState.CANCELLED -> MaterialTheme.colorScheme.surfaceVariant to MaterialTheme.colorScheme.onSurfaceVariant
     }
 
     Box(
@@ -317,10 +319,11 @@ private fun StateBadge(state: ApplicationState) {
 
 @Composable
 private fun EligibilityBadge(result: String) {
+    val elixirColors = MaterialTheme.elixirColors
     val (bgColor, textColor, label) = when (result.uppercase()) {
-        "ELIGIBLE" -> Triple(Color(0xFFE8F5E9), Color(0xFF2E7D32), "ELIGIBLE")
-        "NOT_ELIGIBLE" -> Triple(Color(0xFFFFEBEE), Color(0xFFC62828), "NOT ELIGIBLE")
-        else -> Triple(Color(0xFFFFF8E1), Color(0xFFF57F17), "UNKNOWN")
+        "ELIGIBLE" -> Triple(elixirColors.badgeEligible, elixirColors.onBadgeEligible, "ELIGIBLE")
+        "NOT_ELIGIBLE" -> Triple(elixirColors.badgeNotEligible, elixirColors.onBadgeNotEligible, "NOT ELIGIBLE")
+        else -> Triple(elixirColors.badgeUnknown, elixirColors.onBadgeUnknown, "UNKNOWN")
     }
 
     Box(

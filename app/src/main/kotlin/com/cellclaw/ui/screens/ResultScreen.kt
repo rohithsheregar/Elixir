@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cellclaw.tracker.ApplicationState
+import com.cellclaw.ui.theme.elixirColors
 import com.cellclaw.ui.viewmodel.ResultUiState
 import com.cellclaw.ui.viewmodel.ResultViewModel
 import java.text.SimpleDateFormat
@@ -80,15 +81,16 @@ fun ResultScreen(
 
                 // 2. Action success or error alerts
                 uiState.actionSuccessMessage?.let { msg ->
+                    val elixirColors = MaterialTheme.elixirColors
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFFE8F5E9))
+                        colors = CardDefaults.cardColors(containerColor = elixirColors.successContainer)
                     ) {
                         Text(
                             text = msg,
                             modifier = Modifier.padding(12.dp),
                             style = MaterialTheme.typography.bodyMedium,
-                            color = Color(0xFF2E7D32)
+                            color = elixirColors.onSuccessContainer
                         )
                     }
                 }
@@ -139,22 +141,23 @@ fun ResultScreen(
 
                 // 4. Manual Confirmation Section (if submission state unknown)
                 if (uiState.state == ApplicationState.SUBMISSION_UNKNOWN) {
+                    val elixirColors = MaterialTheme.elixirColors
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF8E1))
+                        colors = CardDefaults.cardColors(containerColor = elixirColors.warningContainer)
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(
                                 text = "Manual Response Verification",
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFFF57F17)
+                                color = elixirColors.warning
                             )
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
                                 text = "Browser timed out or confirmation screen lacked an automated receipt. If you verified the submission succeeded in Chrome, enter the confirmation reference or confirm manually below.",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = Color(0xFF5D4037)
+                                color = elixirColors.onWarningContainer
                             )
                             Spacer(modifier = Modifier.height(12.dp))
                             OutlinedTextField(
@@ -262,38 +265,39 @@ fun ResultScreen(
 
 @Composable
 private fun StatusBannerCard(uiState: ResultUiState) {
+    val elixirColors = MaterialTheme.elixirColors
     val (bgColor, iconColor, title, desc, icon) = when (uiState.state) {
         ApplicationState.SUBMITTED_CONFIRMED -> StatusBannerConfig(
-            bgColor = Color(0xFFE8F5E9),
-            iconColor = Color(0xFF2E7D32),
+            bgColor = elixirColors.successContainer,
+            iconColor = elixirColors.success,
             title = "Application Submitted & Confirmed",
             desc = "Your application was submitted with user approval and confirmed by response receipt.",
             icon = Icons.Default.CheckCircle
         )
         ApplicationState.SUBMISSION_UNKNOWN -> StatusBannerConfig(
-            bgColor = Color(0xFFFFF3E0),
-            iconColor = Color(0xFFE65100),
+            bgColor = elixirColors.warningContainer,
+            iconColor = elixirColors.warning,
             title = "Submission Status Unknown",
             desc = "Automated receipt was not detected. Please verify your browser and confirm manually.",
             icon = Icons.Default.Warning
         )
         ApplicationState.FAILED -> StatusBannerConfig(
-            bgColor = Color(0xFFFFEBEE),
-            iconColor = Color(0xFFC62828),
+            bgColor = elixirColors.errorContainer,
+            iconColor = elixirColors.error,
             title = "Submission Failed",
             desc = uiState.notes ?: "Automation encountered an error before submission completion.",
             icon = Icons.Default.Warning
         )
         ApplicationState.CANCELLED -> StatusBannerConfig(
-            bgColor = Color(0xFFECEFF1),
-            iconColor = Color(0xFF455A64),
+            bgColor = MaterialTheme.colorScheme.surfaceVariant,
+            iconColor = MaterialTheme.colorScheme.onSurfaceVariant,
             title = "Application Cancelled",
             desc = "This application run was cancelled by user.",
             icon = Icons.Default.Info
         )
         else -> StatusBannerConfig(
-            bgColor = Color(0xFFE3F2FD),
-            iconColor = Color(0xFF1565C0),
+            bgColor = elixirColors.infoContainer,
+            iconColor = elixirColors.info,
             title = "Status: ${uiState.state}",
             desc = "Application is currently in ${uiState.state} state.",
             icon = Icons.Default.Info
@@ -329,7 +333,7 @@ private fun StatusBannerCard(uiState: ResultUiState) {
                 Text(
                     text = desc,
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.Black.copy(alpha = 0.75f)
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.85f)
                 )
             }
         }

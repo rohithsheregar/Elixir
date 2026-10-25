@@ -657,6 +657,13 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** Focused `ThemeTest` (asserting distinct brand colors between light and dark palettes, semantic palette contrast across success/warning/error/info, dark mode adaptivity of ElixirColors, monotonic spacing scale hierarchy, shape tokens, and Material 3 typography scale) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 49s`, 50 actionable tasks, 5 executed, 45 up-to-date).
 
+### T31 — DarkThemeContrastTest, full unit suite & assembleDebug (U5) — Session 18
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `DarkThemeContrastTest` (verifying WCAG >= 3.0:1 contrast ratios for semantic container and badge tokens in both light and dark palettes, and strictly scanning all 8 screen source files to assert 0 hardcoded Color(0xFF...) literals remain), full unit test suite, and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 11s`, 50 actionable tasks, 4 executed, 46 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-U5` (NEEDS_USER_DEVICE).
+
+
 
 
 
