@@ -9,9 +9,11 @@ import com.cellclaw.jd.JdParser
 import com.cellclaw.jd.JdRequirement
 import com.cellclaw.profile.CandidateProfile
 import com.cellclaw.profile.ProfileRepository
+import com.cellclaw.tracker.ApplicationPayload
 import com.cellclaw.tracker.ApplicationRecord
 import com.cellclaw.tracker.ApplicationState
 import com.cellclaw.tracker.ApplicationTracker
+import com.cellclaw.tracker.toPersisted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -122,6 +124,12 @@ class NewApplicationViewModel @Inject constructor(
             val finalRole = _uiState.value.role.ifBlank { parsed.role.value ?: "Placement Applicant" }
             val jdHash = computeSha256(text.toByteArray())
 
+            val payload = ApplicationPayload(
+                eligibilityReport = eligibilityReport,
+                jdRequirement = parsed.toPersisted(),
+                rawJdText = text
+            )
+
             val record = ApplicationRecord(
                 id = appId,
                 company = finalCompany,
@@ -133,7 +141,7 @@ class NewApplicationViewModel @Inject constructor(
                 eligibilityResult = eligibilityReport.overall.name,
                 resumeVersion = 1,
                 state = ApplicationState.DRAFT,
-                notes = Json.encodeToString(eligibilityReport)
+                notes = Json.encodeToString(payload)
             )
 
             val dupCheck = applicationTracker.registerApplication(record)

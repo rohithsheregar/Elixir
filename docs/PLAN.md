@@ -141,7 +141,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 
 - [x] R1 | Make Elixir the start destination (Tracker) with access to Profile, Settings and legacy chat | test: NavigationWiringTest | deps: none
 - [x] R2 | Fix lintDebug: remove WakeWordService and wake-word code from the Elixir build, fix RECEIVER_NOT_EXPORTED in CellClawAccessibility, remove or justify QUERY_ALL_PACKAGES | test: ./gradlew lintDebug exits 0 | deps: none
-- [ ] R3 | Persist the parsed JdRequirement and load it in ResumePreviewViewModel instead of an empty JdRequirement() | test: ResumeTailoringWiringTest asserting JD-specific skill ordering | deps: R1
+- [x] R3 | Persist the parsed JdRequirement and load it in ResumePreviewViewModel instead of an empty JdRequirement() | test: ResumeTailoringWiringTest asserting JD-specific skill ordering | deps: R1
 - [ ] R4 | Add ACTION_SEND intent-filter so text/documents shared from other apps open NewApplication prefilled | test: ShareIntentTest | deps: R1
 - [ ] R5 | Add SavedStateHandle to NewApplication and Review view models | test: process-death test | deps: R1
 - [ ] R6 | Hilt-bind every orphan (ResumeBuilder, PdfGenerator, FieldClassifier, FieldFiller, NeedsInputCollector, ResumeUploader with the real FileProvider URI provider, PostUploadVerifier, AccessibilitySession, ConfirmationDetector) and remove FakeResumeUriProvider from production | test: DiBindingsTest | deps: R1, R2

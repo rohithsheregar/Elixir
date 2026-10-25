@@ -6,6 +6,7 @@ import com.cellclaw.eligibility.EligibilityReport
 import com.cellclaw.eligibility.EligibilityResult
 import com.cellclaw.eligibility.EligibilityStatus
 import com.cellclaw.eligibility.OverallEligibility
+import com.cellclaw.tracker.ApplicationPayload
 import com.cellclaw.tracker.ApplicationRecord
 import com.cellclaw.tracker.ApplicationTracker
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,7 +46,13 @@ class EligibilityReportViewModel @Inject constructor(
                     )
                 } else {
                     val report = try {
-                        app.notes?.let { json.decodeFromString<EligibilityReport>(it) }
+                        app.notes?.let { noteStr ->
+                            try {
+                                json.decodeFromString<ApplicationPayload>(noteStr).eligibilityReport
+                            } catch (_: Exception) {
+                                json.decodeFromString<EligibilityReport>(noteStr)
+                            }
+                        }
                     } catch (_: Exception) {
                         null
                     } ?: run {

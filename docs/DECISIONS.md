@@ -132,6 +132,13 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** (1) Relocated `com.cellclaw.wakeword` package to `app/src/legacy/kotlin/com/cellclaw/wakeword/` (disabling from active compilation and lint while keeping source files intact for attribution under MIT license). (2) Removed `WakeWordService` from `AndroidManifest.xml` and removed wake-word startup logic from `BootReceiver.kt` and `SettingsScreen.kt`. (3) Replaced broad `QUERY_ALL_PACKAGES` permission in `AndroidManifest.xml` with scoped `<queries>` for Chrome and HTTPS browser intent. (4) Used `ContextCompat.registerReceiver` with `RECEIVER_NOT_EXPORTED` in `CellClawAccessibility.kt`.
 **Why:** Fixes all 4 fatal lint errors that caused `lintDebug` to fail with exit code 1. PlacementOS is an application assistant that must not require continuous background microphone audio recording (`RECORD_AUDIO`) or broad package query (`QUERY_ALL_PACKAGES`). Internal accessibility broadcast commands across `:a11y` process share the app UID; `RECEIVER_NOT_EXPORTED` secures the receiver from external app broadcast injection and resolves the Android 14+ lint requirement.
 
+---
+
+## D19 — Persist JdRequirement inside ApplicationPayload in notes column (R3)
+**Choice:** Store `ApplicationPayload` (containing `EligibilityReport`, `PersistedJdRequirement`, and `rawJdText`) serialized in `ApplicationRecord.notes`. `ResumePreviewViewModel` deserializes `JdRequirement` to build the resume with tailored skill and project ranking.
+**Why:** Fixes Audit 2 Hop 3 finding where `ResumePreviewViewModel` was building resumes using an empty `JdRequirement()`, degrading resume skill ranking to un-tailored alphabetical ordering. Using the existing nullable `notes` column avoids a Room database schema migration while keeping the application payload fully structured. `EligibilityReportViewModel` and `ResumePreviewViewModel` support both `ApplicationPayload` and legacy raw JSON fallback.
+
+
 
 
 

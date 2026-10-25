@@ -585,4 +585,11 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** All unit tests including ElixirManifestTest (asserting exclusion of QUERY_ALL_PACKAGES and WakeWordService) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 14s`, 50 actionable tasks, 12 executed, 38 up-to-date).
 
+### T19 — ResumeTailoringWiringTest, full unit suite & assembleDebug (R3) — Session 17
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** ResumeTailoringWiringTest (verifying that parsed JD requirements are serialized in ApplicationPayload, persisted via ApplicationRecord.notes, deserialized in ResumePreviewViewModel, and prioritize required/preferred skills in generated resume preview over un-tailored alphabetical fallback) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 53s`, 50 actionable tasks, 5 executed, 45 up-to-date).
+
+
 

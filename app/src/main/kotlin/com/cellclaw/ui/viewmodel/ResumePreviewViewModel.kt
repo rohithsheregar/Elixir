@@ -9,8 +9,11 @@ import com.cellclaw.resume.GeneratedPdf
 import com.cellclaw.resume.PdfGenerator
 import com.cellclaw.resume.ResumeBuilder
 import com.cellclaw.resume.ResumeContent
+import com.cellclaw.tracker.ApplicationPayload
 import com.cellclaw.tracker.ApplicationRecord
 import com.cellclaw.tracker.ApplicationTracker
+import com.cellclaw.tracker.toJdRequirement
+import kotlinx.serialization.json.Json
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -35,6 +38,7 @@ class ResumePreviewViewModel @Inject constructor(
     private val profileRepository: ProfileRepository
 ) : ViewModel() {
 
+    private val json = Json { ignoreUnknownKeys = true; isLenient = true }
     private val _uiState = MutableStateFlow(ResumePreviewUiState())
     val uiState: StateFlow<ResumePreviewUiState> = _uiState.asStateFlow()
 
@@ -53,11 +57,20 @@ class ResumePreviewViewModel @Inject constructor(
 
                 val profile = profileRepository.getProfile() ?: CandidateProfile()
 
-                // Build resume: use blank JdRequirement since JD text is not persisted with the
-                // ApplicationRecord (only hash is stored). All confirmed facts appear; skill
-                // ranking falls back to alphabetical. Documented in DECISIONS.md.
+                // Build resume: load persisted JD requirement from application notes for tailored ranking
+                val jd = try {
+                    app.notes?.let { noteStr ->
+                        try {
+                            json.decodeFromString<ApplicationPayload>(noteStr).jdRequirement?.toJdRequirement()
+                        } catch (_: Exception) {
+                            null
+                        }
+                    }
+                } catch (_: Exception) {
+                    null
+                } ?: JdRequirement()
+
                 val resume = try {
-                    val jd = JdRequirement()
                     ResumeBuilder().build(profile, jd)
                 } catch (e: Exception) {
                     _uiState.value = ResumePreviewUiState(

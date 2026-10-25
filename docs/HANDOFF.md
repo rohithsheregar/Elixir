@@ -28,20 +28,20 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (235 unit tests pass, ass
 63b7301 — [R2] fix lintDebug failures, remove WakeWordService from build, enforce RECEIVER_NOT_EXPORTED, scope browser queries
 
 ## IN PROGRESS
-R3 — Persist the parsed JdRequirement and load it in ResumePreviewViewModel instead of an empty JdRequirement()
+R4 — Add ACTION_SEND intent-filter so text/documents shared from other apps open NewApplication prefilled
 Plan:
-1. Serialize parsed JdRequirement (or structured JSON / JD text) when creating ApplicationRecord in NewApplicationViewModel.
-2. In ResumePreviewViewModel, deserialize and load the persisted JdRequirement and pass it to ResumeBuilder.build(profile, jd).
-3. Add unit test `ResumeTailoringWiringTest` verifying that skills matching the parsed JD are ranked higher than unmentioned skills.
+1. Add `ACTION_SEND` intent filters to `MainActivity` in `AndroidManifest.xml` for `text/plain`, `application/pdf`, and `text/*`.
+2. Update `MainActivity.kt` and `NewApplicationViewModel.kt` to extract shared text or stream URI from intent and navigate directly to `new_application` prefilled.
+3. Add `ShareIntentTest` verifying manifest intent filters and intent extraction.
 4. Verify with testDebugUnitTest and assembleDebug.
 Expected files:
+- `app/src/main/AndroidManifest.xml`
+- `app/src/main/kotlin/com/cellclaw/ui/MainActivity.kt`
 - `app/src/main/kotlin/com/cellclaw/ui/viewmodel/NewApplicationViewModel.kt`
-- `app/src/main/kotlin/com/cellclaw/ui/viewmodel/ResumePreviewViewModel.kt`
-- `app/src/main/kotlin/com/cellclaw/tracker/ApplicationRecord.kt`
-- `app/src/test/kotlin/com/cellclaw/ui/ResumeTailoringWiringTest.kt`
+- `app/src/test/kotlin/com/cellclaw/ui/ShareIntentTest.kt`
 
 ## NEXT ACTION
-R3: Persist parsed JdRequirement in ApplicationRecord notes/payload and load in ResumePreviewViewModel, write ResumeTailoringWiringTest, verify and commit.
+R4: Implement ACTION_SEND intent-filter in AndroidManifest.xml and share handling, write ShareIntentTest, verify and commit.
 
 ## Blockers
 None. Gradle must be invoked with scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on Windows.
