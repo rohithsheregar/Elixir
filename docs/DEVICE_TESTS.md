@@ -8,29 +8,36 @@ Mark as `NEEDS_USER_DEVICE`. Never claim PASS without seeing the device output.
 
 ## M8 — Accessibility Session Framework
 
-### DT-M8.1 — Dummy form fill end-to-end
+### DT-M8.1 — Dummy form fill end-to-end (Static HTML Mock Harness)
 **Status:** NEEDS_USER_DEVICE
+**Test Harness Location:** [docs/dummy_google_form.html](file:///c:/Users/Rohith%20Sheregar/OneDrive/Documents/cellclaw/docs/dummy_google_form.html) (also packaged in `app/src/main/assets/dummy_google_form.html`)
+
 **Prerequisites:**
-- Device running Android 8.0+ (API 26)
-- Elixir installed and accessibility service enabled
-- Chrome installed on device
-- A dummy Google Form (or static HTML mock) created with: text input, dropdown, radio buttons, checkboxes, date picker, file upload
+- Device running Android 8.0+ (API 26) with USB debugging or local network access
+- Elixir installed and `CellClawAccessibility` service enabled in Accessibility settings
+- Chrome installed and set as default browser
+- Serve the test harness over local Wi-Fi or adb reverse port forwarding:
+  - Option A: Run `python -m http.server 8080 --directory docs` and connect device to `http://<host-ip>:8080/dummy_google_form.html`
+  - Option B: Use `adb reverse tcp:8080 tcp:8080` and open `http://localhost:8080/dummy_google_form.html` (or hosted HTTPS tunnel via ngrok / GitHub Pages for strict HTTPS enforcement)
 
 **Steps:**
 1. Open Elixir app
-2. Create a test candidate profile with synthetic data (name: "Test User", email: "test@example.com", etc.)
-3. Start a new application: paste the dummy form URL
-4. Observe eligibility check (all synthetic, so all fields should match)
-5. Generate dummy resume PDF — verify it is text-selectable
-6. Tap "Start Form Fill Session" — app opens Chrome with the dummy form URL
-7. Observe Elixir filling fields: verify each value matches the profile, read back is correct
-8. Verify "Needs your input" list for unmatched fields
-9. On the review screen: verify all filled values, resume filename and hash are shown
-10. Tap Approve — verify one-time token is created
-11. Tap Submit in Chrome (via Elixir) — verify tracker updates to SUBMITTED_CONFIRMED or SUBMISSION_UNKNOWN
-12. Close session — verify foreground notification dismisses
+2. Create or verify candidate profile facts (name, email, phone, institution, degree, branch, CGPA, graduation year)
+3. Start a new application: paste the test harness form URL
+4. Observe eligibility report screen (all criteria verified against profile facts)
+5. Generate tailored resume PDF — inspect preview and evidence map on ResumePreviewScreen
+6. Tap "Approve Resume" to navigate to ReviewScreen
+7. Verify ReviewScreen displays: target domain, attached resume name & SHA-256 hash, all synthesized field values with 100% fact badges, and zero hallucinations
+8. Affirm declarations and tap "Approve & Submit" (starts supervised `AccessibilitySession`)
+9. Elixir launches Chrome via `BrowserOpener` intent with the form URL
+10. `AccessibilitySession` inspects Chrome DOM, verifies package scoping (`com.android.chrome`), and maps fields
+11. Observe field filling: text, dropdown (Degree, Branch), radio (relocation), checkboxes (skills), date picker
+12. For file upload: system file picker is triggered; verify only the generated PDF is exposed and selected
+13. User supervises final Submit tap (or taps Submit directly in Chrome)
+14. Confirmation card displays with generated Reference ID (e.g. `CONF-TEST-XXXXXX`)
+15. Return to Elixir TrackerScreen: verify status transitions to `SUBMITTED_CONFIRMED` with reference number recorded
 
-**Pass criteria:** All fields filled correctly with no fabricated data; submission only after user approve; tracker updated.
+**Pass criteria:** All form fields filled accurately from confirmed facts; resume PDF attached cleanly; submission approved by user; tracker updated to `SUBMITTED_CONFIRMED`.
 
 ---
 

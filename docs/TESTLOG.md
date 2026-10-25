@@ -99,6 +99,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T50 — M8.3 Dummy Google Form test harness and device verification procedure — Session 14
+**Command:** `N/A (Static HTML mock form created at docs/dummy_google_form.html and app/src/main/assets/dummy_google_form.html; device verification documented in docs/DEVICE_TESTS.md)`
+**Exit code:** 0
+**Status:** NEEDS_USER_DEVICE
+**Summary:** Created static mock Google Form test harness containing full suite of field types: short text (Name, Email, Phone, College, CGPA, Year), dropdowns (Degree, Branch), radio buttons (relocation), checkboxes (technical skills), date picker (earliest start), file upload (tailored PDF resume), free-text (interest explanation), declaration affirmation, and confirmation view with reference number generation. Documented end-to-end device testing steps in `docs/DEVICE_TESTS.md` under DT-M8.1.
+
 ### T49 — M8.2 AccessibilitySession state machine and bounded polling — Session 14
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.accessibility.AccessibilitySessionTest; exit $LASTEXITCODE`
 **Exit code:** 0
