@@ -154,7 +154,22 @@ class MainActivity : ComponentActivity() {
                             RunScreen(
                                 appId = appId,
                                 onBack = { navController.popBackStack() },
-                                onComplete = { id -> navController.navigate(NavigationRoutes.TRACKER) }
+                                onComplete = { id -> navController.navigate(NavigationRoutes.resultRoute(id)) }
+                            )
+                        }
+                        composable(NavigationRoutes.RESULT) { backStackEntry ->
+                            val appId = backStackEntry.arguments?.getString("appId").orEmpty()
+                            ResultScreen(
+                                appId = appId,
+                                onBack = { navController.popBackStack() },
+                                onReturnToTracker = {
+                                    navController.navigate(NavigationRoutes.TRACKER) {
+                                        popUpTo(NavigationRoutes.TRACKER) { inclusive = true }
+                                    }
+                                },
+                                onRetry = { id ->
+                                    navController.navigate(NavigationRoutes.reviewRoute(id))
+                                }
                             )
                         }
                     }

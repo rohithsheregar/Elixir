@@ -180,6 +180,12 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Implement `RunScreen` and `RunViewModel` observing `AutomationOrchestrator.step` StateFlow. Wire into `MainActivity` `NavHost` (`run/{appId}`) and route to it from `ReviewScreen` upon approval. Add live step progression, explicit user Pause/Resume buttons, Stop/Cancel button, and CAPTCHA/login manual intervention handoff banner. Wire `CellClawService` notification actions (`ACTION_PAUSE`, `ACTION_RESUME`, `ACTION_STOP`) directly to `AutomationOrchestrator`. Add `@Inject constructor()` and `@Provides` binding for `UrlValidator` to satisfy Hilt compilation.
 **Why:** Directly fulfills Audit 2 Section 2 and Section 4 requirements for live automation observability and user supervision ("Foreground service with Pause/Stop", "user can always tell what the app is doing"). Guarantees the user retains full control at all times via UI controls and persistent notification actions, honoring PlacementOS rules §5 & §6 (no bot bypass, hand control to user for CAPTCHA/login). Verified by `RunScreenTest` and `DiBindingsTest`.
 
+---
+
+## D27 — ResultScreen, Confirmation Reference, and Supervised Retry State Flow (R11)
+**Choice:** Implement `ResultScreen` and `ResultViewModel` displaying application outcome banners (`SUBMITTED_CONFIRMED`, `SUBMISSION_UNKNOWN`, `FAILED`, `CANCELLED`), persistent confirmation reference receipts, and details (resume version/hash, submission timestamp). For `SUBMISSION_UNKNOWN`, provide an explicit manual verification input that consumes user-verified reference receipts to transition the application to `SUBMITTED_CONFIRMED` in `ApplicationTracker`. For `FAILED` and `SUBMISSION_UNKNOWN`, implement `retrySubmission` resetting the application state through `DRAFT` to `READY_FOR_REVIEW` and returning to `ReviewScreen`. Connect `RunScreen`'s `onComplete` to `NavigationRoutes.resultRoute(id)`.
+**Why:** Addresses Audit 2 Journey Hop 7 ("Run -> Result -> Tracker") and Phase 1 §3.5 / Phase 3 §5 rules. Enforces that a tap on Submit is not treated as guaranteed success, prevents automatic re-submissions on ambiguous timeouts while giving the user full supervised agency to confirm or retry after manual inspection in Chrome. Verified by `ResultScreenTest`.
+
 
 
 

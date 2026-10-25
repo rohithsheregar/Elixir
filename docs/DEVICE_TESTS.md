@@ -16,6 +16,7 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 | **DT-M11.1** | M11.1 | Approval Token Binding & Direct User Tap | `ApprovalTokenManager` | `NEEDS_USER_DEVICE` | User / Physical Device |
 | **DT-M11.2** | M11.2 | Supervised Submit & Receipt Detection | `SubmitSupervisor` | `NEEDS_USER_DEVICE` | User / Physical Device |
 | **DT-R10** | R10 | RunScreen live status, notification Pause/Stop, CAPTCHA handoff | `RunScreen`, `CellClawService` | `NEEDS_USER_DEVICE` | User / Physical Device |
+| **DT-R11** | R11 | ResultScreen confirmation receipt, manual confirmation, failure retry | `ResultScreen`, `ResultViewModel` | `NEEDS_USER_DEVICE` | User / Physical Device |
 | **DT-M12.1** | M12 | Live Google Form Supervised Validation | User-Approved Test Form | `WAITING_ON_USER` | User / Physical Device |
 
 ---
@@ -119,6 +120,15 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 4. Tap Pause in the notification or on RunScreen: verify automation halts and status displays Paused.
 5. Tap Resume: verify automation continues.
 6. Trigger CAPTCHA/login handoff: verify banner appears instructing manual completion, and resumes once dismissed.
+
+### DT-R11 — ResultScreen Outcome, Confirmation Reference & Retry Flow
+**Status:** NEEDS_USER_DEVICE
+**Steps:**
+1. Complete form submission run and observe automatic transition to ResultScreen (`result/{appId}`).
+2. Verify display of confirmation reference receipt (e.g. `CONF-TEST-XXXXXX`).
+3. For ambiguous or timed-out submissions (`SUBMISSION_UNKNOWN`), verify manual reference entry box and "Confirm Submission" CTA updates the application to `SUBMITTED_CONFIRMED`.
+4. For failed runs, verify "Retry Application Review & Submit" button resets the application state to `READY_FOR_REVIEW` and routes back to ReviewScreen.
+5. Tap "Return to Application Tracker": verify return to TrackerScreen with updated status chips.
 
 ---
 

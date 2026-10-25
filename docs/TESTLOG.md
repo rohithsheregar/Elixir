@@ -633,6 +633,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** RunScreenTest (asserting RunViewModel state loading, live step updates, user Pause and Resume controls, CAPTCHA/login manual intervention handoff trigger and dismissal, cancellation transition to CANCELLED state), DiBindingsTest (asserting UrlValidator and BrowserOpener provider bindings), full unit test suite, and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 3m 19s`, 50 actionable tasks, 17 executed, 33 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R10` (NEEDS_USER_DEVICE).
 
+### T27 — ResultScreenTest, full unit suite & assembleDebug (R11) — Session 17
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** ResultScreenTest (asserting ResultViewModel loading of SUBMITTED_CONFIRMED records and confirmation reference, manual verification input updating tracker to SUBMITTED_CONFIRMED on SUBMISSION_UNKNOWN, retrySubmission resetting FAILED/SUBMISSION_UNKNOWN applications to READY_FOR_REVIEW through DRAFT, and markAsFailed state transition), full unit suite, and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 2m 25s`, 50 actionable tasks, 18 executed, 32 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R11` (NEEDS_USER_DEVICE).
+
 
 
 
