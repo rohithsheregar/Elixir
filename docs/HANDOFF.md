@@ -26,28 +26,25 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (235 unit tests pass, ass
 | 18 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | 168cf1f |
 
 ## Last Green Commit
-2e99c08 — [U5] replace hardcoded colors across all screens with semantic theme tokens for dark mode
+bf2292e — [U9] implement Elixir vector launcher icon, core-splashscreen theme, and brand rebranding
 
 ## IN PROGRESS
-U9 — Create brand identity: bespoke Elixir vector app icon, splash screen (SplashScreen API), and remove legacy branding
+U2 — Implement multi-step ProgressStepper component (JD -> Eligibility -> Tailored Resume -> Supervised Review)
 Plan:
-1. Add `androidx.core:core-splashscreen:1.0.1` in `app/build.gradle.kts`.
-2. Create bespoke Elixir vector icon drawable (`ic_elixir_launcher_foreground.xml`) and adaptive launcher icon.
-3. Configure `Theme.Elixir.Starting` splash theme and invoke `installSplashScreen()` in `MainActivity.kt`.
-4. Update foreground service notification and QS tile display strings from "CellClaw" to "Elixir".
-5. Add `SplashThemeTest.kt` asserting brand assets, launcher icons, and splash theme configuration.
-6. Verify with testDebugUnitTest and assembleDebug.
+1. Define `PlacementStep` enum and `ProgressStepper` composable in `app/src/main/kotlin/com/cellclaw/ui/components/ProgressStepper.kt`.
+2. Wire `ProgressStepper` into `NewApplicationScreen`, `EligibilityReportScreen`, `ResumePreviewScreen`, and `ReviewScreen`.
+3. Add `ProgressStepperPreviewTest.kt` verifying step states, monotonicity, clickability logic, and screen integration.
+4. Verify with `testDebugUnitTest` and `assembleDebug`.
 Expected files:
-- `app/build.gradle.kts`
-- `app/src/main/res/drawable/ic_elixir_launcher_foreground.xml`
-- `app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml`
-- `app/src/main/res/values/themes.xml`
-- `app/src/main/kotlin/com/cellclaw/ui/MainActivity.kt`
-- `app/src/main/kotlin/com/cellclaw/service/CellClawService.kt`
-- `app/src/test/kotlin/com/cellclaw/ui/SplashThemeTest.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/components/ProgressStepper.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/screens/NewApplicationScreen.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/screens/EligibilityReportScreen.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/screens/ResumePreviewScreen.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/screens/ReviewScreen.kt`
+- `app/src/test/kotlin/com/cellclaw/ui/ProgressStepperPreviewTest.kt`
 
 ## NEXT ACTION
-U9: Implement Elixir vector icon, core-splashscreen theme, MainActivity splash initialization, and SplashThemeTest.kt.
+U2: Implement ProgressStepper component, wire into placement screens, and verify with ProgressStepperPreviewTest.kt.
 
 ## Blockers
 None. Gradle must be invoked with scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on Windows.
