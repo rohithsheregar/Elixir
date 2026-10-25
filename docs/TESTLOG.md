@@ -99,6 +99,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T61 — M11.3 milestone verification and tag cp-m11-1 — Session 14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite passed; `BUILD SUCCESSFUL in 29s` (31 tasks up-to-date). Tagged milestone `cp-m11-1`.
+
 ### T60 — M11.2 Submit flow with confirmation detection and tracker state update — Session 14
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.approval.SubmitSupervisorTest; exit $LASTEXITCODE`
 **Exit code:** 0
