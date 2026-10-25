@@ -1,15 +1,39 @@
 # DEVICE_TESTS.md — Elixir Project
 
-Tests that require a physical Android device. These CANNOT be verified by the agent; they require the user to perform them manually.
+Tests that require a physical Android device. These CANNOT be verified by the agent; they require the user to perform them manually on an actual Android device or Google Chrome environment.
 
-Mark as `NEEDS_USER_DEVICE`. Never claim PASS without seeing the device output.
+Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device output.
 
 ---
 
-## M8 — Accessibility Session Framework
+## Physical Device Testing Checklist
 
-### DT-M8.1 — Dummy form fill end-to-end (Static HTML Mock Harness)
-**Status:** NEEDS_USER_DEVICE
+| Test ID | Milestone | Feature | Target Component | Status | Verified By |
+|---------|-----------|---------|------------------|--------|-------------|
+| **DT-M8.1** | M8.3 | Static Mock Google Form Fill End-to-End | Chrome + `CellClawAccessibility` | `NEEDS_USER_DEVICE` | User / Physical Device |
+| **DT-M10.1** | M10.1 | Scoped System Document Picker | Android FileProvider (`resumes/`) | `NEEDS_USER_DEVICE` | User / Physical Device |
+| **DT-M10.2** | M10.2 | Post-Upload Attachment & Visual Confirmation | `PostUploadVerifier` | `NEEDS_USER_DEVICE` | User / Physical Device |
+| **DT-M11.1** | M11.1 | Approval Token Binding & Direct User Tap | `ApprovalTokenManager` | `NEEDS_USER_DEVICE` | User / Physical Device |
+| **DT-M11.2** | M11.2 | Supervised Submit & Receipt Detection | `SubmitSupervisor` | `NEEDS_USER_DEVICE` | User / Physical Device |
+| **DT-M12.1** | M12 | Live Google Form Supervised Validation | User-Approved Test Form | `WAITING_ON_USER` | User / Physical Device |
+
+---
+
+## Test Execution Protocol
+
+1. **Host Setup:** Start the local static mock harness:
+   ```bash
+   python -m http.server 8080 --directory docs
+   ```
+2. **Device Connection:** Connect Android device via Wi-Fi or USB adb reverse:
+   ```bash
+   adb reverse tcp:8080 tcp:8080
+   ```
+3. **Run Tests:** Follow the procedures below step-by-step. Record pass/fail notes for each test.
+
+---
+
+## Detailed Test Procedures
 **Test Harness Location:** [docs/dummy_google_form.html](file:///c:/Users/Rohith%20Sheregar/OneDrive/Documents/cellclaw/docs/dummy_google_form.html) (also packaged in `app/src/main/assets/dummy_google_form.html`)
 
 **Prerequisites:**
