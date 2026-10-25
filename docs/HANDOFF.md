@@ -22,7 +22,7 @@ All milestones M1 through M12 in `docs/PLAN.md` are complete and verified (`cp-m
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-04fad0f — [M12.4] record Decision D16 retaining com.cellclaw package identity for stability per AGENTS.md policy
+4b6390d — [M12.5] verify final full unit test suite and assembleDebug, tag cp-m12-1
 
 ## IN PROGRESS
 M12.5 — milestone M12 verification and cp-m12-1 tag
