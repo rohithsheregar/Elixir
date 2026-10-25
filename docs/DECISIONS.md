@@ -119,4 +119,12 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Why:** M12.4 is explicitly marked "Optional: rename package from com.cellclaw to com.elixir (only if user approves)". AGENTS.md explicitly states: "Keep the Kotlin package com.cellclaw until milestone M12 so the build is never broken by a rename." Renaming across 100+ files, Hilt dependencies, Room entities, manifest bindings, and AIDL interfaces without an explicit user mandate introduces major risk of regression and breaks Android component stability for zero user-facing benefit. The display name is `Elixir` everywhere in the UI and manifests.
 **Alternatives:** Perform global rename to `com.elixir` — rejected under the conservative decision-making rule because user approval is explicitly required by the plan and no user request was made.
 
+---
+
+## D17 — Audit 2 remediation: milestones reopened, definition of done changed
+**Choice:** Audit 2 found the automation pipeline unwired; milestones reopened; definition of done changed.
+**Why:** Independent second audit (2026-10-25) revealed that while 235 unit tests pass, the automation pipeline (M8.4, M9.4, M10.3, M11.3) was completely unwired to the UI, the entry-point was trapped on ChatScreen, ReviewScreen submission was an empty lambda, and lintDebug failed with 4 errors. A unit test with mocks does not constitute completion. Milestones M7, M8.4, M9.4, M10.3, M11.3, M12.1-M12.5 are reopened. Definition of done updated in AGENTS.md: a step is done only when (a) reachable from the real UI path, (b) tested through the real call path not just a mock, and (c) a device result is recorded or marked NEEDS_USER_DEVICE.
+**Remediation plan:** Added steps R1–R19 (functional & wiring) and U1–U10 (UI/UX design system & screens) to PLAN.md.
+
+
 
