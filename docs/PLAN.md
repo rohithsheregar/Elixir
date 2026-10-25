@@ -133,4 +133,4 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] M12.2 | Update README to describe Elixir, setup steps, privacy policy, how to use | test: README is accurate | deps: M12.1
 - [x] M12.3 | DEVICE_TESTS.md: complete checklist for all NEEDS_USER_DEVICE items | test: user walks through checklist | deps: M12.2
 - [x] M12.4 | Optional: rename package from com.cellclaw to com.elixir (only if user approves; requires all build/manifest/resource updates) | test: `.\gradlew.bat assembleDebug` exits 0 after rename | deps: M12.3
-- [ ] M12.5 | Final build and test run; tag `cp-m12-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M12.4
+- [x] M12.5 | Final build and test run; tag `cp-m12-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M12.4

@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Milestone M11 complete (`cp-m11-1`). M12.1 security audit complete. Next step M12.2.
+All milestones M1 through M12 in `docs/PLAN.md` are complete and verified (`cp-m12-1`). Project implementation is complete.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -22,13 +22,13 @@ Milestone M11 complete (`cp-m11-1`). M12.1 security audit complete. Next step M1
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-8645e68 — [M12.3] complete DEVICE_TESTS.md checklist and execution protocol for all physical device tests
+04fad0f — [M12.4] record Decision D16 retaining com.cellclaw package identity for stability per AGENTS.md policy
 
 ## IN PROGRESS
-M12.4 — committing package identity decision D16
+M12.5 — milestone M12 verification and cp-m12-1 tag
 
 ## NEXT ACTION
-Execute M12.5: final build and test run, and tag cp-m12-1.
+Perform physical device manual testing on Android device per docs/DEVICE_TESTS.md checklist (DT-M8.1 through DT-M12.1).
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
