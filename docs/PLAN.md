@@ -129,7 +129,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 
 ## M12 — Hardening, README, DEVICE_TESTS.md checklist, final audit, optional package rename
 
-- [ ] M12.1 | Security audit: confirm no secrets in code/logs/BuildConfig, HTTPS only, backups exclude profile/resumes, all components exported=false unless required | test: manual grep for secrets, manifest review | deps: M11.3
+- [x] M12.1 | Security audit: confirm no secrets in code/logs/BuildConfig, HTTPS only, backups exclude profile/resumes, all components exported=false unless required | test: manual grep for secrets, manifest review | deps: M11.3
 - [ ] M12.2 | Update README to describe Elixir, setup steps, privacy policy, how to use | test: README is accurate | deps: M12.1
 - [ ] M12.3 | DEVICE_TESTS.md: complete checklist for all NEEDS_USER_DEVICE items | test: user walks through checklist | deps: M12.2
 - [ ] M12.4 | Optional: rename package from com.cellclaw to com.elixir (only if user approves; requires all build/manifest/resource updates) | test: `.\gradlew.bat assembleDebug` exits 0 after rename | deps: M12.3

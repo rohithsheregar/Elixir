@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T62 — M12.1 Security audit: secrets scan, HTTPS enforcement, network security config, exported component check — Session 14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.security.SecurityAuditTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `SecurityAuditTest` passed (HTTPS enforcement, rejection of dangerous schemes/localhost/private IPs, backup exclusion `android:allowBackup="false"`, absence of dangerous permissions in active manifest, and networkSecurityConfig verification); `BUILD SUCCESSFUL in 48s`. Comprehensive repo scan confirmed zero committed secrets/keystores/tokens.
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and assembleDebug passed cleanly; `BUILD SUCCESSFUL in 31s` (50 actionable tasks).
+
 ### T61 — M11.3 milestone verification and tag cp-m11-1 — Session 14
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest; exit $LASTEXITCODE`
 **Exit code:** 0

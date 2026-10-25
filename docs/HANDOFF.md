@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Milestone M11 complete (`cp-m11-1`). Next step M12.1.
+Milestone M11 complete (`cp-m11-1`). M12.1 security audit complete. Next step M12.2.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -22,13 +22,13 @@ Milestone M11 complete (`cp-m11-1`). Next step M12.1.
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-245ca73 — [M11.2] implement SubmitSupervisor and ConfirmationDetector for single-tap supervised submission
+da8a93b — [M11.3] verify milestone M11 suite and tag cp-m11-1
 
 ## IN PROGRESS
-M11.3 — milestone M11 verification and cp-m11-1 tag
+M12.1 — committing security audit and network security config
 
 ## NEXT ACTION
-Execute M12.1 (Security audit: grep for secrets, HTTPS enforcement, private backups, exported component check).
+Execute M12.2: update README to describe Elixir, setup steps, privacy policy, and usage.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
