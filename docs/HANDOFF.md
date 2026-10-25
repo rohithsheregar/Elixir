@@ -22,13 +22,13 @@ Milestone M9 complete (`cp-m9-1`). Next step M10.1.
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-675676c — [M9.3] implement NeedsInputCollector for collecting unmatched and sensitive fields
+632c992 — [M9.4] verify milestone M9 suite and tag cp-m9-1
 
 ## IN PROGRESS
-M9.4 — milestone M9 verification and cp-m9-1 tag
+M10.1 — committing ResumeUploader and ResumeFileValidator
 
 ## NEXT ACTION
-Implement M10.1 (ResumeFileProvider and scoped file_paths.xml).
+Execute M10.2: post-upload verification in AccessibilitySession / Review flow (NEEDS_USER_DEVICE).
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

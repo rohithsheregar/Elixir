@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T56 — M10.1 ResumeUploader with pre-upload validator and error handling — Session 14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.upload.ResumeUploaderTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `ResumeUploaderTest` passed (10 tests: non-existent file, empty file, invalid magic bytes, SHA-256 hash mismatch, file too large, valid PDF matching tracker hash, content URI generation, outdated resume prevention, picker cancelled/denied handling, server rejected/too large/timeout handling); `BUILD SUCCESSFUL in 43s`.
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit test suite and assembleDebug passed cleanly; `BUILD SUCCESSFUL in 17s` (41 actionable tasks).
+
 ### T55 — M9.4 milestone verification and tag cp-m9-1 — Session 14
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest; exit $LASTEXITCODE`
 **Exit code:** 0
