@@ -22,13 +22,13 @@ Milestone M11 complete (`cp-m11-1`). M12.1 security audit complete. Next step M1
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-da8a93b — [M11.3] verify milestone M11 suite and tag cp-m11-1
+a1f5ff6 — [M12.1] enforce network security config, verify backup exclusion, HTTPS enforcement, and clean secrets scan
 
 ## IN PROGRESS
-M12.1 — committing security audit and network security config
+M12.2 — committing updated README
 
 ## NEXT ACTION
-Execute M12.2: update README to describe Elixir, setup steps, privacy policy, and usage.
+Execute M12.3: complete DEVICE_TESTS.md checklist for all NEEDS_USER_DEVICE items.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

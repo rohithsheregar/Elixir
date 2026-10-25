@@ -1,217 +1,94 @@
-<p align="center">
-  <img src="CellClaw_1.png" alt="CellClaw" width="300"/>
-</p>
-<p align="center">
-# CellClaw
-</p>
-**Autonomous AI assistant for Android.** CellClaw runs natively on your phone to do any task. No other hardware required.
+# Elixir
 
-Built by and inspired by members of the Harvard, MIT, and Sundai.Club communities
-Additional inspiration from ZeroClaw
+**Personal Android Placement-Application Assistant**
 
-## What Can It Do?
+Elixir is an on-device personal placement and job application assistant built on the CellClaw Android core. It automates repetitive placement tasks—evaluating job descriptions, generating truthfully tailored resume PDFs, filling multi-field Google Forms via accessibility services, and tracking application statuses—while enforcing an uncompromising zero-fabrication privacy and approval model.
 
-CellClaw has **33 tools** across 12 categories that give the AI deep access to your phone:
+> **Attribution:** Elixir is developed on the open-source [CellClaw](https://github.com/jordanthejet/cellclaw) repository. Built and inspired by members of the Harvard, MIT, and Sundai.Club communities, with inspiration from ZeroClaw. Retains the MIT License.
 
-| Category | Tools | Examples |
-|----------|-------|---------|
-| **Messaging** | SMS, WhatsApp, Telegram, Instagram | "Text mom I'll be late", "Reply to my last WhatsApp" |
-| **Phone** | Calls, call history | "Call the pizza place", "Who called me today?" |
-| **Screen Control** | Read screen, tap, swipe, type, scroll | "Swipe right on Tinder", "Open Settings and turn on Bluetooth" |
-| **Vision** | Screenshots, image analysis | "What's on my screen?", "Read this menu for me" |
-| **Contacts & Calendar** | Search, create events | "When's my next meeting?", "Add John to my contacts" |
-| **Camera** | Photos, video | "Take a photo", "Record a 10 second video" |
-| **Files** | Read, write, list | "Save this to a file", "What's in my Downloads?" |
-| **Location** | GPS coordinates | "Where am I right now?" |
-| **Browser** | Open URLs, web search | "Search for nearby restaurants" |
-| **Email** | Send email | "Email my boss the report" |
-| **Sensors** | Accelerometer, gyroscope, light, pressure | "What's the ambient light level?" |
-| **System** | Shell commands, notifications, scheduling | "Run `ping google.com`", "Remind me in 30 minutes" |
+---
 
-The AI decides which tools to use. You just describe what you want in plain language.
+## What Does Elixir Do?
 
-## Setup
+1. **Candidate Profile Ground Truth:**  
+   Maintains confirmed facts about your education, degree, branch, CGPA, graduation year, technical skills, projects, and portfolio links. Every bullet point and form field is strictly grounded in these facts. **Zero hallucinations or fabricated claims.**
+
+2. **Job Description & Eligibility Ingestion:**  
+   Parses pasted job descriptions, extracts eligibility criteria (minimum CGPA, graduation years, accepted degrees and branches), evaluates candidate profile facts, and generates an eligibility report (`ELIGIBLE`, `NOT_ELIGIBLE`, or `UNKNOWN`).
+
+3. **Tailored Resume PDF Generation:**  
+   Pure JVM, text-selectable A4 PDF generator that orders sections and bullets to highlight relevant skills for the target company/role while maintaining an on-screen **Evidence Integrity Map** linking each line back to a verified profile fact.
+
+4. **Supervised Google Form Automation:**  
+   Uses an Android Accessibility Service (`CellClawAccessibility`) to identify, classify, and fill form fields in Google Chrome (text, dropdowns, radios, checkboxes, dates). Sensitive or unmatched questions are routed to a "Needs your input" list rather than guessed.
+
+5. **Narrowly Scoped Resume Upload:**  
+   Exposes only the generated company-specific PDF via a scoped `FileProvider` (`content://com.cellclaw.fileprovider/resumes/...`). Pre-upload checks ensure the file exists, has valid `%PDF-` magic bytes, and matches the tracker record's SHA-256 hash.
+
+6. **One-Time Cryptographic Approval & Submission:**  
+   Submission requires an explicit user tap on the Review screen. This issues an ephemeral `ApprovalToken` cryptographically bound to the company, role, form domain, form state hash, and resume hash. The token is consumed on single tap and automatically revokes on navigation, field edit, timeout, or cancellation.
+
+7. **Application Tracker:**  
+   Maintains reactive application states: `DRAFT` &rarr; `READY_FOR_REVIEW` &rarr; `SUBMITTING` &rarr; `SUBMITTED_CONFIRMED` / `SUBMISSION_UNKNOWN` / `FAILED`. On submission, reads post-submit confirmation pages and records response reference IDs. Never performs unattended automatic re-submissions.
+
+---
+
+## Security & Privacy Policy
+
+- **Zero-Fabrication Contract:** No synthetic claims or inflated facts are ever placed on your resume or entered into job forms.
+- **The Final Tap Belongs to You:** The assistant never submits an application without explicit user review and approval.
+- **HTTPS Only & Cleartext Prohibited:** Cleartext HTTP traffic is explicitly disallowed via `network_security_config.xml`.
+- **Restricted Permissions:** Risky permissions (SMS, phone calls, camera, contacts, microphone, location) are removed from the active manifest. Only internet, accessibility service, and scoped file sharing are declared.
+- **Private Encrypted Storage:** API keys and profile facts are encrypted on-device via the Android Keystore (AES-256-GCM). `android:allowBackup="false"` prevents cloud backup extraction.
+- **No Telemetry:** Zero external tracking, analytics, or background telemetry.
+
+---
+
+## Setup & Getting Started
 
 ### Requirements
+- Android 8.0+ (API level 26+)
+- Google Chrome installed (default browser for supervised form filling)
+- (Optional) AI Provider API key for JD extraction (Anthropic, OpenAI, Google Gemini, or OpenRouter), encrypted on-device.
 
-- Android 8.0+ (API 26)
-- An API key from one of: [Anthropic](https://console.anthropic.com/), [OpenAI](https://platform.openai.com/), [Google AI Studio](https://aistudio.google.com/), or [OpenRouter](https://openrouter.ai/)
+### Building from Source
 
-### Install
-
-1. Download the latest APK from [Releases](https://github.com/jordanthejet/cellclaw/releases)
-2. Enable "Install from unknown sources" if prompted
-3. Open CellClaw
-
-### First Launch
-
-CellClaw walks you through a 4-step setup:
-
-1. **Choose your AI provider** — Pick Anthropic, OpenAI, Gemini, or OpenRouter and enter your API key. Keys are encrypted on-device using Android Keystore.
-
-2. **Set your name** (optional) — Helps personalize responses.
-
-3. **Choose an autonomy level** — Controls how much the AI can do without asking:
-   - **Full Auto** — Everything auto-approved. No interruptions.
-   - **Balanced** — Reads are automatic, sends/writes ask first. *(Recommended)*
-   - **Cautious** — Almost everything requires approval.
-
-4. **Grant permissions** — CellClaw needs three system permissions:
-   - **Display over other apps** — For the floating overlay bubble
-   - **Accessibility service** — For reading screens and controlling apps
-   - **Notification access** — For reading and acting on notifications
-
-   Each links directly to the Android settings page where you enable it.
-
-After setup, CellClaw starts a foreground service and you're ready to go.
-
-## How It Works
-
-CellClaw runs an **agent loop** — a cycle where the AI thinks, calls tools, observes results, and repeats until the task is done:
-
-```
-You: "Open Tinder and swipe right on people over 30"
-  ↓
-AI thinks → calls app.launch(tinder)
-  ↓
-AI thinks → calls screen.read() → sees the profile
-  ↓
-AI thinks → calls screen.capture() + vision.analyze() → reads the age
-  ↓
-AI thinks → calls app.automate(swipe_right) or app.automate(swipe_left)
-  ↓
-AI thinks → repeats...
+```powershell
+# In PowerShell on Windows:
+$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'
+.\gradlew.bat --no-daemon assembleDebug
 ```
 
-The AI decides the strategy. You don't write rules or scripts — it figures out what to do based on what it sees on screen.
+The debug APK is generated at `app/build/outputs/apk/debug/app-debug.apk`.
 
-### Screen Reading
+### Initial Device Configuration
 
-CellClaw reads your screen in two ways:
+1. **Install APK** onto your physical Android device or emulator (`adb install -r app-debug.apk`).
+2. **Profile Setup:** Open Elixir &rarr; Profile tab. Add your confirmed profile facts: Name, Email, College, Degree, Branch, CGPA, Year of Graduation, Skills, and Portfolio Links.
+3. **Accessibility Permission:** Navigate to Android Settings &rarr; Accessibility &rarr; Enable `CellClawAccessibility` (labeled **Elixir Accessibility Service**).
+4. **Test Harness:** Run through the end-to-end dummy form checklist in [`docs/DEVICE_TESTS.md`](docs/DEVICE_TESTS.md) using the packaged static mock form at `docs/dummy_google_form.html`.
 
-- **Accessibility tree** (`screen.read`) — Fast and free. Returns text, buttons, and UI elements as structured data. Works great for most apps.
-- **Screenshots** (`screen.capture` + `vision.analyze`) — Uses the AI's vision capability to understand images, game boards, charts, and canvas-rendered content that isn't in the accessibility tree.
+---
 
-The AI picks the right approach based on the task.
+## How to Apply
 
-### Heartbeat System
+1. **New Application:** Paste the company name, role, and job description text (or link).
+2. **Review Eligibility:** View the criterion-by-criterion breakdown card. Confirm eligibility status.
+3. **Inspect Tailored Resume:** Preview the generated PDF, verify the SHA-256 hash, and check the Evidence Integrity Map.
+4. **Supervised Form Fill:** Tap "Start Form Session". Elixir opens the link in Chrome, inspects DOM nodes, classifies questions, and populates answers from confirmed facts.
+5. **Final Review & Submit:** Review all filled inputs, affirm declarations, and tap "Approve & Submit". The one-time token authorizes a single submit tap and confirms your response reference code.
 
-For long-running tasks (playing a chess game, monitoring an app, waiting for a response), CellClaw uses a **heartbeat** — a periodic check-in that wakes the AI to look at the screen and act if needed.
+---
 
-- Starts at 5-second intervals, backs off to 60 seconds when nothing is happening
-- Resets to fast polling when the AI takes action
-- Keeps the wake lock alive so Android doesn't kill the process
-- Completely invisible — you won't see heartbeat activity in the chat
+## Testing & Verification
 
-### Approval System
+Elixir features a comprehensive pure JVM test suite alongside device testing specifications:
+- **Unit Suite:** `.\gradlew.bat testDebugUnitTest` (tests profile facts, JD parser, eligibility engine, PDF generator, tracker state machine, accessibility session, field classifier, field filler, resume uploader, and approval token supervisor).
+- **Device Tests:** Detailed in [`docs/DEVICE_TESTS.md`](docs/DEVICE_TESTS.md) covering accessibility node interactions, file picker integration, and confirmation parsing.
 
-When the AI wants to do something sensitive (send a message, make a call, execute a script), CellClaw can ask for your approval first. This depends on your autonomy level:
-
-| Action Type | Full Auto | Balanced | Cautious |
-|------------|-----------|----------|----------|
-| Read SMS, contacts, screen | Auto | Auto | Auto |
-| Launch apps | Auto | Auto | Ask |
-| Send SMS, make calls | Auto | Ask | Ask |
-| Run shell commands | Auto | Ask | Ask |
-
-Approvals show up in the chat and in the notification. You can tap **Approve**, **Deny**, or **Always Allow** (auto-approves that tool for the session).
-
-## Interaction Methods
-
-- **Chat screen** — Full conversation interface with tool execution status
-- **Floating overlay** — Tap the bubble for quick questions without leaving your current app
-- **Notification reply** — Reply directly from the persistent notification
-- **"Explain Screen" button** — One-tap screenshot + AI explanation from the notification
-- **Quick Settings tile** — Toggle CellClaw from the notification shade
-- **Wake word** — Hands-free activation (requires microphone permission)
-
-## Supported AI Models
-
-| Provider | Models |
-|----------|--------|
-| **Anthropic** | Claude Sonnet 4.6, Claude Opus 4.6, Claude Haiku 4.5 |
-| **OpenAI** | GPT-5.2, GPT-5.2 Chat Latest, GPT-5 Mini, GPT-4.1, GPT-4.1 Mini |
-| **Google** | Gemini 3.1 Pro, Gemini 3 Flash, Gemini 2.5 Flash/Pro |
-| **OpenRouter** | Any model available on OpenRouter (Gemini, Claude, GPT, etc.) |
-
-Switch providers and models anytime in Settings.
-
-## Build from Source
-
-```bash
-git clone https://github.com/jordanthejet/cellclaw.git
-cd cellclaw
-
-# Build debug APK
-./gradlew assembleDebug
-
-# Install on connected device
-./gradlew installDebug
-```
-
-**Requirements:**
-- Android Studio (Ladybug or newer) or Android SDK command-line tools
-- JDK 17
-- Android SDK 35
-
-Physical device recommended — the accessibility service doesn't fully work on emulators.
-
-## Project Structure
-
-```
-app/src/main/kotlin/com/cellclaw/
-├── agent/        # AgentLoop, HeartbeatManager, AutonomyPolicy
-├── approval/     # ApprovalQueue, BiometricGate
-├── config/       # AppConfig, Identity (system prompt), SecureKeyStore
-├── di/           # Hilt dependency injection modules
-├── memory/       # Room database, ConversationStore, SemanticMemory
-├── provider/     # Anthropic, OpenAI, Gemini, OpenRouter implementations
-├── scheduler/    # WorkManager scheduled tasks
-├── service/      # Foreground service, Accessibility, Overlay, Notification listener
-├── skills/       # Markdown-defined reusable workflows
-├── tools/        # All 33 tool implementations
-├── ui/           # Jetpack Compose screens and ViewModels
-├── voice/        # Text-to-speech
-└── wakeword/     # TensorFlow Lite wake word detection
-```
-
-## Adding a Tool
-
-1. Create `tools/YourTool.kt`:
-```kotlin
-class YourTool @Inject constructor() : Tool {
-    override val name = "category.action"
-    override val description = "What this tool does"
-    override val parameters = ToolParameters(listOf(
-        ToolParam("param_name", "string", "Description", required = true)
-    ))
-    override val requiresApproval = true
-
-    override suspend fun execute(params: JsonObject): ToolResult {
-        // Your implementation
-        return ToolResult.success(mapOf("result" to "value"))
-    }
-}
-```
-
-2. Register it in `di/AppModule.kt`
-3. Add to `AutonomyPolicy.kt` if it requires approval
-
-## Adding a Provider
-
-1. Create `provider/YourProvider.kt` implementing the `Provider` interface
-2. Handle request/response translation to the provider's API format
-3. Register in `ProviderManager`
-
-## Privacy & Security
-
-- **API keys are encrypted** on-device using Android Keystore (AES-256-GCM). Never stored in plaintext.
-- **You control what the AI can do** via the autonomy level. Sensitive actions can require explicit approval.
-- **Everything runs locally** — no CellClaw server. Your conversations go directly to your chosen AI provider.
-- **Biometric gate** available for sensitive operations (fingerprint/face unlock).
-- **No telemetry, no analytics, no tracking.**
+---
 
 ## License
 
-MIT
-
+This project is licensed under the [MIT License](LICENSE).
+Portions copyright (c) original CellClaw contributors.
