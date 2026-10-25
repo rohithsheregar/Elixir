@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T53 — M9.2 FieldFiller with confirmed facts, read-back verification, and exact match — Session 14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.form.FieldFillerTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `FieldFillerTest` passed (7 tests: name fill from confirmed fact with read-back verification, refusal of unconfirmed facts, read-back failure detection, dropdown exact match, dropdown no-match routing, free-text approval requirement gate, unknown/sensitive field routing); `BUILD SUCCESSFUL in 1m 26s`.
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and assembleDebug passed (50 tasks, 4 executed, 46 up-to-date); `BUILD SUCCESSFUL in 51s`.
+
 ### T52 — M9.1 FieldClassifier with pattern matching for accessibility form fields — Session 14
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.form.FieldClassifierTest; exit $LASTEXITCODE`
 **Exit code:** 0

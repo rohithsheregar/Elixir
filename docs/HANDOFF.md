@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Milestone M8 complete (`cp-m8-1`). M9.1 complete. M9.2 (FieldFiller) in progress.
+Milestone M8 complete (`cp-m8-1`). M9.1-M9.2 complete. M9.3 ("Needs your input" list) in progress.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -22,13 +22,13 @@ Milestone M8 complete (`cp-m8-1`). M9.1 complete. M9.2 (FieldFiller) in progress
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-2f3fe91 — [M8.4] verify milestone M8 suite and tag cp-m8-1
+06c4ced — [M9.1] implement FieldClassifier for form node classification
 
 ## IN PROGRESS
-M9.1 — committing FieldClassifier
+M9.2 — committing FieldFiller
 
 ## NEXT ACTION
-Commit M9.1, then implement M9.2 FieldFiller with confirmed fact mapping and read-back verification.
+Commit M9.2, then verify M9.3 "Needs your input" list handling and write FormSessionManager.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
