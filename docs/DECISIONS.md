@@ -198,6 +198,13 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Add `isNotEligible`, `userOverrideConfirmed`, and `canProceed` properties to `EligibilityReportUiState` in `EligibilityReportViewModel`. When an application's overall eligibility evaluates to `NOT_ELIGIBLE`, `EligibilityReportScreen` displays an "Eligibility Hard Stop" warning banner and disables the primary "Proceed to Tailored Resume" CTA. Progression is strictly gated until the user actively confirms an explicit override checkbox ("I understand the eligibility risks and explicitly confirm my override to proceed anyway").
 **Why:** Enforces PlacementOS §3.3 hard rules and resolves Audit 2 Section 2 finding where candidates who failed mandatory criteria could advance through resume tailoring and form submission without friction. Prevents accidental non-compliant applications from reaching campus recruiters while preserving user sovereignty through an intentional, affirmative override mechanism. Verified by `EligibilityGateTest`.
 
+---
+
+## D30 — Elixir Design System Tokens and Semantic Colors (U1)
+**Choice:** Implement custom semantic design tokens (`Color.kt`, `Typography.kt`, `Shape.kt`, `Spacing.kt`, and `Theme.kt`) with `ElixirColors` for light/dark themes and `Spacing` exposed via `LocalElixirColors` and `LocalSpacing`, while maintaining backward-compatible `CellClawTheme` forwarding to `ElixirTheme`.
+**Why:** Audit 2 Section 4 identified that the app lacked design tokens, used raw hex literals across composables, lacked custom typography, and degraded in dark mode. Providing dedicated semantic tokens for application status (eligible, not eligible, unknown), criteria states (pass, fail, warning), card borders, and spacing scales establishes a foundation for modern UX and dark mode compliance across all screens. Verified by `ThemeTest`.
+
+
 
 
 

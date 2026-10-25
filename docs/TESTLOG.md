@@ -651,6 +651,13 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** EligibilityGateTest (asserting that ELIGIBLE and UNKNOWN applications allow normal progression, NOT_ELIGIBLE applications strictly enforce a hard stop blocking progression, and affirmative user override unlocks progression on both structured reports and legacy string records), full unit suite, and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 27s`, 50 actionable tasks, 14 executed, 36 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R13` (NEEDS_USER_DEVICE).
 
+### T30 — ThemeTest, full unit suite & assembleDebug (U1) — Session 18
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `ThemeTest` (asserting distinct brand colors between light and dark palettes, semantic palette contrast across success/warning/error/info, dark mode adaptivity of ElixirColors, monotonic spacing scale hierarchy, shape tokens, and Material 3 typography scale) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 49s`, 50 actionable tasks, 5 executed, 45 up-to-date).
+
+
 
 
 

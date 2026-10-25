@@ -155,9 +155,20 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-U1 — Elixir Design System Tokens (Theme & Palette)
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device that Elixir theme applies cleanly in both light and system dark modes without visual regressions or unreadable contrast.
+**Steps:**
+1. Launch Elixir in system light mode: verify indigo brand primary, clean slate neutral backgrounds, and legible typography scale.
+2. Toggle Android system dark mode: verify deep slate background, luminous indigo accent, and legible on-surface typography.
+3. Navigate across screens: verify absence of glaring pure-white boxes or unreadable text.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)
 **Status:** NEEDS_USER_DEVICE
 **WAITING_ON_USER:** User must choose a safe test form and approve before agent touches any real company form.
 **Steps:** (Same as DT-M8.1 but with a real Google Form against a real profile)
+
