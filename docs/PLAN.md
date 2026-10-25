@@ -121,7 +121,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 
 ## M11 — Review, approval token, submit, confirmation detection
 
-- [ ] M11.1 | Approval token: one-time, created by direct user tap; bound to company+role+URL origin+form-state-hash+resume-hash; expires on navigation/field-change/timeout/cancel; model cannot create or edit it | test: ApprovalTokenTest | deps: M10.3
+- [x] M11.1 | Approval token: one-time, created by direct user tap; bound to company+role+URL origin+form-state-hash+resume-hash; expires on navigation/field-change/timeout/cancel; model cannot create or edit it | test: ApprovalTokenTest | deps: M10.3
 - [ ] M11.2 | Submit flow: after approval, tap confirmed Submit once; look for confirmation page/reference number; update tracker (SUBMITTED_CONFIRMED / SUBMISSION_UNKNOWN); no auto-resubmit | test: NEEDS_USER_DEVICE (dummy form only) | deps: M11.1
 - [ ] M11.3 | Build passes; tag `cp-m11-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M11.2
 

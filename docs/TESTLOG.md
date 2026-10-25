@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T59 — M11.1 ApprovalToken generation, binding, and lifecycle — Session 14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.approval.ApprovalTokenTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `ApprovalTokenTest` passed (8 tests: mandatory direct user tap check, company/role/URL origin/form state/resume hash cryptographic binding validation, single-use consumption, timeout expiration, revocation on navigation/field change/user cancel, and deterministic form state hash computation); `BUILD SUCCESSFUL in 43s`.
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and assembleDebug passed cleanly; `BUILD SUCCESSFUL in 25s` (50 actionable tasks).
+
 ### T58 — M10.3 milestone verification and tag cp-m10-1 — Session 14
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest; exit $LASTEXITCODE`
 **Exit code:** 0

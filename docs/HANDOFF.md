@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Milestone M10 complete (`cp-m10-1`). Next step M11.1.
+Milestone M10 complete (`cp-m10-1`). M11.1 complete. Next step M11.2.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -22,13 +22,13 @@ Milestone M10 complete (`cp-m10-1`). Next step M11.1.
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-52308c5 — [M10.2] implement PostUploadVerifier and document DT-M10.2 device test procedure
+25073cc — [M10.3] verify milestone M10 suite and tag cp-m10-1
 
 ## IN PROGRESS
-M10.3 — milestone M10 verification and cp-m10-1 tag
+M11.1 — committing ApprovalToken and ApprovalTokenManager
 
 ## NEXT ACTION
-Implement M11.1 (ApprovalToken generation, binding, and lifecycle).
+Execute M11.2: Submit flow with confirmation detection and tracker state update (NEEDS_USER_DEVICE).
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
