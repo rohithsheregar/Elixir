@@ -32,11 +32,31 @@ import com.cellclaw.ui.viewmodel.NewApplicationViewModel
 fun NewApplicationScreen(
     onBack: () -> Unit = {},
     onApplicationCreated: (appId: String) -> Unit = {},
+    initialJdText: String? = null,
+    initialStreamUri: Uri? = null,
     viewModel: NewApplicationViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
+
+    LaunchedEffect(initialJdText, initialStreamUri) {
+        if (!initialJdText.isNullOrBlank()) {
+            val text = initialJdText.trim()
+            if ((text.startsWith("http://") || text.startsWith("https://")) && !text.contains("\n") && !text.contains(" ")) {
+                viewModel.onSourceUrlChanged(text)
+            } else {
+                viewModel.onJdTextChanged(text)
+                viewModel.parseCurrentJd()
+            }
+        } else if (initialStreamUri != null) {
+            val mimeType = context.contentResolver.getType(initialStreamUri)
+            val fileName = queryFileName(context, initialStreamUri)
+            context.contentResolver.openInputStream(initialStreamUri)?.use { inputStream ->
+                viewModel.processDocumentStream(inputStream, mimeType, fileName)
+            }
+        }
+    }
 
     val documentPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument()

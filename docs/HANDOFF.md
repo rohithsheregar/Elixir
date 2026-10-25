@@ -28,20 +28,19 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (235 unit tests pass, ass
 ceac4aa — [R3] persist parsed JdRequirement in ApplicationPayload and load in ResumePreviewViewModel for tailored resume ranking
 
 ## IN PROGRESS
-R4 — Add ACTION_SEND intent-filter so text/documents shared from other apps open NewApplication prefilled
+R5 — Add SavedStateHandle to NewApplication and Review view models
 Plan:
-1. Add `ACTION_SEND` intent filters to `MainActivity` in `AndroidManifest.xml` for `text/plain`, `application/pdf`, and `text/*`.
-2. Update `MainActivity.kt` and `NewApplicationViewModel.kt` to extract shared text or stream URI from intent and navigate directly to `new_application` prefilled.
-3. Add `ShareIntentTest` verifying manifest intent filters and intent extraction.
+1. Inject `SavedStateHandle` into `NewApplicationViewModel` and preserve entered `jdText`, `sourceUrl`, `company`, `role` across process death.
+2. Inject `SavedStateHandle` into `ReviewViewModel` and preserve state across process recreation.
+3. Write `SavedStateHandleProcessDeathTest` asserting restoration of form states from SavedStateHandle.
 4. Verify with testDebugUnitTest and assembleDebug.
 Expected files:
-- `app/src/main/AndroidManifest.xml`
-- `app/src/main/kotlin/com/cellclaw/ui/MainActivity.kt`
 - `app/src/main/kotlin/com/cellclaw/ui/viewmodel/NewApplicationViewModel.kt`
-- `app/src/test/kotlin/com/cellclaw/ui/ShareIntentTest.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/viewmodel/ReviewViewModel.kt`
+- `app/src/test/kotlin/com/cellclaw/ui/SavedStateHandleProcessDeathTest.kt`
 
 ## NEXT ACTION
-R4: Implement ACTION_SEND intent-filter in AndroidManifest.xml and share handling, write ShareIntentTest, verify and commit.
+R5: Inject SavedStateHandle into NewApplicationViewModel and ReviewViewModel, write SavedStateHandleProcessDeathTest, verify and commit.
 
 ## Blockers
 None. Gradle must be invoked with scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on Windows.

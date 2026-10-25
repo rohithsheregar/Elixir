@@ -591,5 +591,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** ResumeTailoringWiringTest (verifying that parsed JD requirements are serialized in ApplicationPayload, persisted via ApplicationRecord.notes, deserialized in ResumePreviewViewModel, and prioritize required/preferred skills in generated resume preview over un-tailored alphabetical fallback) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 53s`, 50 actionable tasks, 5 executed, 45 up-to-date).
 
+### T20 — ShareIntentTest, full unit suite & assembleDebug (R4) — Session 17
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** ShareIntentTest (verifying manifest ACTION_SEND intent-filters for text/plain, application/pdf, docx, and text/*, prefilling of shared text/URLs, stream document reading into NewApplicationScreen, and LaunchedEffect routing from MainActivity) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 32s`, 50 actionable tasks, 14 executed, 36 up-to-date).
+
+
 
 

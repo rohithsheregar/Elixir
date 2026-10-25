@@ -138,6 +138,13 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Store `ApplicationPayload` (containing `EligibilityReport`, `PersistedJdRequirement`, and `rawJdText`) serialized in `ApplicationRecord.notes`. `ResumePreviewViewModel` deserializes `JdRequirement` to build the resume with tailored skill and project ranking.
 **Why:** Fixes Audit 2 Hop 3 finding where `ResumePreviewViewModel` was building resumes using an empty `JdRequirement()`, degrading resume skill ranking to un-tailored alphabetical ordering. Using the existing nullable `notes` column avoids a Room database schema migration while keeping the application payload fully structured. `EligibilityReportViewModel` and `ResumePreviewViewModel` support both `ApplicationPayload` and legacy raw JSON fallback.
 
+---
+
+## D20 — Wire ACTION_SEND share intent handling directly into NewApplicationScreen (R4)
+**Choice:** Add `ACTION_SEND` intent filters to `MainActivity` in `AndroidManifest.xml` for `text/plain`, `application/pdf`, docx, and `text/*`. In `MainActivity`, extract shared text or stream URI and navigate to `NewApplicationScreen` via `LaunchedEffect(isShareIntent)` while preserving `startDestination = NavigationRoutes.START_DESTINATION` (Tracker).
+**Why:** Fulfills PlacementOS §3.2 requirement ("Inputs, in order: pasted text, Android share-sheet text, user-picked PDF/DOCX/TXT through the system document picker"). Resolves Audit 2 Hop 1 gap where external apps had no share target into Elixir. Using `LaunchedEffect` preserves the backstack so popping back returns to TrackerScreen, while keeping `NavigationWiringTest` assertions intact.
+
+
 
 
 

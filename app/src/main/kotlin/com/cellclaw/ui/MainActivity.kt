@@ -1,6 +1,8 @@
 package com.cellclaw.ui
 
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.ComponentActivity
@@ -9,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -46,6 +49,16 @@ class MainActivity : ComponentActivity() {
         }
 
         val pendingMessage = intent?.getStringExtra("message")
+        val isShareIntent = intent?.action == Intent.ACTION_SEND
+        val sharedText = if (isShareIntent) intent?.getStringExtra(Intent.EXTRA_TEXT) else null
+        val sharedStreamUri = if (isShareIntent) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                intent?.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                intent?.getParcelableExtra(Intent.EXTRA_STREAM)
+            }
+        } else null
 
         setContent {
             CellClawTheme {
@@ -55,6 +68,12 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     val startDest = NavigationRoutes.START_DESTINATION
+
+                    LaunchedEffect(isShareIntent) {
+                        if (isShareIntent) {
+                            navController.navigate(NavigationRoutes.NEW_APPLICATION)
+                        }
+                    }
 
                     NavHost(navController = navController, startDestination = startDest) {
                         composable(NavigationRoutes.SETUP) {
@@ -101,7 +120,9 @@ class MainActivity : ComponentActivity() {
                         composable(NavigationRoutes.NEW_APPLICATION) {
                             NewApplicationScreen(
                                 onBack = { navController.popBackStack() },
-                                onApplicationCreated = { appId -> navController.navigate(NavigationRoutes.eligibilityReportRoute(appId)) }
+                                onApplicationCreated = { appId -> navController.navigate(NavigationRoutes.eligibilityReportRoute(appId)) },
+                                initialJdText = sharedText,
+                                initialStreamUri = sharedStreamUri
                             )
                         }
                         composable(NavigationRoutes.ELIGIBILITY_REPORT) { backStackEntry ->
