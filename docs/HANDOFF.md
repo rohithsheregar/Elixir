@@ -25,21 +25,24 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (235 unit tests pass, ass
 | 17 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | e554d2e |
 
 ## Last Green Commit
-85d8d1c — [R8] implement AutomationOrchestrator pipeline and verify with synthetic dummy form test
+Pending commit — [R9] add AccessibilityChecker and accessibility service enablement prompt in ReviewScreen
 
 ## IN PROGRESS
-R9 — Enable-Accessibility check and prompt inside the Elixir flow
+R10 — RunScreen with live status, foreground notification with Pause and Stop, and CAPTCHA/OTP/login handoff
 Plan:
-1. Provide AccessibilityChecker utility verifying whether CellClawAccessibility is active.
-2. In AutomationOrchestrator / UI flow, verify accessibility service status before launching browser; if disabled, trigger intent / user prompt directing to Accessibility Settings.
-3. Write AccessibilityEnablePromptTest asserting check logic and settings intent creation.
-4. Verify with testDebugUnitTest and assembleDebug.
+1. Define RunUiState and RunViewModel observing AutomationOrchestrator.step StateFlow, supporting user Pause/Resume and Cancel actions.
+2. Build RunScreen in Jetpack Compose showing animated live step indicator, target company/role, clear progress description, Pause/Resume button, and CAPTCHA/OTP manual intervention handoff banner.
+3. Wire Foreground service notification actions (Pause, Stop) to AutomationOrchestrator and RunViewModel.
+4. Add RunScreen route in NavigationRoutes and MainActivity NavHost.
+5. Write RunScreenTest asserting step transitions, pause/resume interaction, and state changes.
+6. Verify with testDebugUnitTest and assembleDebug.
 Expected files:
-- `app/src/main/kotlin/com/cellclaw/accessibility/AccessibilityChecker.kt`
-- `app/src/test/kotlin/com/cellclaw/accessibility/AccessibilityEnablePromptTest.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/screens/RunScreen.kt`
+- `app/src/main/kotlin/com/cellclaw/ui/viewmodel/RunViewModel.kt`
+- `app/src/test/kotlin/com/cellclaw/ui/RunScreenTest.kt`
 
 ## NEXT ACTION
-R9: Implement AccessibilityChecker and AccessibilityEnablePromptTest, integrate prompt in automation flow, verify and commit.
+R10: Implement RunViewModel and RunScreen with live status, pause/resume controls and handoff banner, test and verify.
 
 ## Blockers
 None. Gradle must be invoked with scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on Windows.

@@ -3,6 +3,7 @@ package com.cellclaw.ui.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cellclaw.accessibility.AccessibilityChecker
 import com.cellclaw.approval.ApprovalToken
 import com.cellclaw.approval.ApprovalTokenManager
 import com.cellclaw.approval.TokenIssuanceResult
@@ -44,7 +45,8 @@ data class ReviewUiState(
     val currentState: ApplicationState = ApplicationState.DRAFT,
     val errorMessage: String? = null,
     val actionSuccessMessage: String? = null,
-    val approvalToken: ApprovalToken? = null
+    val approvalToken: ApprovalToken? = null,
+    val showAccessibilityPrompt: Boolean = false
 )
 
 @HiltViewModel
@@ -52,6 +54,7 @@ class ReviewViewModel @Inject constructor(
     private val applicationTracker: ApplicationTracker,
     private val profileRepository: ProfileRepository,
     private val tokenManager: ApprovalTokenManager = ApprovalTokenManager(),
+    private val accessibilityChecker: AccessibilityChecker? = null,
     private val savedStateHandle: SavedStateHandle = SavedStateHandle()
 ) : ViewModel() {
 
@@ -199,6 +202,13 @@ class ReviewViewModel @Inject constructor(
         onApproved: (ApprovalToken) -> Unit = {}
     ) {
         val app = _uiState.value.application ?: return
+
+        // Verify that Elixir Accessibility Service is enabled before launching automation
+        if (accessibilityChecker != null && !accessibilityChecker.isEnabled()) {
+            _uiState.value = _uiState.value.copy(showAccessibilityPrompt = true)
+            return
+        }
+
         viewModelScope.launch {
             try {
                 val urlOrigin = app.sourceUrl?.let { url ->
@@ -298,6 +308,25 @@ class ReviewViewModel @Inject constructor(
                     errorMessage = "Failed to confirm: ${e.message}"
                 )
             }
+        }
+    }
+
+    fun dismissAccessibilityPrompt() {
+        _uiState.value = _uiState.value.copy(showAccessibilityPrompt = false)
+    }
+
+    fun openAccessibilitySettings(context: android.content.Context) {
+        _uiState.value = _uiState.value.copy(showAccessibilityPrompt = false)
+        try {
+            val intent = accessibilityChecker?.createSettingsIntent(context)
+                ?: android.content.Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS).apply {
+                    addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            _uiState.value = _uiState.value.copy(
+                errorMessage = "Could not open Accessibility settings: ${e.message}"
+            )
         }
     }
 }

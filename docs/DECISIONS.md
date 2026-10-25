@@ -168,6 +168,13 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Implement `AutomationOrchestrator` orchestrating `BrowserOpener` -> `AccessibilitySession` -> `FieldClassifier` / `FieldFiller` -> `NeedsInputCollector` -> `ResumeUploader` -> `PostUploadVerifier` -> explicit stop before submit (`AwaitingUserFinalSubmitApproval`) -> `SubmitSupervisor`. Open `BrowserOpener` for extension so JVM tests can run without unmocked `android.net.Uri.parse`. In `FieldFiller`, route `FillResult.NeedsUserApproval` (free-text questions) into `NeedsInputCollector` and support `YES_NO`, `SKILLS`, and `CHECKBOX` categories from confirmed profile answers. Skip submit button during form field filling to strictly preserve final submission for `executeFinalSubmit`.
 **Why:** Bridges the central automation gap identified in Audit 2 Hop 3-8 where individual components operated in isolation without an end-to-end execution coordinator. Enforces the non-negotiable PlacementOS rule: automation must pause before Submit for direct user confirmation, consuming the single-use `ApprovalToken` only when the user approves final submission. Tested and verified on the synthetic accessibility tree for `docs/dummy_google_form.html` in `OrchestratorFlowTest`.
 
+---
+
+## D25 — Enable-Accessibility service check and prompt in Review flow (R9)
+**Choice:** Implement `AccessibilityChecker` (implementing `AccessibilityInspector`) to check whether the `CellClawAccessibility` service is enabled via `Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES` and produce settings navigation intents (`ACTION_ACCESSIBILITY_DETAIL_SETTINGS` on API 36+ or `ACTION_ACCESSIBILITY_SETTINGS`). Inject `AccessibilityChecker` into `ReviewViewModel`. When the user initiates review approval/submission, if accessibility is disabled, block token generation, preserve the current state, and raise `showAccessibilityPrompt = true`, displaying an `AlertDialog` in `ReviewScreen` that guides the user to Android Accessibility Settings.
+**Why:** Directly resolves Audit 2 Section 4 finding ("zero checks or enablement prompts exist in any Elixir placement screen"). Without this check, a user attempting supervised automation with the service disabled would experience silent browser launch and failed accessibility node parsing. Enforces clear user feedback and explicit opt-in. Verified by `AccessibilityEnablePromptTest`.
+
+
 
 
 

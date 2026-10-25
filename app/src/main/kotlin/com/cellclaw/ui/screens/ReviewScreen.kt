@@ -428,6 +428,31 @@ fun ReviewScreen(
             }
         )
     }
+
+    if (uiState.showAccessibilityPrompt) {
+        val context = androidx.compose.ui.platform.LocalContext.current
+        AlertDialog(
+            onDismissRequest = { viewModel.dismissAccessibilityPrompt() },
+            title = { Text("Enable Elixir Accessibility Service") },
+            text = {
+                Text(
+                    "Supervised form automation requires the Elixir accessibility service to inspect form fields and fill verified details. Final submission will still require your explicit approval."
+                )
+            },
+            confirmButton = {
+                Button(onClick = {
+                    viewModel.openAccessibilitySettings(context)
+                }) {
+                    Text("Open Settings")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { viewModel.dismissAccessibilityPrompt() }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
 }
 
 @Composable

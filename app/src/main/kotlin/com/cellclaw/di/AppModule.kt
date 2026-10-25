@@ -138,6 +138,11 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideAccessibilityChecker(@ApplicationContext context: Context): com.cellclaw.accessibility.AccessibilityChecker =
+        com.cellclaw.accessibility.AccessibilityChecker(context)
+
+    @Provides
+    @Singleton
     fun provideAnthropicProvider(): AnthropicProvider = AnthropicProvider()
 
     @Provides

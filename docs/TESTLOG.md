@@ -621,6 +621,13 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** OrchestratorFlowTest (verifying complete supervised automation pipeline: BrowserOpener -> AccessibilitySession -> FieldClassifier/FieldFiller -> NeedsInputCollector -> ResumeUploader -> PostUploadVerifier -> mandatory pause before Submit in AwaitingUserFinalSubmitApproval -> single-use ApprovalToken consumed via SubmitSupervisor with confirmed receipt, handling dangerous URLs and halting on unmatched free-text questions) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 3s`, 50 actionable tasks, 5 executed, 45 up-to-date).
 
+### T25 — AccessibilityEnablePromptTest, full unit suite & assembleDebug (R9) — Session 17
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** AccessibilityEnablePromptTest (verifying that ReviewViewModel checks AccessibilityChecker status prior to issuing approval tokens, halts automation and presents an enablement prompt AlertDialog with intent to Android Accessibility Settings when disabled, and seamlessly proceeds with token issuance and READY_FOR_REVIEW state transition when enabled) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 24s`, 50 actionable tasks, 4 executed, 46 up-to-date).
+
+
 
 
 
