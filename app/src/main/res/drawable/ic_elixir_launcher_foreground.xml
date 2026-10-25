@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Subtle faceted hexagonal shield backdrop (within 72dp safe zone) -->
+    <path
+        android:fillColor="#312E81"
+        android:fillAlpha="0.35"
+        android:pathData="M 54,22 L 78,36 L 78,66 L 54,82 L 30,66 L 30,36 Z" />
+
+    <!-- Outer shield border with Indigo glow -->
+    <path
+        android:strokeColor="#818CF8"
+        android:strokeWidth="1.5"
+        android:strokeAlpha="0.8"
+        android:pathData="M 54,22 L 78,36 L 78,66 L 54,82 L 30,66 L 30,36 Z" />
+
+    <!-- Stylized "E" Monogram with Career Ascension Arrow -->
+    <!-- Spine of the E -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M 40,35 L 47,35 L 47,73 L 40,73 Z" />
+
+    <!-- Top Arm of the E (extending into an ascending upward arrow tip) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M 47,35 L 68,35 L 68,41 L 47,41 Z" />
+
+    <!-- Mid Arm of the E -->
+    <path
+        android:fillColor="#C7D2FE"
+        android:pathData="M 47,51 L 63,51 L 63,57 L 47,57 Z" />
+
+    <!-- Bottom Arm of the E -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M 47,67 L 68,67 L 68,73 L 47,73 Z" />
+
+    <!-- Dynamic Career Ascension Arrow / Sparkle at upper right -->
+    <path
+        android:fillColor="#34D399"
+        android:pathData="M 69,32 L 73,28 L 73,34 L 79,34 L 75,38 L 79,42 L 73,42 L 73,48 L 69,44 Z" />
+
+    <!-- Center Accent Gem/Point -->
+    <path
+        android:fillColor="#FBBF24"
+        android:pathData="M 54,49 L 57,54 L 54,59 L 51,54 Z" />
+
+</vector>

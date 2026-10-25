@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.CellClaw" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Elixir" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.CellClaw" parent="Theme.Elixir" />
+
+    <style name="Theme.Elixir.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/elixir_splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_elixir_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.Elixir</item>
+    </style>
 </resources>
+

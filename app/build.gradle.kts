@@ -153,8 +153,9 @@ dependencies {
     // TensorFlow Lite
     implementation(libs.tensorflow.lite)
 
-    // AndroidX Core
+    // AndroidX Core & Splash Screen
     implementation(libs.core.ktx)
+    implementation(libs.core.splashscreen)
 
     // Testing
     testImplementation("junit:junit:4.13.2")

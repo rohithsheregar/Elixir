@@ -210,6 +210,13 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Audit and replace every hardcoded `Color(0xFF...)` literal in all placement screens (`TrackerScreen`, `EligibilityReportScreen`, `ResumePreviewScreen`, `ProfileScreen`, `ReviewScreen`, `RunScreen`, and `ResultScreen`) with semantic tokens from `MaterialTheme.elixirColors` and `MaterialTheme.colorScheme`.
 **Why:** Addresses Audit 2 Section 4 finding where screens used raw pastel hex literals that rendered glaring white-on-black or unreadable low-contrast boxes when Android system dark mode was activated. All status badges, eligibility banners, warnings, and diff cards now adapt between light and dark modes with compliant WCAG contrast ratios. Verified by `DarkThemeContrastTest`.
 
+---
+
+## D32 — Brand Identity: Bespoke Vector Icon, Core SplashScreen & Brand Rebranding (U9)
+**Choice:** Adopt `androidx.core:core-splashscreen:1.0.1` with a dedicated starting theme (`Theme.Elixir.Starting` inheriting from `Theme.SplashScreen` and delegating to `Theme.Elixir`), initialize splash transitions via `installSplashScreen()` in `MainActivity.onCreate()` before `super.onCreate()`, author a bespoke 108dp adaptive vector launcher foreground icon (`ic_elixir_launcher_foreground.xml` featuring a faceted hexagonal shield, stylized 'E' monogram, and ascending career trajectory starburst), and rebrand remaining user-facing system notifications and QuickSettings tile labels from legacy "CellClaw" to "Elixir".
+**Why:** Audit 2 Section 4 reported that the application presented generic placeholder icons and lacked cold-start branding, while legacy strings still surfaced in system QuickSettings and notifications. Using the Android 12+ backwards-compatible SplashScreen API eliminates cold-start blank screens and establishes an intentional, polished brand experience from first launch. Verified by `SplashThemeTest` and full build/test suites.
+
+
 
 
 

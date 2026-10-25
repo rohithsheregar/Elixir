@@ -43,7 +43,7 @@ class CellClawService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
             ACTION_START -> {
-                startForeground(NOTIFICATION_ID, buildNotification("CellClaw is running", AgentState.IDLE, false, HeartbeatState.STOPPED, null))
+                startForeground(NOTIFICATION_ID, buildNotification("Elixir is running", AgentState.IDLE, false, HeartbeatState.STOPPED, null))
                 agentLoop.loadHistory()
                 observeState()
                 heartbeatManager.start(wakeLock)
@@ -159,7 +159,7 @@ class CellClawService : Service() {
             PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         val remoteInput = RemoteInput.Builder(NotificationActionReceiver.KEY_REPLY)
-            .setLabel("Ask CellClaw...")
+            .setLabel("Ask Elixir...")
             .build()
         val replyAction = NotificationCompat.Action.Builder(0, "Reply", replyIntent)
             .addRemoteInput(remoteInput)

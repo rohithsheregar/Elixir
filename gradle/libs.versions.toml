@@ -20,6 +20,7 @@ hilt-work = "1.2.0"
 camera = "1.4.1"
 location = "21.3.0"
 tensorflow-lite = "2.14.0"
+core-splashscreen = "1.0.1"
 
 [libraries]
 # Kotlin
@@ -82,6 +83,7 @@ tensorflow-lite = { group = "org.tensorflow", name = "tensorflow-lite", version.
 
 # AndroidX Core
 core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.15.0" }
+core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "core-splashscreen" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

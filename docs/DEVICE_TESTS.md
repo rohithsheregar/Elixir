@@ -177,6 +177,17 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-U9 — Bespoke Launcher Icon, Splash Screen & Rebranding
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device that Elixir launcher icon renders sharply, cold-start displays the branded splash screen smoothly, and QuickSettings/notifications show "Elixir".
+**Steps:**
+1. Inspect the Android home screen / app drawer: verify the app displays the new indigo hexagonal shield icon with the "E" monogram and ascending career starburst.
+2. Cold-launch the app (force stop via App Info first): verify the Android 12+ splash screen appears with the dark slate background and centered Elixir vector icon, smoothly transitioning into TrackerScreen.
+3. Pull down the Android QuickSettings shade: verify the QS tile displays "Elixir" when active and inactive (not "CellClaw").
+4. Inspect the ongoing foreground service notification: verify the header reads "Elixir", the content reads "Elixir is running", and the reply action label reads "Ask Elixir...".
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)

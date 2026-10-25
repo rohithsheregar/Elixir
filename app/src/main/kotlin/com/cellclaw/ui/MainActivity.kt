@@ -22,6 +22,7 @@ import com.cellclaw.service.CellClawService
 import com.cellclaw.service.overlay.OverlayService
 import com.cellclaw.ui.screens.*
 import com.cellclaw.ui.theme.CellClawTheme
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -32,6 +33,7 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var providerManager: ProviderManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
