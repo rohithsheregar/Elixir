@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T49 — M8.2 AccessibilitySession state machine and bounded polling — Session 14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.accessibility.AccessibilitySessionTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `AccessibilitySessionTest` passed (8 tests: initial IDLE state, explicit user start, permitted packages scope for Chrome + document pickers + Elixir, stop on app switch to unpermitted package, stop on screen lock, stop on user cancel, pause/resume for CAPTCHA/Google sign-in, session max duration timeout, bounded polling with attempt limit); `BUILD SUCCESSFUL in 1m 22s`.
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and assembleDebug passed (50 tasks, 5 executed, 45 up-to-date); `BUILD SUCCESSFUL in 50s`.
+
 ### T48 — M8.1 BrowserOpener with URL validation and Chrome intent — Session 14
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.browser.BrowserOpenerTest; exit $LASTEXITCODE`
 **Exit code:** 0

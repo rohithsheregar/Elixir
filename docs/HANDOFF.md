@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Milestone M7 complete (`cp-m7-1`). M8.1 complete. M8.2 (AccessibilitySession) in progress.
+Milestone M7 complete (`cp-m7-1`). M8.1-M8.2 complete. M8.3 (Dummy Google Form test harness) in progress.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -22,13 +22,13 @@ Milestone M7 complete (`cp-m7-1`). M8.1 complete. M8.2 (AccessibilitySession) in
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-daaf560 — [M7.8] verify milestone M7 suite and tag cp-m7-1
+e6f11b7 — [M8.1] implement BrowserOpener with URL validation and Chrome intent launcher
 
 ## IN PROGRESS
-M8.1 — committing BrowserOpener
+M8.2 — committing AccessibilitySession
 
 ## NEXT ACTION
-Commit M8.1, then implement M8.2 AccessibilitySession state machine with package scoping and bounded polling.
+Commit M8.2, then create static HTML mock Google Form and write verification steps in docs/DEVICE_TESTS.md for M8.3.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
