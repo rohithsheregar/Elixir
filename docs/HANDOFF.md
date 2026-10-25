@@ -25,7 +25,7 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (235 unit tests pass, ass
 | 17 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | e554d2e |
 
 ## Last Green Commit
-63b7301 — [R2] fix lintDebug failures, remove WakeWordService from build, enforce RECEIVER_NOT_EXPORTED, scope browser queries
+ceac4aa — [R3] persist parsed JdRequirement in ApplicationPayload and load in ResumePreviewViewModel for tailored resume ranking
 
 ## IN PROGRESS
 R4 — Add ACTION_SEND intent-filter so text/documents shared from other apps open NewApplication prefilled
