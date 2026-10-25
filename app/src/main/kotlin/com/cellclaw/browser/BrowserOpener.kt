@@ -85,7 +85,7 @@ class UrlValidator {
 }
 
 @Singleton
-class BrowserOpener @Inject constructor(
+open class BrowserOpener @Inject constructor(
     @ApplicationContext private val context: Context,
     private val validator: UrlValidator = UrlValidator()
 ) {
@@ -94,13 +94,13 @@ class BrowserOpener @Inject constructor(
         const val ACTION_VIEW = "android.intent.action.VIEW"
     }
 
-    fun validateUrl(url: String): UrlValidationResult = validator.validate(url)
+    open fun validateUrl(url: String): UrlValidationResult = validator.validate(url)
 
     /**
      * Opens [url] in the user's real browser (preferring Chrome) via Android intent.
      * Hard rule (S3): never load in an embedded WebView.
      */
-    fun open(url: String, preferChrome: Boolean = true): BrowserOpenResult {
+    open fun open(url: String, preferChrome: Boolean = true): BrowserOpenResult {
         val validation = validator.validate(url)
         val (targetUrl, warning) = when (validation) {
             is UrlValidationResult.Rejected -> return BrowserOpenResult.Rejected(validation.reason)

@@ -162,6 +162,13 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Inject `ApprovalTokenManager` into `ReviewViewModel` and issue an `ApprovalToken` upon `approveSubmission(userDirectTapConfirmed = true)`. Cryptographically bind the token to `app.company`, `app.role`, `urlOrigin`, deterministic `formStateHash` (computed from filled review fields), and `resumeHash`. Transition state in `ApplicationTracker` only from `DRAFT` to `READY_FOR_REVIEW`, explicitly prohibiting a premature transition to `SUBMITTING`.
 **Why:** Directly addresses Audit 2 Hop 7 & 8 gap where `ReviewViewModel` bypassed token issuance and transitioned to `SUBMITTING` immediately on review approval rather than when foreground automation actually begins. Enforces PlacementOS hard rule §7 ("Submit approval token is one-time use, expiring, and bound to the exact form state"). Verified by `ReviewApprovalWiringTest`.
 
+---
+
+## D24 — AutomationOrchestrator pipeline and synthetic dummy form verification (R8)
+**Choice:** Implement `AutomationOrchestrator` orchestrating `BrowserOpener` -> `AccessibilitySession` -> `FieldClassifier` / `FieldFiller` -> `NeedsInputCollector` -> `ResumeUploader` -> `PostUploadVerifier` -> explicit stop before submit (`AwaitingUserFinalSubmitApproval`) -> `SubmitSupervisor`. Open `BrowserOpener` for extension so JVM tests can run without unmocked `android.net.Uri.parse`. In `FieldFiller`, route `FillResult.NeedsUserApproval` (free-text questions) into `NeedsInputCollector` and support `YES_NO`, `SKILLS`, and `CHECKBOX` categories from confirmed profile answers. Skip submit button during form field filling to strictly preserve final submission for `executeFinalSubmit`.
+**Why:** Bridges the central automation gap identified in Audit 2 Hop 3-8 where individual components operated in isolation without an end-to-end execution coordinator. Enforces the non-negotiable PlacementOS rule: automation must pause before Submit for direct user confirmation, consuming the single-use `ApprovalToken` only when the user approves final submission. Tested and verified on the synthetic accessibility tree for `docs/dummy_google_form.html` in `OrchestratorFlowTest`.
+
+
 
 
 

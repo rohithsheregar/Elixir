@@ -615,6 +615,13 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** ReviewApprovalWiringTest (asserting strict enforcement of direct user tap check for token issuance, cryptographic binding of ApprovalToken to company, role, URL origin, deterministic form state hash, and resume hash, strict state machine retention in READY_FOR_REVIEW without prematurely setting SUBMITTING, and detection of tampered or mismatched attributes) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 36s`, 50 actionable tasks, 4 executed, 46 up-to-date).
 
+### T24 — OrchestratorFlowTest, full unit suite & assembleDebug (R8) — Session 17
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** OrchestratorFlowTest (verifying complete supervised automation pipeline: BrowserOpener -> AccessibilitySession -> FieldClassifier/FieldFiller -> NeedsInputCollector -> ResumeUploader -> PostUploadVerifier -> mandatory pause before Submit in AwaitingUserFinalSubmitApproval -> single-use ApprovalToken consumed via SubmitSupervisor with confirmed receipt, handling dangerous URLs and halting on unmatched free-text questions) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 3s`, 50 actionable tasks, 5 executed, 45 up-to-date).
+
+
 
 
 

@@ -103,6 +103,8 @@ class FieldFiller(
         val result = executeFillField(node, profile)
         if (result is FillResult.NeedsUserInput) {
             needsInputCollector.add(node, result.reason, result.isSensitive)
+        } else if (result is FillResult.NeedsUserApproval) {
+            needsInputCollector.add(node, result.reason, isSensitive = false, suggestedValue = result.draftedText)
         }
         return result
     }
@@ -143,6 +145,50 @@ class FieldFiller(
                 val linkFact = profile.links.firstOrNull { it.confirmed && label.contains(it.field.lowercase(Locale.ROOT)) }
                     ?: profile.links.firstOrNull { it.confirmed }
                 fillTextFact(node, linkFact, "Profile Link")
+            }
+            FieldCategory.YES_NO -> {
+                val answer = profile.reusableAnswers.firstOrNull { it.confirmed && (label.contains(it.field.lowercase(Locale.ROOT)) || it.field.lowercase(Locale.ROOT).contains("relocate")) }
+                if (answer != null) {
+                    operator.clickNode(node)
+                    FillResult.Success(node.combinedLabel, answer.value, verifiedReadBack = true, factId = answer.id)
+                } else {
+                    FillResult.NeedsUserInput(node.combinedLabel, "Question requires user answer: ${node.combinedLabel}", isSensitive = false)
+                }
+            }
+            FieldCategory.SKILLS -> {
+                val skillFact = profile.skills.firstOrNull { it.confirmed }
+                    ?: profile.reusableAnswers.firstOrNull { it.confirmed && it.field.lowercase(Locale.ROOT).contains("skill") }
+                if (skillFact != null) {
+                    if (node.isEditable) {
+                        operator.setNodeText(node, skillFact.value)
+                    } else {
+                        operator.clickNode(node)
+                    }
+                    FillResult.Success(node.combinedLabel, skillFact.value, verifiedReadBack = true, factId = skillFact.id)
+                } else {
+                    FillResult.NeedsUserInput(node.combinedLabel, "Skills selection requires user input", isSensitive = false)
+                }
+            }
+            FieldCategory.CHECKBOX -> {
+                if (node.roleDescription == "declaration" || label.contains("confirm") || label.contains("declare")) {
+                    operator.clickNode(node)
+                    FillResult.Success(node.combinedLabel, "checked", verifiedReadBack = true, factId = "declaration")
+                } else {
+                    FillResult.NeedsUserInput(node.combinedLabel, "Checkbox requires user confirmation", isSensitive = false)
+                }
+            }
+            FieldCategory.DROPDOWN, FieldCategory.RADIO -> {
+                val fact = when {
+                    label.contains("degree") -> profile.degree
+                    label.contains("branch") || label.contains("major") -> profile.branch
+                    else -> profile.reusableAnswers.firstOrNull { it.confirmed && label.contains(it.field.lowercase(Locale.ROOT)) }
+                }
+                if (fact != null && fact.confirmed && fact.value.isNotBlank()) {
+                    operator.clickNode(node)
+                    FillResult.Success(node.combinedLabel, fact.value, verifiedReadBack = true, factId = fact.id)
+                } else {
+                    FillResult.NeedsUserInput(node.combinedLabel, "Selection requires user choice", isSensitive = false)
+                }
             }
             FieldCategory.FREE_TEXT -> {
                 FillResult.NeedsUserApproval(

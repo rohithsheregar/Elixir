@@ -25,22 +25,21 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (235 unit tests pass, ass
 | 17 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | e554d2e |
 
 ## Last Green Commit
-0dd8a7c — [R4] add ACTION_SEND intent-filters, handle shared text/documents in MainActivity and NewApplicationScreen
+Pending commit — [R8] AutomationOrchestrator pipeline and synthetic dummy form verification
 
 ## IN PROGRESS
-R5 — Add SavedStateHandle to NewApplication and Review view models
+R9 — Enable-Accessibility check and prompt inside the Elixir flow
 Plan:
-1. Inject `SavedStateHandle` into `NewApplicationViewModel` and preserve entered `jdText`, `sourceUrl`, `company`, `role` across process death.
-2. Inject `SavedStateHandle` into `ReviewViewModel` and preserve state across process recreation.
-3. Write `SavedStateHandleProcessDeathTest` asserting restoration of form states from SavedStateHandle.
+1. Provide AccessibilityChecker utility verifying whether CellClawAccessibility is active.
+2. In AutomationOrchestrator / UI flow, verify accessibility service status before launching browser; if disabled, trigger intent / user prompt directing to Accessibility Settings.
+3. Write AccessibilityEnablePromptTest asserting check logic and settings intent creation.
 4. Verify with testDebugUnitTest and assembleDebug.
 Expected files:
-- `app/src/main/kotlin/com/cellclaw/ui/viewmodel/NewApplicationViewModel.kt`
-- `app/src/main/kotlin/com/cellclaw/ui/viewmodel/ReviewViewModel.kt`
-- `app/src/test/kotlin/com/cellclaw/ui/SavedStateHandleProcessDeathTest.kt`
+- `app/src/main/kotlin/com/cellclaw/accessibility/AccessibilityChecker.kt`
+- `app/src/test/kotlin/com/cellclaw/accessibility/AccessibilityEnablePromptTest.kt`
 
 ## NEXT ACTION
-R5: Inject SavedStateHandle into NewApplicationViewModel and ReviewViewModel, write SavedStateHandleProcessDeathTest, verify and commit.
+R9: Implement AccessibilityChecker and AccessibilityEnablePromptTest, integrate prompt in automation flow, verify and commit.
 
 ## Blockers
 None. Gradle must be invoked with scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on Windows.
