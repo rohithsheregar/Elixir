@@ -603,6 +603,13 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** SavedStateHandleProcessDeathTest (asserting restoration of entered JD text, source URL, company, and role in NewApplicationViewModel across process death, preservation of parsed document stream inputs, auto-loading of application state in ReviewViewModel from SavedStateHandle arguments, and retention of review approval transitions and success message state across ViewModel recreation) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 34s`, 50 actionable tasks, 4 executed, 46 up-to-date).
 
+### T22 — DiBindingsTest, full unit suite & assembleDebug (R6) — Session 17
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** DiBindingsTest (verifying Hilt AppModule DI provider bindings for ResumeBuilder, PdfGenerator, FieldClassifier, NeedsInputCollector, AccessibilityFormNodeOperator, FieldFiller, FileProviderResumeUriProvider, ResumeUploader, PostUploadVerifier, AccessibilitySession, ConfirmationDetector, and satisfying SubmitSupervisor dependencies, while strictly isolating FakeResumeUriProvider to test sources) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 39s`, 50 actionable tasks, 4 executed, 46 up-to-date).
+
+
 
 
 

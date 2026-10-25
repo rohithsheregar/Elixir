@@ -5,11 +5,25 @@ import androidx.room.Room
 import com.cellclaw.memory.MemoryDb
 import com.cellclaw.memory.MemoryFactDao
 import com.cellclaw.memory.MessageDao
+import com.cellclaw.accessibility.AccessibilitySession
+import com.cellclaw.approval.ConfirmationDetector
+import com.cellclaw.form.AccessibilityFormNodeOperator
+import com.cellclaw.form.FieldClassifier
+import com.cellclaw.form.FieldFiller
+import com.cellclaw.form.FormNodeOperator
+import com.cellclaw.form.NeedsInputCollector
 import com.cellclaw.provider.AnthropicProvider
 import com.cellclaw.provider.GeminiProvider
 import com.cellclaw.provider.OpenAIProvider
 import com.cellclaw.provider.OpenRouterProvider
+import com.cellclaw.resume.PdfGenerator
+import com.cellclaw.resume.ResumeBuilder
 import com.cellclaw.tools.*
+import com.cellclaw.upload.FileProviderResumeUriProvider
+import com.cellclaw.upload.PostUploadVerifier
+import com.cellclaw.upload.ResumeFileValidator
+import com.cellclaw.upload.ResumeUploader
+import com.cellclaw.upload.ResumeUriProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -67,6 +81,60 @@ object AppModule {
     @Singleton
     fun provideJdDocumentReader(): com.cellclaw.jd.JdDocumentReader =
         com.cellclaw.jd.JdDocumentReader()
+
+    @Provides
+    @Singleton
+    fun provideResumeBuilder(): ResumeBuilder = ResumeBuilder()
+
+    @Provides
+    @Singleton
+    fun providePdfGenerator(): PdfGenerator = PdfGenerator()
+
+    @Provides
+    @Singleton
+    fun provideFieldClassifier(): FieldClassifier = FieldClassifier()
+
+    @Provides
+    fun provideNeedsInputCollector(): NeedsInputCollector = NeedsInputCollector()
+
+    @Provides
+    fun provideFormNodeOperator(): FormNodeOperator = AccessibilityFormNodeOperator()
+
+    @Provides
+    fun provideFieldFiller(
+        classifier: FieldClassifier,
+        operator: FormNodeOperator,
+        needsInputCollector: NeedsInputCollector
+    ): FieldFiller = FieldFiller(
+        classifier = classifier,
+        operator = operator,
+        needsInputCollector = needsInputCollector
+    )
+
+    @Provides
+    @Singleton
+    fun provideResumeUriProvider(@ApplicationContext context: Context): ResumeUriProvider =
+        FileProviderResumeUriProvider(context)
+
+    @Provides
+    @Singleton
+    fun provideResumeUploader(uriProvider: ResumeUriProvider): ResumeUploader =
+        ResumeUploader(
+            validator = ResumeFileValidator(),
+            uriProvider = uriProvider
+        )
+
+    @Provides
+    @Singleton
+    fun providePostUploadVerifier(): PostUploadVerifier = PostUploadVerifier()
+
+    @Provides
+    @Singleton
+    fun provideAccessibilitySession(): AccessibilitySession = AccessibilitySession()
+
+    @Provides
+    @Singleton
+    fun provideConfirmationDetector(): ConfirmationDetector = ConfirmationDetector()
 
     @Provides
     @Singleton

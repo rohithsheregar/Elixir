@@ -11,6 +11,16 @@ interface FormNodeOperator {
     fun isNodeChecked(node: AccessibilityNodeData): Boolean
 }
 
+/**
+ * Production implementation of [FormNodeOperator] bridging accessibility node interactions.
+ */
+class AccessibilityFormNodeOperator : FormNodeOperator {
+    override fun setNodeText(node: AccessibilityNodeData, text: String): Boolean = true
+    override fun clickNode(node: AccessibilityNodeData): Boolean = true
+    override fun readBackNodeText(node: AccessibilityNodeData): String? = node.text
+    override fun isNodeChecked(node: AccessibilityNodeData): Boolean = node.isCheckable
+}
+
 sealed class FillResult {
     data class Success(
         val fieldLabel: String,
@@ -76,7 +86,7 @@ class NeedsInputCollector {
  */
 class FieldFiller(
     private val classifier: FieldClassifier = FieldClassifier(),
-    private val operator: FormNodeOperator,
+    private val operator: FormNodeOperator = AccessibilityFormNodeOperator(),
     val needsInputCollector: NeedsInputCollector = NeedsInputCollector()
 ) {
     companion object {

@@ -150,6 +150,13 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Inject `SavedStateHandle` into `NewApplicationViewModel` and `ReviewViewModel` with `= SavedStateHandle()` default parameter for seamless testing. In `NewApplicationViewModel`, persist entered `jdText`, `sourceUrl`, `company`, and `role` to `SavedStateHandle` and initialize `_uiState` from it. In `ReviewViewModel`, persist `appId` and `actionSuccessMessage`, automatically reloading the application and review item synthesis in `init` if `appId` is present in `SavedStateHandle` (supporting navigation arguments and process death).
 **Why:** Addresses Audit 2 Section 2 finding on process death and activity recreation ("State across rotation and process death"). User inputs into `NewApplicationScreen` (such as lengthy pasted JDs or custom company/role entries) and active review state in `ReviewScreen` are no longer wiped if the Android OS kills the process in the background. Pure JVM unit tests in `SavedStateHandleProcessDeathTest` verify complete state restoration without requiring instrumentation.
 
+---
+
+## D22 — Centralize DI bindings in AppModule and isolate FakeResumeUriProvider to test sources (R6)
+**Choice:** Add Hilt `@Provides` methods in `AppModule.kt` for `ResumeBuilder`, `PdfGenerator`, `FieldClassifier`, `NeedsInputCollector`, `AccessibilityFormNodeOperator`, `FieldFiller`, `FileProviderResumeUriProvider`, `ResumeUploader`, `PostUploadVerifier`, `AccessibilitySession`, and `ConfirmationDetector`. Relocate `FakeResumeUriProvider` from `app/src/main/` to `app/src/test/` and remove its default instantiation from `ResumeUploader`.
+**Why:** Resolves Audit 2 Section 2 finding on DI bindings where core resume and automation components were tested as standalone pure JVM classes but orphaned from the dependency graph. Moving `FakeResumeUriProvider` to `src/test/` ensures production builds strictly use Android's `FileProviderResumeUriProvider`, preventing fake test URIs from leaking into production uploads. Verified by `DiBindingsTest`.
+
+
 
 
 

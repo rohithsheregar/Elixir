@@ -47,7 +47,7 @@ sealed interface UploadStatus {
  */
 class ResumeUploader(
     private val validator: ResumeFileValidator = ResumeFileValidator(),
-    private val uriProvider: ResumeUriProvider = FakeResumeUriProvider()
+    private val uriProvider: ResumeUriProvider
 ) {
     private var currentRecord: ApplicationRecord? = null
     private var preparedFile: File? = null
