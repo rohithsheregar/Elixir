@@ -115,7 +115,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 
 - [x] M10.1 | ResumeUploader: expose generated PDF via FileProvider content URI; check file exists, non-zero, PDF magic bytes, SHA-256 matches tracker before picker; handle cancelled/denied/too-large/server-rejected/timeout | test: ResumeUploaderTest (pure logic, hash check) | deps: M9.4
 - [x] M10.2 | Post-upload verify: read page to confirm filename attached; if no signal, ask user to confirm visually | test: NEEDS_USER_DEVICE | deps: M10.1
-- [ ] M10.3 | Build passes; tag `cp-m10-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M10.2
+- [x] M10.3 | Build passes; tag `cp-m10-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M10.2
 
 ---
 
