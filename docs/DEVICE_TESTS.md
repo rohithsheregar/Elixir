@@ -15,6 +15,7 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 | **DT-M10.2** | M10.2 | Post-Upload Attachment & Visual Confirmation | `PostUploadVerifier` | `NEEDS_USER_DEVICE` | User / Physical Device |
 | **DT-M11.1** | M11.1 | Approval Token Binding & Direct User Tap | `ApprovalTokenManager` | `NEEDS_USER_DEVICE` | User / Physical Device |
 | **DT-M11.2** | M11.2 | Supervised Submit & Receipt Detection | `SubmitSupervisor` | `NEEDS_USER_DEVICE` | User / Physical Device |
+| **DT-R10** | R10 | RunScreen live status, notification Pause/Stop, CAPTCHA handoff | `RunScreen`, `CellClawService` | `NEEDS_USER_DEVICE` | User / Physical Device |
 | **DT-M12.1** | M12 | Live Google Form Supervised Validation | User-Approved Test Form | `WAITING_ON_USER` | User / Physical Device |
 
 ---
@@ -108,6 +109,16 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
    - When the confirmation card (`Your response has been recorded.`) and reference (`CONF-TEST-XXXXXX`) are present, verify Elixir updates the tracker record to `SUBMITTED_CONFIRMED` with the reference number stored.
    - If the network is disconnected or the page times out without confirmation, verify Elixir updates the tracker to `SUBMISSION_UNKNOWN` and strictly refrains from auto-retrying.
 5. Verify on TrackerScreen that the application record displays the confirmed status and reference code.
+
+### DT-R10 — RunScreen Supervised Automation, Pause/Resume & Foreground Notification Controls
+**Status:** NEEDS_USER_DEVICE
+**Steps:**
+1. Navigate from ReviewScreen to RunScreen after approving an application.
+2. Verify RunScreen displays live steps (Opening browser, scanning form, filling fields, uploading resume, awaiting submit approval).
+3. Verify persistent foreground notification "Elixir - Supervised automation active" appears with Pause and Stop action buttons.
+4. Tap Pause in the notification or on RunScreen: verify automation halts and status displays Paused.
+5. Tap Resume: verify automation continues.
+6. Trigger CAPTCHA/login handoff: verify banner appears instructing manual completion, and resumes once dismissed.
 
 ---
 

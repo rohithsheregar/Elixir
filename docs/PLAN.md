@@ -148,7 +148,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] R7 | ReviewViewModel: issue the ApprovalToken only on a direct user tap, bound to company, role, URL origin, form hash and resume hash; do NOT set SUBMITTING until automation actually starts | test: ReviewApprovalWiringTest | deps: R6
 - [x] R8 | AutomationOrchestrator (interfaces plus fakes): BrowserOpener -> wait for Chrome -> AccessibilitySession -> classify and fill fields -> NeedsInputCollector -> ResumeUploader -> stop before Submit -> SubmitSupervisor -> tracker; use a fake accessibility tree built from the dummy form | test: OrchestratorFlowTest | deps: R6, R7
 - [x] R9 | Enable-Accessibility check and prompt inside the Elixir flow | test: AccessibilityEnablePromptTest | deps: R8
-- [ ] R10 | RunScreen with live status, foreground notification with Pause and Stop, and CAPTCHA/OTP/login handoff | test: RunScreenTest | deps: R8, R9
+- [x] R10 | RunScreen with live status, foreground notification with Pause and Stop, and CAPTCHA/OTP/login handoff | test: RunScreenTest | deps: R8, R9
 - [ ] R11 | ResultScreen with confirmation reference, failure retry, and tracker update | test: ResultScreenTest | deps: R10
 - [ ] R12 | Needs-input modal on ReviewScreen for sensitive and unknown fields | test: NeedsInputResolutionTest | deps: R7, R8
 - [ ] R13 | Hard stop with explicit user override when overall eligibility is NOT_ELIGIBLE | test: EligibilityGateTest | deps: R3

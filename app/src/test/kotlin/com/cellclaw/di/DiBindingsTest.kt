@@ -123,4 +123,14 @@ class DiBindingsTest {
         val supervisor = SubmitSupervisor(tokenManager, tracker, detector)
         assertNotNull("SubmitSupervisor must be constructible with Hilt-provided ConfirmationDetector", supervisor)
     }
+
+    @Test
+    fun `AppModule provides UrlValidator and BrowserOpener`() {
+        val validator = AppModule.provideUrlValidator()
+        assertNotNull("UrlValidator must not be null", validator)
+
+        val fakeContext = FakeTestContext("com.cellclaw")
+        val opener = AppModule.provideBrowserOpener(fakeContext, validator)
+        assertNotNull("BrowserOpener must not be null", opener)
+    }
 }

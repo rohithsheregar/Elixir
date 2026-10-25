@@ -145,7 +145,16 @@ class MainActivity : ComponentActivity() {
                             val appId = backStackEntry.arguments?.getString("appId").orEmpty()
                             ReviewScreen(
                                 appId = appId,
-                                onBack = { navController.popBackStack() }
+                                onBack = { navController.popBackStack() },
+                                onApproveSubmission = { id -> navController.navigate(NavigationRoutes.runRoute(id)) }
+                            )
+                        }
+                        composable(NavigationRoutes.RUN) { backStackEntry ->
+                            val appId = backStackEntry.arguments?.getString("appId").orEmpty()
+                            RunScreen(
+                                appId = appId,
+                                onBack = { navController.popBackStack() },
+                                onComplete = { id -> navController.navigate(NavigationRoutes.TRACKER) }
                             )
                         }
                     }

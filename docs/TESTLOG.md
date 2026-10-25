@@ -627,6 +627,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** AccessibilityEnablePromptTest (verifying that ReviewViewModel checks AccessibilityChecker status prior to issuing approval tokens, halts automation and presents an enablement prompt AlertDialog with intent to Android Accessibility Settings when disabled, and seamlessly proceeds with token issuance and READY_FOR_REVIEW state transition when enabled) and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 24s`, 50 actionable tasks, 4 executed, 46 up-to-date).
 
+### T26 — RunScreenTest, DiBindingsTest, full unit suite & assembleDebug (R10) — Session 17
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** RunScreenTest (asserting RunViewModel state loading, live step updates, user Pause and Resume controls, CAPTCHA/login manual intervention handoff trigger and dismissal, cancellation transition to CANCELLED state), DiBindingsTest (asserting UrlValidator and BrowserOpener provider bindings), full unit test suite, and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 3m 19s`, 50 actionable tasks, 17 executed, 33 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R10` (NEEDS_USER_DEVICE).
+
 
 
 

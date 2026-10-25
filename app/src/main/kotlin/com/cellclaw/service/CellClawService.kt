@@ -28,6 +28,7 @@ class CellClawService : Service() {
     @Inject lateinit var agentLoop: AgentLoop
     @Inject lateinit var approvalQueue: ApprovalQueue
     @Inject lateinit var heartbeatManager: HeartbeatManager
+    @Inject lateinit var orchestrator: com.cellclaw.automation.AutomationOrchestrator
 
     private var wakeLock: PowerManager.WakeLock? = null
     private var serviceScope: CoroutineScope? = null
@@ -50,6 +51,7 @@ class CellClawService : Service() {
             ACTION_STOP -> {
                 heartbeatManager.stop()
                 agentLoop.stop()
+                orchestrator.pause("Stopped via notification")
                 serviceScope?.cancel()
                 serviceScope = null
                 stopForeground(STOP_FOREGROUND_REMOVE)
@@ -57,9 +59,11 @@ class CellClawService : Service() {
             }
             ACTION_PAUSE -> {
                 agentLoop.pause()
+                orchestrator.pause("Paused via notification")
             }
             ACTION_RESUME -> {
                 agentLoop.resume()
+                orchestrator.resumeSession()
             }
         }
         return START_STICKY
@@ -171,7 +175,7 @@ class CellClawService : Service() {
         )
 
         val builder = NotificationCompat.Builder(this, CellClawApp.CHANNEL_SERVICE)
-            .setContentTitle("CellClaw")
+            .setContentTitle("Elixir")
             .setContentText(text)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(openIntent)

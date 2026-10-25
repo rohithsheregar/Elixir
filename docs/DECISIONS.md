@@ -174,6 +174,12 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Implement `AccessibilityChecker` (implementing `AccessibilityInspector`) to check whether the `CellClawAccessibility` service is enabled via `Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES` and produce settings navigation intents (`ACTION_ACCESSIBILITY_DETAIL_SETTINGS` on API 36+ or `ACTION_ACCESSIBILITY_SETTINGS`). Inject `AccessibilityChecker` into `ReviewViewModel`. When the user initiates review approval/submission, if accessibility is disabled, block token generation, preserve the current state, and raise `showAccessibilityPrompt = true`, displaying an `AlertDialog` in `ReviewScreen` that guides the user to Android Accessibility Settings.
 **Why:** Directly resolves Audit 2 Section 4 finding ("zero checks or enablement prompts exist in any Elixir placement screen"). Without this check, a user attempting supervised automation with the service disabled would experience silent browser launch and failed accessibility node parsing. Enforces clear user feedback and explicit opt-in. Verified by `AccessibilityEnablePromptTest`.
 
+---
+
+## D26 — RunScreen, RunViewModel, and Foreground Service Notification Controls (R10)
+**Choice:** Implement `RunScreen` and `RunViewModel` observing `AutomationOrchestrator.step` StateFlow. Wire into `MainActivity` `NavHost` (`run/{appId}`) and route to it from `ReviewScreen` upon approval. Add live step progression, explicit user Pause/Resume buttons, Stop/Cancel button, and CAPTCHA/login manual intervention handoff banner. Wire `CellClawService` notification actions (`ACTION_PAUSE`, `ACTION_RESUME`, `ACTION_STOP`) directly to `AutomationOrchestrator`. Add `@Inject constructor()` and `@Provides` binding for `UrlValidator` to satisfy Hilt compilation.
+**Why:** Directly fulfills Audit 2 Section 2 and Section 4 requirements for live automation observability and user supervision ("Foreground service with Pause/Stop", "user can always tell what the app is doing"). Guarantees the user retains full control at all times via UI controls and persistent notification actions, honoring PlacementOS rules §5 & §6 (no bot bypass, hand control to user for CAPTCHA/login). Verified by `RunScreenTest` and `DiBindingsTest`.
+
 
 
 

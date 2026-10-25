@@ -23,7 +23,7 @@ sealed class BrowserOpenResult {
     data class Error(val message: String) : BrowserOpenResult()
 }
 
-class UrlValidator {
+class UrlValidator @Inject constructor() {
     companion object {
         private val DANGEROUS_SCHEMES = setOf(
             "javascript", "file", "intent", "data", "content", "ftp", "blob", "about"

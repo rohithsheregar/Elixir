@@ -143,6 +143,17 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideUrlValidator(): com.cellclaw.browser.UrlValidator = com.cellclaw.browser.UrlValidator()
+
+    @Provides
+    @Singleton
+    fun provideBrowserOpener(
+        @ApplicationContext context: Context,
+        validator: com.cellclaw.browser.UrlValidator
+    ): com.cellclaw.browser.BrowserOpener = com.cellclaw.browser.BrowserOpener(context, validator)
+
+    @Provides
+    @Singleton
     fun provideAnthropicProvider(): AnthropicProvider = AnthropicProvider()
 
     @Provides
