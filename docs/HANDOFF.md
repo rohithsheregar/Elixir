@@ -25,7 +25,7 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (235 unit tests pass, ass
 | 17 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | e554d2e |
 
 ## Last Green Commit
-e554d2e — [R1] make Elixir start destination (Tracker) with access to Profile, Settings and legacy chat
+63b7301 — [R2] fix lintDebug failures, remove WakeWordService from build, enforce RECEIVER_NOT_EXPORTED, scope browser queries
 
 ## IN PROGRESS
 R3 — Persist the parsed JdRequirement and load it in ResumePreviewViewModel instead of an empty JdRequirement()
