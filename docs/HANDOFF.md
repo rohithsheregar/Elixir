@@ -22,13 +22,13 @@ Milestone M10 complete (`cp-m10-1`). M11.1 complete. Next step M11.2.
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-25073cc — [M10.3] verify milestone M10 suite and tag cp-m10-1
+1bef1f9 — [M11.1] implement ApprovalToken and ApprovalTokenManager with cryptographic binding and lifecycle management
 
 ## IN PROGRESS
-M11.1 — committing ApprovalToken and ApprovalTokenManager
+M11.2 — committing SubmitSupervisor and ConfirmationDetector
 
 ## NEXT ACTION
-Execute M11.2: Submit flow with confirmation detection and tracker state update (NEEDS_USER_DEVICE).
+Run milestone verification for M11.3 and tag cp-m11-1.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

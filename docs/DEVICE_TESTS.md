@@ -74,6 +74,17 @@ Mark as `NEEDS_USER_DEVICE`. Never claim PASS without seeing the device output.
 4. Confirmation page detected: tracker = SUBMITTED_CONFIRMED
 5. No confirmation page: tracker = SUBMISSION_UNKNOWN, no auto-resubmit
 
+### DT-M11.2 — Supervised Submit and Confirmation Receipt Detection (Dummy Form)
+**Status:** NEEDS_USER_DEVICE
+**Steps:**
+1. Open Elixir and complete application review for the dummy Google form harness (`docs/dummy_google_form.html`).
+2. Tap "Approve & Submit" on ReviewScreen to generate a cryptographically bound `ApprovalToken`.
+3. In Chrome, observe `SubmitSupervisor` performing exactly one tap on the verified Submit button.
+4. Verify `ConfirmationDetector` parses the post-submit DOM:
+   - When the confirmation card (`Your response has been recorded.`) and reference (`CONF-TEST-XXXXXX`) are present, verify Elixir updates the tracker record to `SUBMITTED_CONFIRMED` with the reference number stored.
+   - If the network is disconnected or the page times out without confirmation, verify Elixir updates the tracker to `SUBMISSION_UNKNOWN` and strictly refrains from auto-retrying.
+5. Verify on TrackerScreen that the application record displays the confirmed status and reference code.
+
 ---
 
 ## M12 — Hardening

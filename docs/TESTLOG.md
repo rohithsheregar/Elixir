@@ -99,6 +99,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T60 — M11.2 Submit flow with confirmation detection and tracker state update — Session 14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.approval.SubmitSupervisorTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** NEEDS_USER_DEVICE
+**Summary:** Pure JVM tests for `SubmitSupervisor` and `ConfirmationDetector` passed (7 tests: Google Forms confirmation receipt detection, reference number extraction, error prompt handling, ambiguous page detection, token validation and consumption, tracker transition to `SUBMITTED_CONFIRMED`, single-tap guarantee, and timeout transition to `SUBMISSION_UNKNOWN` with no auto-retry) in 45s; end-to-end device testing documented in `docs/DEVICE_TESTS.md` (`DT-M11.2`). Full unit test suite and `assembleDebug` passed cleanly (`BUILD SUCCESSFUL in 55s`, 50 actionable tasks).
+
 ### T59 — M11.1 ApprovalToken generation, binding, and lifecycle — Session 14
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.approval.ApprovalTokenTest; exit $LASTEXITCODE`
 **Exit code:** 0
