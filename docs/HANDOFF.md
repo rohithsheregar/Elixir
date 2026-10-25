@@ -26,26 +26,28 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (235 unit tests pass, ass
 | 18 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | 168cf1f |
 
 ## Last Green Commit
-af750e7 — [U1] build Elixir Design System tokens and semantic theme palette
+2e99c08 — [U5] replace hardcoded colors across all screens with semantic theme tokens for dark mode
 
 ## IN PROGRESS
-U5 — Replace hardcoded color literals across all 6 screens with semantic theme tokens for full Dark Mode support
+U9 — Create brand identity: bespoke Elixir vector app icon, splash screen (SplashScreen API), and remove legacy branding
 Plan:
-1. Replace hardcoded Color(0x...) literals in TrackerScreen, NewApplicationScreen, EligibilityReportScreen, ResumePreviewScreen, ReviewScreen, and ProfileScreen with MaterialTheme.colorScheme and MaterialTheme.elixirColors tokens.
-2. Ensure status badges (Eligible, Not Eligible, Unknown, Confirmed, Draft, Submitting, Failed) use semantic ElixirColors tokens with legible text contrast in both light and dark themes.
-3. Write DarkThemeContrastTest verifying semantic color contrast ratios and absence of hardcoded raw colors.
-4. Verify with testDebugUnitTest and assembleDebug.
+1. Add `androidx.core:core-splashscreen:1.0.1` in `app/build.gradle.kts`.
+2. Create bespoke Elixir vector icon drawable (`ic_elixir_launcher_foreground.xml`) and adaptive launcher icon.
+3. Configure `Theme.Elixir.Starting` splash theme and invoke `installSplashScreen()` in `MainActivity.kt`.
+4. Update foreground service notification and QS tile display strings from "CellClaw" to "Elixir".
+5. Add `SplashThemeTest.kt` asserting brand assets, launcher icons, and splash theme configuration.
+6. Verify with testDebugUnitTest and assembleDebug.
 Expected files:
-- `app/src/main/kotlin/com/cellclaw/ui/screens/TrackerScreen.kt`
-- `app/src/main/kotlin/com/cellclaw/ui/screens/NewApplicationScreen.kt`
-- `app/src/main/kotlin/com/cellclaw/ui/screens/EligibilityReportScreen.kt`
-- `app/src/main/kotlin/com/cellclaw/ui/screens/ResumePreviewScreen.kt`
-- `app/src/main/kotlin/com/cellclaw/ui/screens/ReviewScreen.kt`
-- `app/src/main/kotlin/com/cellclaw/ui/screens/ProfileScreen.kt`
-- `app/src/test/kotlin/com/cellclaw/ui/DarkThemeContrastTest.kt`
+- `app/build.gradle.kts`
+- `app/src/main/res/drawable/ic_elixir_launcher_foreground.xml`
+- `app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml`
+- `app/src/main/res/values/themes.xml`
+- `app/src/main/kotlin/com/cellclaw/ui/MainActivity.kt`
+- `app/src/main/kotlin/com/cellclaw/service/CellClawService.kt`
+- `app/src/test/kotlin/com/cellclaw/ui/SplashThemeTest.kt`
 
 ## NEXT ACTION
-U5: Replace hardcoded colors in all 6 screens with semantic theme tokens and write DarkThemeContrastTest.kt.
+U9: Implement Elixir vector icon, core-splashscreen theme, MainActivity splash initialization, and SplashThemeTest.kt.
 
 ## Blockers
 None. Gradle must be invoked with scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on Windows.
