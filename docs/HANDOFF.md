@@ -22,13 +22,13 @@ Milestone M9 complete (`cp-m9-1`). Next step M10.1.
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-632c992 — [M9.4] verify milestone M9 suite and tag cp-m9-1
+e8e090c — [M10.1] implement ResumeUploader with pre-upload validator and error handling
 
 ## IN PROGRESS
-M10.1 — committing ResumeUploader and ResumeFileValidator
+M10.2 — committing post-upload verification and visual fallback
 
 ## NEXT ACTION
-Execute M10.2: post-upload verification in AccessibilitySession / Review flow (NEEDS_USER_DEVICE).
+Run milestone verification for M10.3 and tag cp-m10-1.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

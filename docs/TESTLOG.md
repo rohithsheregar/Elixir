@@ -99,6 +99,12 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T57 — M10.2 Post-upload verify and visual fallback — Session 14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.upload.ResumeUploaderTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** NEEDS_USER_DEVICE
+**Summary:** Pure JVM tests for `PostUploadVerifier` passed (exact filename match, mismatch detection, visual confirmation fallback) in 39s; end-to-end physical device test documented in `docs/DEVICE_TESTS.md` (`DT-M10.2`). Full unit suite and `assembleDebug` passed cleanly (`BUILD SUCCESSFUL in 20s`).
+
 ### T56 — M10.1 ResumeUploader with pre-upload validator and error handling — Session 14
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.upload.ResumeUploaderTest; exit $LASTEXITCODE`
 **Exit code:** 0

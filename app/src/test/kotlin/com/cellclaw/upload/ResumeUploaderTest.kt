@@ -176,4 +176,32 @@ class ResumeUploaderTest {
         assertEquals("resume.pdf", (success as UploadStatus.Confirmed).fileName)
         assertEquals(actualHash, (success as UploadStatus.Confirmed).sha256)
     }
+
+    @Test
+    fun testPostUploadVerifierMatchesFilename() {
+        val verifier = PostUploadVerifier()
+        val pageTexts = listOf("Application Form", "resume_google_swe_v1.pdf", "Upload complete", "Submit")
+        val result = verifier.verify(pageTexts, "resume_google_swe_v1.pdf")
+        assertTrue(result is PostUploadVerificationResult.Verified)
+        assertEquals("resume_google_swe_v1.pdf", (result as PostUploadVerificationResult.Verified).fileName)
+    }
+
+    @Test
+    fun testPostUploadVerifierDetectsMismatch() {
+        val verifier = PostUploadVerifier()
+        val pageTexts = listOf("Application Form", "wrong_resume_file.pdf", "Submit")
+        val result = verifier.verify(pageTexts, "expected_resume.pdf")
+        assertTrue(result is PostUploadVerificationResult.Mismatch)
+        val mismatch = result as PostUploadVerificationResult.Mismatch
+        assertEquals("expected_resume.pdf", mismatch.expectedFileName)
+        assertEquals("wrong_resume_file.pdf", mismatch.actualVisibleText)
+    }
+
+    @Test
+    fun testPostUploadVerifierFallbackToVisualConfirmationWhenNoSignal() {
+        val verifier = PostUploadVerifier()
+        val pageTexts = listOf("Application Form", "1 file uploaded", "Submit")
+        val result = verifier.verify(pageTexts, "expected_resume.pdf")
+        assertTrue(result is PostUploadVerificationResult.NeedsVisualConfirmation)
+    }
 }

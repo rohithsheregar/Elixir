@@ -52,6 +52,15 @@ Mark as `NEEDS_USER_DEVICE`. Never claim PASS without seeing the device output.
 4. Verify form shows correct filename attached
 5. Verify hash in tracker matches the uploaded file
 
+### DT-M10.2 — Post-upload verify (attached filename confirmation)
+**Status:** NEEDS_USER_DEVICE
+**Steps:**
+1. Complete system file picker upload of the tailored resume PDF.
+2. Observe Chrome DOM reading through AccessibilitySession / PostUploadVerifier.
+3. If the form displays the uploaded filename, verify that Elixir confirms the attachment automatically without manual prompts.
+4. If the form displays a generic indicator (e.g. icon or "1 file selected") without the filename text, verify that Elixir displays a visual confirmation prompt asking the user to confirm the attached file before proceeding.
+5. If an unexpected file name is visible, verify that Elixir raises a mismatch error and halts the submission flow.
+
 ---
 
 ## M11 — Review and Submit
