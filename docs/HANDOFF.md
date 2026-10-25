@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-M7.1-M7.7 complete. M7.8 (Milestone verification & tag) in progress.
+Milestone M7 complete (`cp-m7-1`). M8.1 (BrowserOpener) in progress.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -22,13 +22,13 @@ M7.1-M7.7 complete. M7.8 (Milestone verification & tag) in progress.
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-9fa7579 — [M7.6] implement TrackerScreen with state chips and search
+8b1d435 — [M7.7] implement ReviewScreen with supervised approval gate
 
 ## IN PROGRESS
-M7.7 — committing ReviewScreen
+M8.1 — BrowserOpener: URL validation and Chrome opener
 
 ## NEXT ACTION
-Commit M7.7, then verify full suite and tag cp-m7-1 for M7.8.
+Implement BrowserOpener with URL validation (https only, reject dangerous schemes, warn http) and write BrowserOpenerTest.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
