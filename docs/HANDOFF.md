@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Milestone M8 complete (`cp-m8-1`). M9.1 (FieldClassifier) in progress.
+Milestone M8 complete (`cp-m8-1`). M9.1 complete. M9.2 (FieldFiller) in progress.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -22,13 +22,13 @@ Milestone M8 complete (`cp-m8-1`). M9.1 (FieldClassifier) in progress.
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-fb4851e — [M8.3] create dummy Google Form test harness and document device verification in DEVICE_TESTS.md
+2f3fe91 — [M8.4] verify milestone M8 suite and tag cp-m8-1
 
 ## IN PROGRESS
-M9.1 — FieldClassifier: classify accessibility nodes by label/type
+M9.1 — committing FieldClassifier
 
 ## NEXT ACTION
-Implement FieldClassifier for classifying form fields from node text/labels and write FieldClassifierTest.
+Commit M9.1, then implement M9.2 FieldFiller with confirmed fact mapping and read-back verification.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.

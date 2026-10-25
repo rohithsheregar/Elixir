@@ -99,6 +99,17 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 ---
 
 <!-- Future sessions add rows below -->
+### T52 — M9.1 FieldClassifier with pattern matching for accessibility form fields — Session 14
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest --tests com.cellclaw.form.FieldClassifierTest; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `FieldClassifierTest` passed (8 tests: name, email, phone, academics college/degree/branch/cgpa/year/marks, file upload, skills and links, yes/no and radio, checkbox and free text, unknown fallback); `BUILD SUCCESSFUL in 1m 26s`.
+
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; exit $LASTEXITCODE`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit suite and assembleDebug passed (50 tasks, 7 executed, 43 up-to-date); `BUILD SUCCESSFUL in 52s`.
+
 ### T51 — M8.4 milestone verification and tag cp-m8-1 — Session 14
 **Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest; exit $LASTEXITCODE`
 **Exit code:** 0

@@ -104,7 +104,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 
 ## M9 — Field mapping and form filling
 
-- [ ] M9.1 | FieldClassifier: classify accessibility nodes by label/type (name, email, phone, institution, degree, branch, year, cgpa, marks, skills, links, yes/no, dropdown, radio, checkbox, file upload, free text, unknown) | test: FieldClassifierTest (synthetic AccessibilityNodeInfo mocks) | deps: M8.4
+- [x] M9.1 | FieldClassifier: classify accessibility nodes by label/type (name, email, phone, institution, degree, branch, year, cgpa, marks, skills, links, yes/no, dropdown, radio, checkbox, file upload, free text, unknown) | test: FieldClassifierTest (synthetic AccessibilityNodeInfo mocks) | deps: M8.4
 - [ ] M9.2 | FieldFiller: fill from confirmed profile facts only; read-back verification after each fill; dropdown/radio exact match; free-text shown to user before fill | test: FieldFillerTest | deps: M9.1
 - [ ] M9.3 | "Needs your input" list: collect unmatched/sensitive fields; pause and present to user | test: FieldFillerTest (unknown field path) | deps: M9.2
 - [ ] M9.4 | Build passes; tag `cp-m9-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M9.3
