@@ -112,3 +112,11 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Why:** `ApplicationRecord` was designed with a minimal footprint; storing the full JD text would add unbounded storage and was not part of the M6 spec. The resume preview still shows all confirmed profile facts with their evidence IDs; skill ranking is alphabetical rather than JD-matched, which is safe and honest.
 **Alternatives:** Store JD text in `ApplicationRecord.notes` alongside the EligibilityReport JSON — considered but notes field is already used for the eligibility JSON and mixing two JSON blobs in one column is fragile. Proper solution (M8+): add a dedicated `jd_text` column in a future DB migration if JD-ranked resume preview becomes a priority.
 
+---
+
+## D16 — M12.4 Package identity: retain com.cellclaw for stability and safety
+**Choice:** Retain the Kotlin package and application namespace as `com.cellclaw` while keeping the user-facing application name and display identity as `Elixir`.
+**Why:** M12.4 is explicitly marked "Optional: rename package from com.cellclaw to com.elixir (only if user approves)". AGENTS.md explicitly states: "Keep the Kotlin package com.cellclaw until milestone M12 so the build is never broken by a rename." Renaming across 100+ files, Hilt dependencies, Room entities, manifest bindings, and AIDL interfaces without an explicit user mandate introduces major risk of regression and breaks Android component stability for zero user-facing benefit. The display name is `Elixir` everywhere in the UI and manifests.
+**Alternatives:** Perform global rename to `com.elixir` — rejected under the conservative decision-making rule because user approval is explicitly required by the plan and no user request was made.
+
+

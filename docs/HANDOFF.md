@@ -22,13 +22,13 @@ Milestone M11 complete (`cp-m11-1`). M12.1 security audit complete. Next step M1
 | 14 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | a1e11d5 |
 
 ## Last Green Commit
-b859db4 — [M12.2] update README with comprehensive description of Elixir, setup steps, privacy policy, and usage flow
+8645e68 — [M12.3] complete DEVICE_TESTS.md checklist and execution protocol for all physical device tests
 
 ## IN PROGRESS
-M12.3 — committing DEVICE_TESTS.md checklist
+M12.4 — committing package identity decision D16
 
 ## NEXT ACTION
-Check M12.4 (optional package rename deferred per AGENTS.md policy) and execute M12.5 (final suite run, assembleDebug, tag cp-m12-1).
+Execute M12.5: final build and test run, and tag cp-m12-1.
 
 ## Blockers
 None. Gradle must be invoked with the scoped `JDK_JAVA_OPTIONS` setting in the Verify Command on this host.
