@@ -27,6 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cellclaw.tracker.ApplicationState
+import com.cellclaw.ui.components.PlacementStep
+import com.cellclaw.ui.components.ProgressStepper
 import com.cellclaw.ui.theme.elixirColors
 import com.cellclaw.ui.viewmodel.FormFieldReviewItem
 import com.cellclaw.ui.viewmodel.ReviewViewModel
@@ -94,6 +96,13 @@ fun ReviewScreen(
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
+                        // Progress stepper
+                        item {
+                            ProgressStepper(
+                                currentStep = PlacementStep.SUPERVISED_REVIEW
+                            )
+                        }
+
                         // Success message banner if any
                         uiState.actionSuccessMessage?.let { msg ->
                             item {

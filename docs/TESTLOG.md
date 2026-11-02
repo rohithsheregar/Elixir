@@ -669,14 +669,8 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** Focused `SplashThemeTest` (asserting `ic_elixir_launcher_foreground.xml` 108dp vector asset validity, `mipmap-anydpi-v26/ic_launcher.xml` adaptive icon setup, `colors.xml` palette definitions, `themes.xml` `Theme.Elixir.Starting` splash screen configuration, `AndroidManifest.xml` launcher and theme wiring, `MainActivity.kt` early `installSplashScreen()` initialization, and `CellClawService`/`CellClawTileService` Elixir rebranding strings), full unit suite, and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 2m 23s`, 50 actionable tasks, 20 executed, 30 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-U9` (NEEDS_USER_DEVICE).
 
-
-
-
-
-
-
-
-
-
-
-
+### T33 — ProgressStepperPreviewTest, full unit suite & assembleDebug (U2) — Session 19
+**Command:** $env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused ProgressStepperPreviewTest (verifying monotonic step ordering, human-readable/short titles, step state resolution for all 16 state combinations, and verified presence of ProgressStepper in all 4 application screen files: NewApplicationScreen, EligibilityReportScreen, ResumePreviewScreen, ReviewScreen), full unit test suite, and assembleDebug passed cleanly (BUILD SUCCESSFUL in 1m 14s, 50 actionable tasks, 5 executed, 45 up-to-date). Physical device verification documented in docs/DEVICE_TESTS.md under DT-U2 (NEEDS_USER_DEVICE).

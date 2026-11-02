@@ -188,6 +188,17 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-U2 — Multi-step ProgressStepper Navigation
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device that the multi-step ProgressStepper renders consistently across NewApplicationScreen, EligibilityReportScreen, ResumePreviewScreen, and ReviewScreen with correct completed/current states.
+**Steps:**
+1. Open NewApplicationScreen: verify ProgressStepper shows Step 1 (JD Ingestion) as CURRENT (outlined circle with '1'), and steps 2-4 as UPCOMING.
+2. Ingest JD and proceed to EligibilityReportScreen: verify Step 1 shows completed checkmark, Step 2 (Eligibility) is CURRENT, and steps 3-4 are UPCOMING.
+3. Proceed to ResumePreviewScreen: verify Steps 1 and 2 show checkmarks, Step 3 (Tailored Resume) is CURRENT, Step 4 is UPCOMING.
+4. Proceed to ReviewScreen: verify Steps 1-3 show checkmarks, and Step 4 (Supervised Review) is CURRENT.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)

@@ -25,6 +25,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.cellclaw.ui.components.PlacementStep
+import com.cellclaw.ui.components.ProgressStepper
 import com.cellclaw.ui.viewmodel.NewApplicationViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
@@ -90,6 +92,11 @@ fun NewApplicationScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            ProgressStepper(
+                currentStep = PlacementStep.JD_INGESTION,
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
+
             Text(
                 text = "1. Ingest Job Description (JD)",
                 style = MaterialTheme.typography.titleMedium,

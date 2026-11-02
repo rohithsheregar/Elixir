@@ -216,16 +216,8 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Adopt `androidx.core:core-splashscreen:1.0.1` with a dedicated starting theme (`Theme.Elixir.Starting` inheriting from `Theme.SplashScreen` and delegating to `Theme.Elixir`), initialize splash transitions via `installSplashScreen()` in `MainActivity.onCreate()` before `super.onCreate()`, author a bespoke 108dp adaptive vector launcher foreground icon (`ic_elixir_launcher_foreground.xml` featuring a faceted hexagonal shield, stylized 'E' monogram, and ascending career trajectory starburst), and rebrand remaining user-facing system notifications and QuickSettings tile labels from legacy "CellClaw" to "Elixir".
 **Why:** Audit 2 Section 4 reported that the application presented generic placeholder icons and lacked cold-start branding, while legacy strings still surfaced in system QuickSettings and notifications. Using the Android 12+ backwards-compatible SplashScreen API eliminates cold-start blank screens and establishes an intentional, polished brand experience from first launch. Verified by `SplashThemeTest` and full build/test suites.
 
+---
 
-
-
-
-
-
-
-
-
-
-
-
-
+## D33 — Multi-step ProgressStepper component (U2)
+**Choice:** Implement ProgressStepper composable in com.cellclaw.ui.components with PlacementStep enum (JD_INGESTION, ELIGIBILITY, TAILORED_RESUME, SUPERVISED_REVIEW), monotonic state transitions (COMPLETED, CURRENT, UPCOMING), and wire it into NewApplicationScreen, EligibilityReportScreen, ResumePreviewScreen, and ReviewScreen.
+**Why:** Addresses Audit 2 Section 4 finding where candidates lost orientation across multi-screen application workflows. A visual progress stepper gives clear stage orientation and progress feedback without intrusive modals or extra dependencies. Verified by ProgressStepperPreviewTest and full test suites.

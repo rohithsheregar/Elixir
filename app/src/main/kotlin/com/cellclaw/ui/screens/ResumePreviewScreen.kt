@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cellclaw.resume.ResumeContent
 import com.cellclaw.resume.ResumeSection
+import com.cellclaw.ui.components.PlacementStep
+import com.cellclaw.ui.components.ProgressStepper
 import com.cellclaw.ui.theme.elixirColors
 import com.cellclaw.ui.viewmodel.ResumePreviewViewModel
 
@@ -95,6 +97,11 @@ fun ResumePreviewScreen(
                             .fillMaxSize()
                             .padding(horizontal = 16.dp)
                     ) {
+                        ProgressStepper(
+                            currentStep = PlacementStep.TAILORED_RESUME,
+                            modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
+                        )
+
                         // Application header
                         Card(
                             modifier = Modifier

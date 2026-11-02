@@ -24,6 +24,8 @@ import com.cellclaw.eligibility.EligibilityReport
 import com.cellclaw.eligibility.EligibilityResult
 import com.cellclaw.eligibility.EligibilityStatus
 import com.cellclaw.eligibility.OverallEligibility
+import com.cellclaw.ui.components.PlacementStep
+import com.cellclaw.ui.components.ProgressStepper
 import com.cellclaw.ui.theme.elixirColors
 import com.cellclaw.ui.viewmodel.EligibilityReportViewModel
 
@@ -91,6 +93,11 @@ fun EligibilityReportScreen(
                             .fillMaxSize()
                             .padding(horizontal = 16.dp)
                     ) {
+                        ProgressStepper(
+                            currentStep = PlacementStep.ELIGIBILITY,
+                            modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
+                        )
+
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()

@@ -155,7 +155,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] U1 | Build Elixir Design System tokens (Typography scale, semantic palette with dark mode, spacing, shapes) | test: ThemeTest.kt | deps: R1, R2
 - [x] U5 | Replace hardcoded color literals across all 6 screens with semantic theme tokens for full Dark Mode support | test: DarkThemeContrastTest.kt | deps: R1, R2, U1
 - [x] U9 | Create brand identity: bespoke Elixir vector app icon, splash screen (SplashScreen API), and remove legacy branding | test: SplashThemeTest.kt | deps: R1, R2, U1
-- [ ] U2 | Implement multi-step ProgressStepper component (JD -> Eligibility -> Tailored Resume -> Supervised Review) | test: ProgressStepperPreviewTest.kt | deps: R1, R2, U1
+- [x] U2 | Implement multi-step ProgressStepper component (JD -> Eligibility -> Tailored Resume -> Supervised Review) | test: ProgressStepperPreviewTest.kt | deps: R1, R2, U1
 - [ ] U3 | Redesign ReviewScreen into Boarding-Pass style card with perforated divider, metadata grid, and clear submission gate | test: ReviewScreenUiTest.kt | deps: R1, R2, U1, U2
 - [ ] U6 | Design calm, illustrated empty states with actionable primary CTAs for Tracker and Profile | test: EmptyStateComponentTest.kt | deps: R1, R2, U1
 - [ ] U7 | Implement animated screen transitions and list reordering (AnimatedVisibility, animateItemPlacement) | test: MotionTransitionTest.kt | deps: R1, R2, U1
@@ -168,4 +168,25 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [ ] R17 | Approved-answers library: offer to save approved answers and reuse them for similar questions with no AI call | test: ApprovedAnswersLibraryTest | deps: R16
 - [ ] R18 | Optional AI-assisted JD extraction with regex fallback and prompt-injection protection | test: AiJdExtractionTest | deps: R14
 - [ ] R19 | Device test pass on the dummy form per DEVICE_TESTS.md; record results | test: NEEDS_USER_DEVICE | deps: R8, R10, R11, U3
+
+---
+
+## Agent Phase 0 — make it real (see docs/ELIXIR_AGENT_PLAN.md)
+
+- [ ] AG0.1 | Push all local commits to a private GitHub remote (no secrets, local.properties ignored) | test: `git status -sb` shows no ahead count | deps: none
+- [ ] AG0.2 | Rewrite Identity.DEFAULT_IDENTITY as Elixir; build the capability list only from tools actually in ToolRegistry; remove SMS/call/camera/shell claims | test: IdentityPromptTest asserts prompt names no tool absent from the registry | deps: none
+- [ ] AG0.3 | AutonomyPolicy deny-by-default: unknown tools return ASK (or DENY), initial profile CAUTIOUS not FULL_AUTO | test: extend AutonomyPolicyTest (unknown tool, default profile) | deps: none
+- [ ] AG0.4 | accessibility_config.xml: add packageNames for Chrome and the system file picker; drop typeAllMask for the event types actually used | test: ElixirManifestTest parses config and asserts packageNames present | deps: none
+- [ ] AG0.5 | Replace fallbackToDestructiveMigration() in MemoryDb with explicit Room migrations and exported schemas | test: MemoryDbMigrationTest keeps ApplicationRecord rows across a version bump | deps: none
+- [ ] AG0.6 | Remove unused wake_word_model.tflite asset and tensorflow-lite dependency if nothing in the active build uses them | test: `.\gradlew.bat assembleDebug` exits 0 and APK size recorded | deps: none
+- [ ] AG0.7 | Device pass on docs/dummy_google_form.html per DEVICE_TESTS.md (same as R19); log every failure as a new step | test: NEEDS_USER_DEVICE | deps: R19
+
+## Agent Phase 1 (queued, do not start before AG0.1-AG0.5 are done)
+
+- [ ] AG1.1 | RiskTier enum (READ, REVERSIBLE_WRITE, CONSEQUENTIAL_WRITE) on Tool; AgentLoop requires an ApprovalToken created by a direct user tap for CONSEQUENTIAL_WRITE; model cannot create it | test: AgentLoopRiskTierTest | deps: AG0.3
+- [ ] AG1.2 | AiClient wrapper: 429 backoff, per-task call budget, JD-hash cache, fallback provider (same as R14, shared) | test: AiClientRetryTest | deps: R14
+- [ ] AG1.3 | Context compaction in AgentLoop (summarise old turns past a token budget) | test: AgentLoopCompactionTest | deps: AG1.2
+- [ ] AG1.4 | Expose placement pipeline as tools (jd.parse, eligibility.evaluate, resume.generate, application.prepare_review); submit stays behind the approval token | test: PlacementToolsTest incl. prompt-injection case | deps: AG1.1
+
+## Agent Phases 2-6 (queued): see docs/ELIXIR_AGENT_PLAN.md sections 5 and 6. WAITING_ON_USER: WebView decision (Phase 4), default AI provider and budget.
 
