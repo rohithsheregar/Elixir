@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Audit 2 completed (2026-10-25). Verified score: 66.40% (235+ unit tests pass, assembleDebug passes). Remediation steps R1–R13 completed; UI redesign steps U1, U5, U9, U2, U3 completed. Remaining UI steps: U6, U7, U4, U8, U10. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
+Audit 2 completed (2026-10-25). Verified score: 66.40% (235+ unit tests pass, assembleDebug passes). Remediation steps R1–R13 completed; UI redesign steps U1, U5, U9, U2, U3, U6 completed. Remaining UI steps: U7, U4, U8, U10. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -27,23 +27,24 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (235+ unit tests pass, as
 | 19 | Antigravity / Claude Sonnet 4.6 & Gemini 3.8 Flash | 2026-11-03 | 597a4db |
 
 ## Last Green Commit
-ab312e8 — [U3] redesign ReviewScreen with BoardingPassCard flight ticket component and metadata grid
+5c66f75 — [U6] design calm illustrated empty states with actionable primary CTAs for Tracker and Profile
 
 ## IN PROGRESS
-U6 — Design calm, illustrated empty states with actionable primary CTAs for Tracker and Profile
+U7 — Implement animated screen transitions and list reordering (AnimatedVisibility, animateItemPlacement)
 Plan:
-1. Create EmptyState composable in pp/src/main/kotlin/com/cellclaw/ui/components/EmptyState.kt with vector illustration/icon, title, body, and primary CTA button.
-2. Wire into TrackerScreen (empty applications list) and ProfileScreen (empty unconfirmed facts / profile sections).
-3. Author EmptyStateComponentTest.kt verifying rendering and callbacks.
-4. Verify with 	estDebugUnitTest and ssembleDebug.
+1. Configure NavHost animated transitions (fadeIn/fadeOut, slideInHorizontally/slideOutHorizontally) in MainActivity.kt.
+2. Add nimateItemPlacement or Modifier.animateItem to LazyColumn item lists in TrackerScreen.kt and ProfileScreen.kt.
+3. Wrap collapsible/expandable sections in AnimatedVisibility.
+4. Author MotionTransitionTest.kt verifying animation transition specs, enter/exit parameters, and list animations.
+5. Verify with 	estDebugUnitTest and ssembleDebug.
 Expected files:
-- pp/src/main/kotlin/com/cellclaw/ui/components/EmptyState.kt
+- pp/src/main/kotlin/com/cellclaw/ui/MainActivity.kt
 - pp/src/main/kotlin/com/cellclaw/ui/screens/TrackerScreen.kt
 - pp/src/main/kotlin/com/cellclaw/ui/screens/ProfileScreen.kt
-- pp/src/test/kotlin/com/cellclaw/ui/EmptyStateComponentTest.kt
+- pp/src/test/kotlin/com/cellclaw/ui/MotionTransitionTest.kt
 
 ## NEXT ACTION
-U6: Implement EmptyState component, wire into TrackerScreen and ProfileScreen, write EmptyStateComponentTest.kt.
+U7: Configure NavHost animated transitions in MainActivity.kt, list item animations in TrackerScreen.kt, write MotionTransitionTest.kt.
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.
