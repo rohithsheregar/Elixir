@@ -29,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.cellclaw.tracker.ApplicationState
 import com.cellclaw.ui.components.PlacementStep
 import com.cellclaw.ui.components.ProgressStepper
+import com.cellclaw.ui.components.BoardingPassCard
 import com.cellclaw.ui.theme.elixirColors
 import com.cellclaw.ui.viewmodel.FormFieldReviewItem
 import com.cellclaw.ui.viewmodel.ReviewViewModel
@@ -123,94 +124,17 @@ fun ReviewScreen(
                             }
                         }
 
-                        // Target Company & Role Card
+                        // Boarding-Pass Style Placement Pass
                         item {
-                            Card(
-                                modifier = Modifier.fillMaxWidth(),
-                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-                            ) {
-                                Column(modifier = Modifier.padding(16.dp)) {
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.SpaceBetween,
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Column {
-                                            Text(
-                                                text = uiState.company,
-                                                style = MaterialTheme.typography.headlineSmall,
-                                                fontWeight = FontWeight.Bold
-                                            )
-                                            Text(
-                                                text = uiState.role,
-                                                style = MaterialTheme.typography.titleMedium,
-                                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                                            )
-                                        }
-                                        StateChip(uiState.currentState)
-                                    }
-
-                                    Spacer(modifier = Modifier.height(12.dp))
-                                    HorizontalDivider()
-                                    Spacer(modifier = Modifier.height(12.dp))
-
-                                    // Form Domain
-                                    Row(verticalAlignment = Alignment.CenterVertically) {
-                                        Icon(
-                                            Icons.Default.Lock,
-                                            contentDescription = "Domain",
-                                            modifier = Modifier.size(16.dp),
-                                            tint = if (uiState.sourceUrl?.startsWith("https://") == true)
-                                                MaterialTheme.elixirColors.success
-                                            else
-                                                MaterialTheme.colorScheme.error
-                                        )
-                                        Spacer(modifier = Modifier.width(6.dp))
-                                        Text(
-                                            text = "Target Domain: ${uiState.domain}",
-                                            style = MaterialTheme.typography.bodyMedium,
-                                            fontWeight = FontWeight.Medium
-                                        )
-                                    }
-                                }
-                            }
-                        }
-
-                        // Resume File & Hash Card
-                        item {
-                            Card(modifier = Modifier.fillMaxWidth()) {
-                                Column(modifier = Modifier.padding(16.dp)) {
-                                    Text(
-                                        text = "Attached Resume",
-                                        style = MaterialTheme.typography.titleMedium,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    Text(
-                                        text = "File: ${uiState.resumeFileName}",
-                                        style = MaterialTheme.typography.bodyMedium
-                                    )
-                                    Text(
-                                        text = "Version: v${uiState.resumeVersion}",
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                    if (uiState.resumeHash != null) {
-                                        Text(
-                                            text = "SHA-256: ${uiState.resumeHash}",
-                                            style = MaterialTheme.typography.bodySmall,
-                                            fontFamily = FontFamily.Monospace,
-                                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                                        )
-                                    } else {
-                                        Text(
-                                            text = "SHA-256: Will be computed upon PDF build",
-                                            style = MaterialTheme.typography.bodySmall,
-                                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                                        )
-                                    }
-                                }
-                            }
+                            BoardingPassCard(
+                                company = uiState.company,
+                                role = uiState.role,
+                                state = uiState.currentState,
+                                domain = uiState.domain,
+                                resumeFileName = uiState.resumeFileName,
+                                resumeVersion = uiState.resumeVersion,
+                                resumeHash = uiState.resumeHash
+                            )
                         }
 
                         // Uncertainties & Warnings (if any)

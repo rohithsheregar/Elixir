@@ -674,3 +674,9 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** Focused ProgressStepperPreviewTest (verifying monotonic step ordering, human-readable/short titles, step state resolution for all 16 state combinations, and verified presence of ProgressStepper in all 4 application screen files: NewApplicationScreen, EligibilityReportScreen, ResumePreviewScreen, ReviewScreen), full unit test suite, and assembleDebug passed cleanly (BUILD SUCCESSFUL in 1m 14s, 50 actionable tasks, 5 executed, 45 up-to-date). Physical device verification documented in docs/DEVICE_TESTS.md under DT-U2 (NEEDS_USER_DEVICE).
+
+### T34 — ReviewScreenUiTest, full unit suite & assembleDebug (U3) — Session 19
+**Command:** $env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused ReviewScreenUiTest (verifying BoardingPassCard composable creation, ticket elements, perforated line canvas effect, ReviewScreen integration with ProgressStepper and submission approval gate, fallback values for missing metadata), full unit suite (31 tasks executed/cached), and ssembleDebug passed cleanly (BUILD SUCCESSFUL in 53s, 50 actionable tasks, 5 executed, 45 up-to-date). Physical device verification documented in docs/DEVICE_TESTS.md under DT-U3 (NEEDS_USER_DEVICE).

@@ -221,3 +221,9 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 ## D33 — Multi-step ProgressStepper component (U2)
 **Choice:** Implement ProgressStepper composable in com.cellclaw.ui.components with PlacementStep enum (JD_INGESTION, ELIGIBILITY, TAILORED_RESUME, SUPERVISED_REVIEW), monotonic state transitions (COMPLETED, CURRENT, UPCOMING), and wire it into NewApplicationScreen, EligibilityReportScreen, ResumePreviewScreen, and ReviewScreen.
 **Why:** Addresses Audit 2 Section 4 finding where candidates lost orientation across multi-screen application workflows. A visual progress stepper gives clear stage orientation and progress feedback without intrusive modals or extra dependencies. Verified by ProgressStepperPreviewTest and full test suites.
+
+---
+
+## D34 — ReviewScreen Boarding-Pass Style Redesign (U3)
+**Choice:** Introduce BoardingPassCard composable in com.cellclaw.ui.components featuring flight-ticket visual semantics: company/role headline, flight header, dashed/perforated divider canvas with custom PathEffect, and a two-column metadata grid showing target form domain, resume file name with version, SHA-256 fingerprint, and current application state status stamp.
+**Why:** Addresses Audit 2 Section 4 finding where ReviewScreen used plain stacked rectangular cards lacking visual hierarchy and status emphasis. Boarding pass layout consolidates pre-submission metadata into a cohesive, easily scannable pass, establishing a clear milestone feeling before supervised form submission. Verified by ReviewScreenUiTest and full test suites.

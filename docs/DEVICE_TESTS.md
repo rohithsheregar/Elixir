@@ -199,6 +199,19 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-U3 — ReviewScreen Boarding-Pass Card Layout
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device that ReviewScreen renders the BoardingPassCard with dashed perforated divider, company/role headline, application state status badge, and target domain / resume version metadata grid.
+**Steps:**
+1. Advance an application to ReviewScreen.
+2. Verify top card renders as a cohesive boarding-pass card with company name and role.
+3. Verify dashed perforated divider line renders cleanly across light and dark themes.
+4. Verify Target Domain shows secure lock icon and resume version shows document icon.
+5. Verify SHA-256 integrity hash is monospace.
+6. Verify Approve and Submit button remains functional below the boarding pass.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)
