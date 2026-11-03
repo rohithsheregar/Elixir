@@ -692,3 +692,9 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** Focused MotionTransitionTest (verifying MainActivity NavHost animated transitions with 300ms tween specification, TrackerScreen LazyColumn items with Modifier.animateItem() and item keys, ProfileScreen proposals and facts with Modifier.animateItem()), full unit suite (328 tests passed), and ssembleDebug passed cleanly (BUILD SUCCESSFUL in 1m 16s, 50 actionable tasks, 8 executed, 42 up-to-date). Physical device verification documented in docs/DEVICE_TESTS.md under DT-U7 (NEEDS_USER_DEVICE).
+
+### T37 — ResumeDiffViewTest, full unit suite & assembleDebug (U4) — Session 20
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `ResumeDiffViewTest` (verifying ResumeDiffer delta calculations for additions/omissions/reorderings, zero-delta detection on identical resumes, ResumePreviewViewModel tab switching between STRUCTURED and DIFF, baseline master resume computation, component provenance source tags `#profile`, `#jd-tailored`, `#omitted`, and toggle integration in ResumePreviewScreen), full unit test suite (333 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 2m 34s`, 50 actionable tasks, 4 executed, 46 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-U4` (NEEDS_USER_DEVICE).

@@ -159,7 +159,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] U3 | Redesign ReviewScreen into Boarding-Pass style card with perforated divider, metadata grid, and clear submission gate | test: ReviewScreenUiTest.kt | deps: R1, R2, U1, U2
 - [x] U6 | Design calm, illustrated empty states with actionable primary CTAs for Tracker and Profile | test: EmptyStateComponentTest.kt | deps: R1, R2, U1
 - [x] U7 | Implement animated screen transitions and list reordering (AnimatedVisibility, animateItemPlacement) | test: MotionTransitionTest.kt | deps: R1, R2, U1
-- [ ] U4 | Build visual Resume Diff viewer with highlighted additions, deletions, and fact-source tags | test: ResumeDiffViewTest.kt | deps: R1, R2, U1
+- [x] U4 | Build visual Resume Diff viewer with highlighted additions, deletions, and fact-source tags | test: ResumeDiffViewTest.kt | deps: R1, R2, U1
 - [ ] U8 | Categorize ProfileScreen facts into collapsible accordion groups (Personal, Academics, Experience, Skills) | test: ProfileScreenUiTest.kt | deps: R1, R2, U1
 - [ ] U10 | Add @Preview annotations and Roborazzi screenshot test suite for all 6 screens in light & dark mode | test: RoborazziScreenshotTest.kt | deps: R1, R2, U1, U3, U4, U5, U6
 - [ ] R14 | AiClient wrapper: retry with backoff on 429, per-application call budget, cache by JD hash, fallback provider, failure leaves the application in DRAFT | test: AiClientRetryTest simulating 429s | deps: none

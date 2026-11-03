@@ -239,3 +239,10 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 ## D36 — Animated Screen Transitions & List Reordering Motion (U7)
 **Choice:** Configure NavHost in MainActivity.kt with standard 300ms tween transitions: horizontal slide transitions paired with fade in/out (slideIntoContainer / slideOutOfContainer towards Start and End). Apply Modifier.animateItem() across LazyColumn items in TrackerScreen.kt (keyed on pplication.id) and ProfileScreen.kt (keyed on proposal.proposed.id and act.id). Update NavigationWiringTest.kt to robustly assert startDestination = startDest alongside transition parameters.
 **Why:** Addresses Audit 2 Section 4 finding where screen transitions were abrupt cuts and list item deletions/updates caused jarring visual pops. Standardized 300ms motion transitions establish smooth spatial orientation without introducing latency or frame drops on low-end devices. Verified by MotionTransitionTest and full unit suite.
+
+
+---
+
+## D37 — Visual Resume Diff Viewer and Source-Tag Transparency (U4)
+**Choice:** Implement `ResumeDiffView` in `com.cellclaw.ui.components` and integrate a segmented toggle in `ResumePreviewScreen` switching between "Formatted View" and "Visual Diff". `ResumePreviewViewModel` computes baseline master resume (`ResumeBuilder().build(profile, JdRequirement())`) alongside tailored resume, diffing them via `ResumeDiffer().diff(...)`. The view renders summary status badges, delta counters (`+Added`, `-Omitted`, `~Reordered`), grouped sectional diff items styled with semantic theme containers, strikethroughs for omissions, and provenance source tags (`#profile`, `#jd-tailored`, `#omitted`) guaranteeing zero fabrication.
+**Why:** Addresses Audit 2 Section 4 finding where candidates could not inspect why or how their tailored resume differed from their base profile before giving submission approval. Providing an interactive side-by-side diff with explicit provenance tags builds trust, surfaces alterations transparently, and ensures candidates retain total agency over what gets submitted to recruiters. Verified by `ResumeDiffViewTest` and full test suites.

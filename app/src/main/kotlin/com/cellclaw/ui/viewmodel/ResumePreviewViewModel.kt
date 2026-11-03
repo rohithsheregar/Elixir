@@ -9,6 +9,8 @@ import com.cellclaw.resume.GeneratedPdf
 import com.cellclaw.resume.PdfGenerator
 import com.cellclaw.resume.ResumeBuilder
 import com.cellclaw.resume.ResumeContent
+import com.cellclaw.resume.ResumeDiffResult
+import com.cellclaw.resume.ResumeDiffer
 import com.cellclaw.tracker.ApplicationPayload
 import com.cellclaw.tracker.ApplicationRecord
 import com.cellclaw.tracker.ApplicationTracker
@@ -21,15 +23,23 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+enum class ResumeViewTab {
+    STRUCTURED,
+    DIFF
+}
+
 data class ResumePreviewUiState(
     val isLoading: Boolean = true,
     val application: ApplicationRecord? = null,
     val resume: ResumeContent? = null,
+    val masterResume: ResumeContent? = null,
+    val diffResult: ResumeDiffResult? = null,
     val pdf: GeneratedPdf? = null,
     val materialChangeWarning: Boolean = false,
     val evidenceIntegrityOk: Boolean = true,
     val errorMessage: String? = null,
-    val approved: Boolean = false
+    val approved: Boolean = false,
+    val activeTab: ResumeViewTab = ResumeViewTab.STRUCTURED
 )
 
 @HiltViewModel
@@ -98,13 +108,26 @@ class ResumePreviewViewModel @Inject constructor(
                     return@launch
                 }
 
+                val masterResume = try {
+                    ResumeBuilder().build(profile, JdRequirement())
+                } catch (_: Exception) {
+                    null
+                }
+
+                val diffResult = if (masterResume != null) {
+                    ResumeDiffer().diff(masterResume, resume)
+                } else null
+
                 _uiState.value = ResumePreviewUiState(
                     isLoading = false,
                     application = app,
                     resume = resume,
+                    masterResume = masterResume,
+                    diffResult = diffResult,
                     pdf = pdf,
-                    materialChangeWarning = resume.isMaterialChangeFromMaster,
-                    evidenceIntegrityOk = resume.verifyEvidenceIntegrity()
+                    materialChangeWarning = diffResult?.isMaterialChange ?: resume.isMaterialChangeFromMaster,
+                    evidenceIntegrityOk = resume.verifyEvidenceIntegrity(),
+                    activeTab = ResumeViewTab.STRUCTURED
                 )
             } catch (e: Exception) {
                 _uiState.value = ResumePreviewUiState(
@@ -113,6 +136,10 @@ class ResumePreviewViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun setTab(tab: ResumeViewTab) {
+        _uiState.value = _uiState.value.copy(activeTab = tab)
     }
 
     fun approve() {

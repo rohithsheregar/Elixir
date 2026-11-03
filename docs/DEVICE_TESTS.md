@@ -235,6 +235,19 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-U4 — Visual Resume Diff Viewer and Source-Tag Transparency
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device that ResumePreviewScreen allows switching between Formatted View and Visual Diff, correctly displaying delta badges and provenance tags.
+**Steps:**
+1. Advance an application to ResumePreviewScreen.
+2. Verify segmented filter chips for 'Formatted View' and 'Visual Diff' render below the application header.
+3. Tap 'Visual Diff': verify view toggles to ResumeDiffView showing summary card, delta pills (+Added, -Omitted, ~Reordered), and material change status.
+4. If modifications exist, verify additions are highlighted in green with #jd-tailored and #profile tags, and omissions are highlighted in red with #omitted and strikethroughs.
+5. If identical, verify calm zero-delta card with checkmark badge renders.
+6. Verify 'I Approve This Resume — Proceed to Review' button remains clickable and accessible in both view modes.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)

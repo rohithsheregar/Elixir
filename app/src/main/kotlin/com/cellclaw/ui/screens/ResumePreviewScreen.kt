@@ -7,6 +7,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -23,11 +25,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cellclaw.resume.ResumeContent
+import com.cellclaw.resume.ResumeDiffer
 import com.cellclaw.resume.ResumeSection
 import com.cellclaw.ui.components.PlacementStep
 import com.cellclaw.ui.components.ProgressStepper
+import com.cellclaw.ui.components.ResumeDiffView
 import com.cellclaw.ui.theme.elixirColors
 import com.cellclaw.ui.viewmodel.ResumePreviewViewModel
+import com.cellclaw.ui.viewmodel.ResumeViewTab
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -183,28 +188,74 @@ fun ResumePreviewScreen(
                             }
                         }
 
-                        Text(
-                            text = "Resume Content",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(vertical = 4.dp)
-                        )
-
-                        LazyColumn(
+                        // Tab Selector between Structured Formatted View and Visual Diff
+                        Row(
                             modifier = Modifier
-                                .weight(1f)
-                                .fillMaxWidth(),
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            // Contact header
-                            item {
-                                ResumeHeaderCard(resume = resume)
-                            }
+                            FilterChip(
+                                selected = uiState.activeTab == ResumeViewTab.STRUCTURED,
+                                onClick = { viewModel.setTab(ResumeViewTab.STRUCTURED) },
+                                label = { Text("Formatted View") },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Description,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(16.dp)
+                                    )
+                                }
+                            )
 
-                            items(resume.sections) { section ->
-                                ResumeSectionCard(
-                                    section = section,
-                                    evidenceMap = resume.evidenceMap.lineToFactId
+                            val diffCount = uiState.diffResult?.entries?.size ?: 0
+                            FilterChip(
+                                selected = uiState.activeTab == ResumeViewTab.DIFF,
+                                onClick = { viewModel.setTab(ResumeViewTab.DIFF) },
+                                label = {
+                                    Text(if (diffCount > 0) "Visual Diff ($diffCount)" else "Visual Diff")
+                                },
+                                leadingIcon = {
+                                    Icon(
+                                        imageVector = Icons.Default.Edit,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(16.dp)
+                                    )
+                                }
+                            )
+                        }
+
+                        when (uiState.activeTab) {
+                            ResumeViewTab.STRUCTURED -> {
+                                LazyColumn(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .fillMaxWidth(),
+                                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    // Contact header
+                                    item {
+                                        ResumeHeaderCard(resume = resume)
+                                    }
+
+                                    items(resume.sections) { section ->
+                                        ResumeSectionCard(
+                                            section = section,
+                                            evidenceMap = resume.evidenceMap.lineToFactId
+                                        )
+                                    }
+                                }
+                            }
+                            ResumeViewTab.DIFF -> {
+                                val diffResult = uiState.diffResult ?: ResumeDiffer().diff(
+                                    uiState.masterResume ?: ResumeContent(name = "", email = ""),
+                                    resume
+                                )
+                                ResumeDiffView(
+                                    diffResult = diffResult,
+                                    tailored = resume,
+                                    master = uiState.masterResume,
+                                    modifier = Modifier.weight(1f)
                                 )
                             }
                         }
