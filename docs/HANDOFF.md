@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Audit 2 completed (2026-10-25). Verified score: 66.40% (328 unit tests pass, assembleDebug passes). Remediation steps R1–R13 completed; UI redesign steps U1, U5, U9, U2, U3, U6, U7 completed. Remaining UI steps: U4, U8, U10. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
+Audit 2 completed (2026-10-25). Verified score: 66.40% (333 unit tests pass, assembleDebug passes). Remediation steps R1–R13 completed; UI redesign steps U1, U5, U9, U2, U3, U6, U7, U4 completed. Remaining UI steps: U8, U10. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -25,24 +25,24 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (328 unit tests pass, ass
 | 17 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | e554d2e |
 | 18 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | 168cf1f |
 | 19 | Antigravity / Claude Sonnet 4.6 & Gemini 3.8 Flash | 2026-11-03 | 597a4db |
+| 20 | Antigravity / Gemini 3.8 Flash | 2026-11-03 | 011eccf |
 
 ## Last Green Commit
-abf6fba — [U7] implement animated screen transitions and list reordering motion
+8dcaec3 — [U4] build visual Resume Diff viewer with highlighted additions, omissions, and fact-source tags
 
 ## IN PROGRESS
-U4 — Build visual Resume Diff viewer with highlighted additions, deletions, and fact-source tags
+U8 — Categorize ProfileScreen facts into collapsible accordion groups (Personal, Academics, Experience, Skills)
 Plan:
-1. Create ResumeDiffView component in pp/src/main/kotlin/com/cellclaw/ui/components/ResumeDiffView.kt with highlighted additions, reordered skills/experiences, and verified fact-source tags (#profile, #jd-tailored).
-2. Integrate toggle into ResumePreviewScreen.kt for switching between structured section preview and visual diff view.
-3. Author ResumeDiffViewTest.kt asserting diff component rendering, badge colors, and source tag mapping.
-4. Verify with 	estDebugUnitTest and ssembleDebug.
+1. Define ProfileFactCategory enum (PERSONAL, ACADEMICS, EXPERIENCE, SKILLS) with display titles, icons, and field classifier.
+2. Update ProfileScreen with collapsible accordion group sections (AccordionCard) and expand/collapse state.
+3. Author ProfileScreenUiTest.kt asserting category grouping, accordion toggling, and fact management.
+4. Verify with testDebugUnitTest and assembleDebug.
 Expected files:
-- pp/src/main/kotlin/com/cellclaw/ui/components/ResumeDiffView.kt
-- pp/src/main/kotlin/com/cellclaw/ui/screens/ResumePreviewScreen.kt
-- pp/src/test/kotlin/com/cellclaw/ui/ResumeDiffViewTest.kt
+- app/src/main/kotlin/com/cellclaw/ui/screens/ProfileScreen.kt
+- app/src/test/kotlin/com/cellclaw/ui/ProfileScreenUiTest.kt
 
 ## NEXT ACTION
-U4: Create ResumeDiffView component, wire toggle into ResumePreviewScreen, write ResumeDiffViewTest.kt.
+U8: Categorize ProfileScreen facts into collapsible accordion groups (Personal, Academics, Experience, Skills) and verify with ProfileScreenUiTest.kt.
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.
