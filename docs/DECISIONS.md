@@ -227,3 +227,9 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 ## D34 — ReviewScreen Boarding-Pass Style Redesign (U3)
 **Choice:** Introduce BoardingPassCard composable in com.cellclaw.ui.components featuring flight-ticket visual semantics: company/role headline, flight header, dashed/perforated divider canvas with custom PathEffect, and a two-column metadata grid showing target form domain, resume file name with version, SHA-256 fingerprint, and current application state status stamp.
 **Why:** Addresses Audit 2 Section 4 finding where ReviewScreen used plain stacked rectangular cards lacking visual hierarchy and status emphasis. Boarding pass layout consolidates pre-submission metadata into a cohesive, easily scannable pass, establishing a clear milestone feeling before supervised form submission. Verified by ReviewScreenUiTest and full test suites.
+
+---
+
+## D35 — Calm Illustrated Empty States with Primary CTAs (U6)
+**Choice:** Implement EmptyState composable in com.cellclaw.ui.components with soft concentric circular illustration badges, clear typography, optional guidance tips, and primary/secondary action buttons. Integrate into TrackerScreen (distinct states for unfiltered empty list vs filtered/search empty list with Clear Filter action) and ProfileScreen (empty confirmed facts with Add Profile Fact CTA and zero-fabrication reassurance).
+**Why:** Addresses Audit 2 Section 4 finding where empty application lists and uninitialized profiles displayed stark, unstyled plain text blocks with dead ends. Illustrated empty states reduce friction, clarify next steps, and maintain high engagement for candidates beginning their placement workflow. Verified by EmptyStateComponentTest and full test suites.

@@ -212,6 +212,19 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-U6 — Calm Illustrated Empty States
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device that empty Tracker and Profile screens render illustrated empty state graphics, guidance tips, and responsive primary/secondary CTAs.
+**Steps:**
+1. Open TrackerScreen with 0 applications (or fresh install): verify calm illustrated badge renders with Description icon, 'No applications tracked yet' headline, guidance tip pill, and 'New Application' primary CTA button.
+2. Tap 'New Application': verify navigation opens NewApplicationScreen.
+3. If applications exist, enter a non-matching query in the search bar: verify Search icon renders with 'No matching applications' headline and 'Clear Filter' button.
+4. Tap 'Clear Filter': verify search query is cleared and all applications reappear.
+5. Open ProfileScreen with empty confirmed facts: verify Person icon renders with 'No confirmed profile facts' headline, zero-fabrication tip, and 'Add Profile Fact' CTA button.
+6. Tap 'Add Profile Fact': verify Add Fact dialog opens immediately.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)

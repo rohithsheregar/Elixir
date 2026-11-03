@@ -680,3 +680,9 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** Focused ReviewScreenUiTest (verifying BoardingPassCard composable creation, ticket elements, perforated line canvas effect, ReviewScreen integration with ProgressStepper and submission approval gate, fallback values for missing metadata), full unit suite (31 tasks executed/cached), and ssembleDebug passed cleanly (BUILD SUCCESSFUL in 53s, 50 actionable tasks, 5 executed, 45 up-to-date). Physical device verification documented in docs/DEVICE_TESTS.md under DT-U3 (NEEDS_USER_DEVICE).
+
+### T35 — EmptyStateComponentTest, full unit suite & assembleDebug (U6) — Session 19
+**Command:** $env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused EmptyStateComponentTest (verifying EmptyState composable definition with circular illustration badge, parameter handling for action/tip/icons, TrackerScreen integration for filtered vs unfiltered empty states, ProfileScreen integration for empty confirmed facts with Add Fact CTA and zero-fabrication reassurance), full unit suite (31 tasks executed/cached), and ssembleDebug passed cleanly (BUILD SUCCESSFUL in 2m 18s, 50 actionable tasks, 5 executed, 45 up-to-date). Physical device verification documented in docs/DEVICE_TESTS.md under DT-U6 (NEEDS_USER_DEVICE).

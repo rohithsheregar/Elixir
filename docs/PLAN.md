@@ -157,7 +157,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] U9 | Create brand identity: bespoke Elixir vector app icon, splash screen (SplashScreen API), and remove legacy branding | test: SplashThemeTest.kt | deps: R1, R2, U1
 - [x] U2 | Implement multi-step ProgressStepper component (JD -> Eligibility -> Tailored Resume -> Supervised Review) | test: ProgressStepperPreviewTest.kt | deps: R1, R2, U1
 - [x] U3 | Redesign ReviewScreen into Boarding-Pass style card with perforated divider, metadata grid, and clear submission gate | test: ReviewScreenUiTest.kt | deps: R1, R2, U1, U2
-- [ ] U6 | Design calm, illustrated empty states with actionable primary CTAs for Tracker and Profile | test: EmptyStateComponentTest.kt | deps: R1, R2, U1
+- [x] U6 | Design calm, illustrated empty states with actionable primary CTAs for Tracker and Profile | test: EmptyStateComponentTest.kt | deps: R1, R2, U1
 - [ ] U7 | Implement animated screen transitions and list reordering (AnimatedVisibility, animateItemPlacement) | test: MotionTransitionTest.kt | deps: R1, R2, U1
 - [ ] U4 | Build visual Resume Diff viewer with highlighted additions, deletions, and fact-source tags | test: ResumeDiffViewTest.kt | deps: R1, R2, U1
 - [ ] U8 | Categorize ProfileScreen facts into collapsible accordion groups (Personal, Academics, Experience, Skills) | test: ProfileScreenUiTest.kt | deps: R1, R2, U1

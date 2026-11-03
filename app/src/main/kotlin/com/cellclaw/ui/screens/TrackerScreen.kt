@@ -31,8 +31,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cellclaw.tracker.ApplicationRecord
 import com.cellclaw.tracker.ApplicationState
+import com.cellclaw.ui.components.EmptyState
 import com.cellclaw.ui.theme.elixirColors
 import com.cellclaw.ui.viewmodel.TrackerViewModel
+import androidx.compose.material.icons.filled.Description
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -139,28 +141,32 @@ fun TrackerScreen(
                     CircularProgressIndicator()
                 }
             } else if (uiState.applications.isEmpty()) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(24.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = if (uiState.selectedFilter != null || uiState.searchQuery.isNotBlank())
-                                "No applications match your filter."
-                            else
-                                "No applications tracked yet.",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Button(onClick = onNavigateToNewApp) {
-                            Icon(Icons.Default.Add, contentDescription = null)
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text("New Application")
-                        }
-                    }
+                val isFiltered = uiState.selectedFilter != null || uiState.searchQuery.isNotBlank()
+                if (isFiltered) {
+                    EmptyState(
+                        icon = Icons.Default.Search,
+                        title = "No matching applications",
+                        description = "No applications match your active search or state filter. Clear filters to see all applications.",
+                        actionLabel = "Clear Filter",
+                        actionIcon = Icons.Default.Close,
+                        onAction = {
+                            viewModel.setFilter(null)
+                            viewModel.setSearchQuery("")
+                        },
+                        secondaryActionLabel = "New Application",
+                        secondaryActionIcon = Icons.Default.Add,
+                        onSecondaryAction = onNavigateToNewApp
+                    )
+                } else {
+                    EmptyState(
+                        icon = Icons.Default.Description,
+                        title = "No applications tracked yet",
+                        description = "Start your supervised placement journey by ingesting a job description from campus placements or job portals.",
+                        actionLabel = "New Application",
+                        actionIcon = Icons.Default.Add,
+                        onAction = onNavigateToNewApp,
+                        tip = "Tip: You can paste JD text directly or share job documents from external apps."
+                    )
                 }
             } else {
                 LazyColumn(

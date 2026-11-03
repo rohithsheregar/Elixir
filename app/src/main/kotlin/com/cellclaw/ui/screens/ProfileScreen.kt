@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cellclaw.profile.ProfileFact
 import com.cellclaw.profile.ProfileFactProposal
+import com.cellclaw.ui.components.EmptyState
 import com.cellclaw.ui.theme.elixirColors
 import com.cellclaw.ui.viewmodel.ProfileViewModel
 
@@ -114,16 +116,15 @@ fun ProfileScreen(
 
                 if (uiState.confirmedFacts.isEmpty()) {
                     item {
-                        Card(
-                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text(
-                                text = "No confirmed facts yet. Add facts using the button below or import a resume.",
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.padding(16.dp)
-                            )
-                        }
+                        EmptyState(
+                            icon = Icons.Default.Person,
+                            title = "No confirmed profile facts",
+                            description = "Your profile facts serve as the zero-fabrication ground truth for placement eligibility checks and resume tailoring.",
+                            actionLabel = "Add Profile Fact",
+                            actionIcon = Icons.Default.Add,
+                            onAction = { showAddDialog = true },
+                            tip = "Zero-fabrication: Elixir strictly refuses to fabricate or hallucinate unconfirmed facts."
+                        )
                     }
                 } else {
                     items(uiState.confirmedFacts) { fact ->
