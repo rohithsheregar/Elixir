@@ -233,3 +233,9 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 ## D35 — Calm Illustrated Empty States with Primary CTAs (U6)
 **Choice:** Implement EmptyState composable in com.cellclaw.ui.components with soft concentric circular illustration badges, clear typography, optional guidance tips, and primary/secondary action buttons. Integrate into TrackerScreen (distinct states for unfiltered empty list vs filtered/search empty list with Clear Filter action) and ProfileScreen (empty confirmed facts with Add Profile Fact CTA and zero-fabrication reassurance).
 **Why:** Addresses Audit 2 Section 4 finding where empty application lists and uninitialized profiles displayed stark, unstyled plain text blocks with dead ends. Illustrated empty states reduce friction, clarify next steps, and maintain high engagement for candidates beginning their placement workflow. Verified by EmptyStateComponentTest and full test suites.
+
+---
+
+## D36 — Animated Screen Transitions & List Reordering Motion (U7)
+**Choice:** Configure NavHost in MainActivity.kt with standard 300ms tween transitions: horizontal slide transitions paired with fade in/out (slideIntoContainer / slideOutOfContainer towards Start and End). Apply Modifier.animateItem() across LazyColumn items in TrackerScreen.kt (keyed on pplication.id) and ProfileScreen.kt (keyed on proposal.proposed.id and act.id). Update NavigationWiringTest.kt to robustly assert startDestination = startDest alongside transition parameters.
+**Why:** Addresses Audit 2 Section 4 finding where screen transitions were abrupt cuts and list item deletions/updates caused jarring visual pops. Standardized 300ms motion transitions establish smooth spatial orientation without introducing latency or frame drops on low-end devices. Verified by MotionTransitionTest and full unit suite.

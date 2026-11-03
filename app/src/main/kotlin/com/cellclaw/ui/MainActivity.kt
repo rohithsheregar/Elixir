@@ -8,6 +8,10 @@ import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -77,7 +81,34 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-                    NavHost(navController = navController, startDestination = startDest) {
+                    NavHost(
+                        navController = navController,
+                        startDestination = startDest,
+                        enterTransition = {
+                            fadeIn(animationSpec = tween(300)) + slideIntoContainer(
+                                towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                                animationSpec = tween(300)
+                            )
+                        },
+                        exitTransition = {
+                            fadeOut(animationSpec = tween(300)) + slideOutOfContainer(
+                                towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                                animationSpec = tween(300)
+                            )
+                        },
+                        popEnterTransition = {
+                            fadeIn(animationSpec = tween(300)) + slideIntoContainer(
+                                towards = AnimatedContentTransitionScope.SlideDirection.End,
+                                animationSpec = tween(300)
+                            )
+                        },
+                        popExitTransition = {
+                            fadeOut(animationSpec = tween(300)) + slideOutOfContainer(
+                                towards = AnimatedContentTransitionScope.SlideDirection.End,
+                                animationSpec = tween(300)
+                            )
+                        }
+                    ) {
                         composable(NavigationRoutes.SETUP) {
                             SetupScreen(
                                 onComplete = {

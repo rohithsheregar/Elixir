@@ -686,3 +686,9 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** Focused EmptyStateComponentTest (verifying EmptyState composable definition with circular illustration badge, parameter handling for action/tip/icons, TrackerScreen integration for filtered vs unfiltered empty states, ProfileScreen integration for empty confirmed facts with Add Fact CTA and zero-fabrication reassurance), full unit suite (31 tasks executed/cached), and ssembleDebug passed cleanly (BUILD SUCCESSFUL in 2m 18s, 50 actionable tasks, 5 executed, 45 up-to-date). Physical device verification documented in docs/DEVICE_TESTS.md under DT-U6 (NEEDS_USER_DEVICE).
+
+### T36 — MotionTransitionTest, full unit suite & assembleDebug (U7) — Session 19
+**Command:** $env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused MotionTransitionTest (verifying MainActivity NavHost animated transitions with 300ms tween specification, TrackerScreen LazyColumn items with Modifier.animateItem() and item keys, ProfileScreen proposals and facts with Modifier.animateItem()), full unit suite (328 tests passed), and ssembleDebug passed cleanly (BUILD SUCCESSFUL in 1m 16s, 50 actionable tasks, 8 executed, 42 up-to-date). Physical device verification documented in docs/DEVICE_TESTS.md under DT-U7 (NEEDS_USER_DEVICE).

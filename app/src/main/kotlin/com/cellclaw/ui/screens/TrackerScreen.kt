@@ -177,6 +177,7 @@ fun TrackerScreen(
                     items(uiState.applications, key = { it.id }) { app ->
                         ApplicationCard(
                             application = app,
+                            modifier = Modifier.animateItem(),
                             onClick = { onSelectApplication(app.id) },
                             onDelete = { applicationToDelete = app }
                         )
@@ -212,10 +213,11 @@ fun TrackerScreen(
 private fun ApplicationCard(
     application: ApplicationRecord,
     onClick: () -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)

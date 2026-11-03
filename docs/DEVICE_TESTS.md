@@ -225,6 +225,16 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-U7 — Animated Transitions and List Reordering
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device that screen changes smoothly slide/fade with 300ms transitions and list removals animate smoothly without jarring frame drops.
+**Steps:**
+1. Navigate between TrackerScreen, ProfileScreen, and NewApplicationScreen: verify screens slide horizontally and fade smoothly.
+2. In TrackerScreen with multiple applications, delete an application: verify remaining cards smoothly animate into place (nimateItem).
+3. In ProfileScreen with multiple facts, edit or delete a fact: verify cards animate smoothly without sudden pops.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)

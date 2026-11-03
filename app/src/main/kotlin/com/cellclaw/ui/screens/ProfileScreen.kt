@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -95,9 +96,10 @@ fun ProfileScreen(
                         )
                     }
 
-                    items(uiState.proposals) { proposal ->
+                    items(uiState.proposals, key = { it.proposed.id }) { proposal ->
                         ProposalDiffCard(
                             proposal = proposal,
+                            modifier = Modifier.animateItem(),
                             onApprove = { viewModel.approveProposal(proposal) },
                             onReject = { viewModel.rejectProposal(proposal) }
                         )
@@ -127,9 +129,10 @@ fun ProfileScreen(
                         )
                     }
                 } else {
-                    items(uiState.confirmedFacts) { fact ->
+                    items(uiState.confirmedFacts, key = { it.id }) { fact ->
                         ConfirmedFactCard(
                             fact = fact,
+                            modifier = Modifier.animateItem(),
                             onEdit = { editingFact = fact }
                         )
                     }
@@ -251,11 +254,12 @@ fun ProfileScreen(
 fun ProposalDiffCard(
     proposal: ProfileFactProposal,
     onApprove: () -> Unit,
-    onReject: () -> Unit
+    onReject: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Card(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(
@@ -331,11 +335,12 @@ fun ProposalDiffCard(
 @Composable
 fun ConfirmedFactCard(
     fact: ProfileFact,
-    onEdit: () -> Unit
+    onEdit: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Card(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         Row(
             modifier = Modifier

@@ -46,7 +46,8 @@ class NavigationWiringTest {
         )
         assertTrue(
             "MainActivity NavHost must wire startDestination = startDest",
-            mainActivitySource.contains("NavHost(navController = navController, startDestination = startDest)")
+            mainActivitySource.contains("navController = navController") &&
+                mainActivitySource.contains("startDestination = startDest")
         )
         assertTrue(
             "MainActivity must wire TrackerScreen with onNavigateToSettings",
