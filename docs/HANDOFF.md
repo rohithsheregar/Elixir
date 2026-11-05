@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Audit 2 completed (2026-10-25). Verified score: 66.40% (333 unit tests pass, assembleDebug passes). Remediation steps R1–R13 completed; UI redesign steps U1, U5, U9, U2, U3, U6, U7, U4 completed. Remaining UI steps: U8, U10. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
+Audit 2 completed (2026-10-25). Verified score: 66.40% (339 unit tests pass, assembleDebug passes). Remediation steps R1–R13 completed; UI redesign steps U1, U5, U9, U2, U3, U6, U7, U4, U8 completed. Remaining UI steps: U10. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -28,21 +28,20 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (333 unit tests pass, ass
 | 20 | Antigravity / Gemini 3.8 Flash | 2026-11-03 | 011eccf |
 
 ## Last Green Commit
-8dcaec3 — [U4] build visual Resume Diff viewer with highlighted additions, omissions, and fact-source tags
+e2b39f8 — [U8] categorize ProfileScreen facts into collapsible accordion groups (Personal, Academics, Experience, Skills)
 
 ## IN PROGRESS
-U8 — Categorize ProfileScreen facts into collapsible accordion groups (Personal, Academics, Experience, Skills)
+U10 — Add @Preview annotations and screenshot preview test suite for placement screens in light and dark mode
 Plan:
-1. Define ProfileFactCategory enum (PERSONAL, ACADEMICS, EXPERIENCE, SKILLS) with display titles, icons, and field classifier.
-2. Update ProfileScreen with collapsible accordion group sections (AccordionCard) and expand/collapse state.
-3. Author ProfileScreenUiTest.kt asserting category grouping, accordion toggling, and fact management.
-4. Verify with testDebugUnitTest and assembleDebug.
+1. Add @Preview annotations with light and dark mode configurations across core screens and components (ProgressStepper, BoardingPassCard, EmptyState, ResumeDiffView, CategoryAccordionCard).
+2. Author RoborazziScreenshotTest.kt asserting @Preview existence, configuration for light/dark mode, and preview component rendering.
+3. Verify with testDebugUnitTest and assembleDebug.
 Expected files:
-- app/src/main/kotlin/com/cellclaw/ui/screens/ProfileScreen.kt
-- app/src/test/kotlin/com/cellclaw/ui/ProfileScreenUiTest.kt
+- app/src/main/kotlin/com/cellclaw/ui/components/*.kt
+- app/src/test/kotlin/com/cellclaw/ui/RoborazziScreenshotTest.kt
 
 ## NEXT ACTION
-U8: Categorize ProfileScreen facts into collapsible accordion groups (Personal, Academics, Experience, Skills) and verify with ProfileScreenUiTest.kt.
+U10: Add @Preview annotations across screens and components and author RoborazziScreenshotTest.kt.
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.
