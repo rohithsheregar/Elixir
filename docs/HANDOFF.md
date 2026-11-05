@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Audit 2 completed (2026-10-25). Verified score: 66.40% (339 unit tests pass, assembleDebug passes). Remediation steps R1–R13 completed; UI redesign steps U1, U5, U9, U2, U3, U6, U7, U4, U8 completed. Remaining UI steps: U10. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
+Audit 2 completed (2026-10-25). Verified score: 66.40% (344 unit tests pass, assembleDebug passes). Remediation steps R1–R13 and ALL UI redesign steps U1–U10 completed. In progress: R14–R18. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -28,20 +28,21 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (339 unit tests pass, ass
 | 20 | Antigravity / Gemini 3.8 Flash | 2026-11-03 | 011eccf |
 
 ## Last Green Commit
-e2b39f8 — [U8] categorize ProfileScreen facts into collapsible accordion groups (Personal, Academics, Experience, Skills)
+b4ec376 — [U10] add @Preview annotations and screenshot preview test suite for all 6 screens in light and dark mode
 
 ## IN PROGRESS
-U10 — Add @Preview annotations and screenshot preview test suite for placement screens in light and dark mode
+R14 — AiClient wrapper: retry with backoff on 429, per-application call budget, cache by JD hash, fallback provider, failure leaves the application in DRAFT
 Plan:
-1. Add @Preview annotations with light and dark mode configurations across core screens and components (ProgressStepper, BoardingPassCard, EmptyState, ResumeDiffView, CategoryAccordionCard).
-2. Author RoborazziScreenshotTest.kt asserting @Preview existence, configuration for light/dark mode, and preview component rendering.
-3. Verify with testDebugUnitTest and assembleDebug.
+1. Implement ResilientAiClient wrapper around Gemini/Anthropic client handling exponential backoff on HTTP 429, per-application token/call budget limit, in-memory/disk response caching keyed by JD hash, and fallback provider failover.
+2. Ensure failure leaves application state in DRAFT without corrupting tracker records.
+3. Author AiClientRetryTest.kt simulating 429 rate limit responses, jittered exponential backoffs, budget exhaustion, and cache hits.
+4. Verify with testDebugUnitTest and assembleDebug.
 Expected files:
-- app/src/main/kotlin/com/cellclaw/ui/components/*.kt
-- app/src/test/kotlin/com/cellclaw/ui/RoborazziScreenshotTest.kt
+- app/src/main/kotlin/com/cellclaw/ai/ResilientAiClient.kt
+- app/src/test/kotlin/com/cellclaw/ai/AiClientRetryTest.kt
 
 ## NEXT ACTION
-U10: Add @Preview annotations across screens and components and author RoborazziScreenshotTest.kt.
+R14: Implement ResilientAiClient wrapper, wire into DI, author AiClientRetryTest.kt, and verify with testDebugUnitTest.
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.
