@@ -42,8 +42,26 @@ data class CandidateProfile(
     val internships: List<ProfileFact> = emptyList(),
     val certificates: List<ProfileFact> = emptyList(),
     val links: List<ProfileFact> = emptyList(),
-    val reusableAnswers: List<ProfileFact> = emptyList()
-)
+    val reusableAnswers: List<ProfileFact> = emptyList(),
+    val projectDetails: List<ProjectDetail> = emptyList()
+) {
+    fun withProjectDetail(detail: ProjectDetail): CandidateProfile {
+        val updated = projectDetails.filterNot { it.id == detail.id } + detail
+        return copy(projectDetails = updated)
+    }
+
+    fun withoutProjectDetail(detailId: String): CandidateProfile {
+        return copy(projectDetails = projectDetails.filterNot { it.id == detailId })
+    }
+
+    /** Returns all profile facts including synthesized facts from confirmed project details. */
+    fun allFacts(): List<ProfileFact> =
+        listOfNotNull(
+            name, email, phone, college, university, degree, branch, graduationYear, cgpa, cgpaScale,
+            marks10th, marks12th
+        ) + skills + projects + internships + certificates + links + reusableAnswers +
+                projectDetails.filter { it.confirmed }.flatMap { it.toProfileFacts() }
+}
 
 /** Stores [Instant] values as ISO-8601 strings so profile JSON remains portable and readable. */
 object InstantIso8601Serializer : KSerializer<Instant> {

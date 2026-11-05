@@ -53,7 +53,8 @@ class ProfileViewModel @Inject constructor(
             profile.university, profile.degree, profile.branch, profile.graduationYear,
             profile.cgpa, profile.cgpaScale, profile.marks10th, profile.marks12th
         ) + profile.skills + profile.projects + profile.internships +
-            profile.certificates + profile.links + profile.reusableAnswers
+            profile.certificates + profile.links + profile.reusableAnswers +
+            profile.projectDetails.flatMap { it.toProfileFacts() }
 
         val confirmed = all.filter { it.confirmed }
         val unconfirmed = all.filter { !it.confirmed }

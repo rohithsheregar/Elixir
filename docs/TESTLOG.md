@@ -716,3 +716,9 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** Focused `AiClientRetryTest` (verifying exponential backoff retries on simulated HTTP 429 errors, seamless failover to fallback provider when primary quota is exhausted, per-application call budget enforcement throwing `CallBudgetExceededException`, response caching keyed on `jdHash`, and terminal error handling safely leaving application in `DRAFT`), full unit test suite (349 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 3m 38s`, 50 actionable tasks, 17 executed, 33 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R14` (NEEDS_USER_DEVICE).
+
+### T41 — ProfileProjectDetailsTest, full unit suite & assembleDebug (R15) — Session 20
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `ProfileProjectDetailsTest` (verifying `ProjectDetail` validation of title/problem/role/challenge/results, serialization round-tripping within `CandidateProfile`, backward compatibility with legacy profiles lacking project details, synthesized `ProfileFact` generation with authentic IDs, and `ProfileManager` save/delete operations), full unit test suite (355 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 41s`, 50 actionable tasks, 14 executed, 36 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R15` (NEEDS_USER_DEVICE).

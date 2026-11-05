@@ -62,6 +62,19 @@ class ProfileManager(
         repository.wipeAll()
     }
 
+    suspend fun saveProjectDetail(detail: ProjectDetail): ProjectDetail {
+        val current = repository.getProfile() ?: CandidateProfile()
+        val updated = current.withProjectDetail(detail)
+        repository.saveProfile(updated)
+        return detail
+    }
+
+    suspend fun deleteProjectDetail(id: String) {
+        val current = repository.getProfile() ?: return
+        val updated = current.withoutProjectDetail(id)
+        repository.saveProfile(updated)
+    }
+
     private fun CandidateProfile.filterConfirmedOnly(): CandidateProfile = CandidateProfile(
         name = name?.takeIf { it.confirmed },
         email = email?.takeIf { it.confirmed },
@@ -80,14 +93,9 @@ class ProfileManager(
         internships = internships.filter { it.confirmed },
         certificates = certificates.filter { it.confirmed },
         links = links.filter { it.confirmed },
-        reusableAnswers = reusableAnswers.filter { it.confirmed }
+        reusableAnswers = reusableAnswers.filter { it.confirmed },
+        projectDetails = projectDetails.filter { it.confirmed }
     )
-
-    private fun CandidateProfile.allFacts(): List<ProfileFact> =
-        listOfNotNull(
-            name, email, phone, college, university, degree, branch, graduationYear, cgpa, cgpaScale,
-            marks10th, marks12th
-        ) + skills + projects + internships + certificates + links + reusableAnswers
 
     private fun CandidateProfile.replace(fact: ProfileFact): CandidateProfile = when (fact.field) {
         "name" -> copy(name = fact)

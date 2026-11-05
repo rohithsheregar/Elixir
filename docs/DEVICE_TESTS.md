@@ -283,6 +283,17 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-R15 — Structured Project Details in Profile
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device that candidate profile securely stores and manages rich structured project details (problem, role, tools, challenges, verified results).
+**Steps:**
+1. Open ProfileScreen and view the Experience accordion group.
+2. Verify project details display title, role, problem statement, key tools, and verified achievements.
+3. Edit or add a project detail: verify fields persist to EncryptedSharedPreferences upon save.
+4. Verify project detail facts are accessible to downstream placement flows.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)
