@@ -45,7 +45,8 @@ interface AnswerDrafter {
 
 @Singleton
 class DefaultAnswerDrafter @Inject constructor(
-    private val aiClient: AiClient? = null
+    private val aiClient: AiClient? = null,
+    private val answersLibrary: ApprovedAnswersLibrary? = null
 ) : AnswerDrafter {
 
     override suspend fun draftAnswer(
@@ -56,6 +57,24 @@ class DefaultAnswerDrafter @Inject constructor(
         lengthLimit: Int?,
         applicationId: String?
     ): DraftedAnswer {
+        // 1. Check ApprovedAnswersLibrary first for zero-AI, zero-token reuse
+        if (answersLibrary != null) {
+            val match = answersLibrary.findBestMatch(question, lengthLimit)
+            if (match != null && match.similarityScore >= 0.35) {
+                answersLibrary.recordUsage(match.approvedAnswer.id)
+                return DraftedAnswer(
+                    question = question,
+                    text = match.fittedText,
+                    citedFactIds = match.approvedAnswer.citedFactIds,
+                    characterCount = match.fittedText.length,
+                    lengthLimit = lengthLimit,
+                    isWithinLimit = lengthLimit == null || match.fittedText.length <= lengthLimit,
+                    requiresApproval = true,
+                    approved = true
+                )
+            }
+        }
+
         val confirmedFacts = profile.allFacts().filter { it.confirmed }
         val projects = profile.projectDetails.filter { it.confirmed }
 

@@ -306,6 +306,18 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-R17 — Approved-Answers Library and Zero-AI Reuse
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device that user-approved answers are offered for saving into the personal library and reused for similar form questions with zero AI calls or token costs.
+**Steps:**
+1. Upon approving a drafted answer, verify prompt offering to save it to the personal approved-answers library under its question topic cluster.
+2. Navigate to subsequent form with a semantically matching question (e.g. 'Tell us about a technical obstacle you solved').
+3. Verify Elixir instantly populates the matching approved answer with zero network/AI calls.
+4. Verify character constraints are cleanly enforced without breaking word boundaries.
+5. In ProfileScreen, verify user can view, edit, or delete stored approved answers from Keystore-encrypted storage.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)

@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Audit 2 completed (2026-10-25). Verified score: 66.40% (355 unit tests pass, assembleDebug passes). Remediation steps R1–R15 and UI redesign steps U1–U10 completed. In progress: R16–R18. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
+Audit 2 completed (2026-10-25). Verified score: 66.40% (369 unit tests pass, assembleDebug passes). Remediation steps R1–R17 and UI redesign steps U1–U10 completed. In progress: R18. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -26,23 +26,23 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (355 unit tests pass, ass
 | 18 | Antigravity / Gemini 3.8 Flash | 2026-10-25 | 168cf1f |
 | 19 | Antigravity / Claude Sonnet 4.6 & Gemini 3.8 Flash | 2026-11-03 | 597a4db |
 | 20 | Antigravity / Gemini 3.8 Flash | 2026-11-03 | 011eccf |
+| 21 | Antigravity / Gemini 3.8 Flash | 2026-11-05 | 125dfab |
 
 ## Last Green Commit
-c7b21e7 — [R15] model structured ProjectDetail in profile with ground truth problem, role, tools, challenge, results, and story
+TBD_R17_COMMIT — [R17] implement ApprovedAnswersLibrary for zero-AI answer reuse with clustering and length constraints
 
 ## IN PROGRESS
-R16 — AnswerDrafter for new free-text questions from confirmed profile facts only, respecting the field length limit, shown for approval before filling
+R18 — Optional AI-assisted JD extraction with regex fallback and prompt-injection protection
 Plan:
-1. Implement AnswerDrafter in app/src/main/kotlin/com/cellclaw/form/AnswerDrafter.kt using ResilientAiClient to draft answers strictly from confirmed ProfileFacts and ProjectDetails.
-2. Enforce zero-fabrication constraint, field length limit truncation/formatting, and approval gate token requirement.
-3. Author AnswerDrafterTest.kt asserting no-fabrication rule, character length constraints, and proposal generation.
-4. Verify with testDebugUnitTest and assembleDebug.
+1. Implement AiJdExtractor wrapping JdParser in com.cellclaw.jd with prompt-injection defense and regex fallback.
+2. Author AiJdExtractionTest.kt covering extraction accuracy, adversarial injection sanitization, and fallback triggers.
+3. Verify with testDebugUnitTest and assembleDebug.
 Expected files:
-- app/src/main/kotlin/com/cellclaw/form/AnswerDrafter.kt
-- app/src/test/kotlin/com/cellclaw/form/AnswerDrafterTest.kt
+- app/src/main/kotlin/com/cellclaw/jd/AiJdExtractor.kt
+- app/src/test/kotlin/com/cellclaw/jd/AiJdExtractionTest.kt
 
 ## NEXT ACTION
-R16: Implement AnswerDrafter component, wire into DI, author AnswerDrafterTest.kt, and verify with testDebugUnitTest.
+R18: Implement AiJdExtractor in com.cellclaw.jd, author AiJdExtractionTest.kt, and verify with testDebugUnitTest.
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.

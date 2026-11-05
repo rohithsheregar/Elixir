@@ -183,9 +183,22 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideApprovedAnswersStore(@ApplicationContext context: Context): com.cellclaw.form.ApprovedAnswersStore =
+        com.cellclaw.form.EncryptedSharedPreferencesApprovedAnswersStore(context)
+
+    @Provides
+    @Singleton
+    fun provideApprovedAnswersLibrary(
+        store: com.cellclaw.form.ApprovedAnswersStore
+    ): com.cellclaw.form.ApprovedAnswersLibrary =
+        com.cellclaw.form.DefaultApprovedAnswersLibrary(store)
+
+    @Provides
+    @Singleton
     fun provideAnswerDrafter(
-        aiClient: com.cellclaw.ai.AiClient
-    ): com.cellclaw.form.AnswerDrafter = com.cellclaw.form.DefaultAnswerDrafter(aiClient)
+        aiClient: com.cellclaw.ai.AiClient,
+        answersLibrary: com.cellclaw.form.ApprovedAnswersLibrary
+    ): com.cellclaw.form.AnswerDrafter = com.cellclaw.form.DefaultAnswerDrafter(aiClient, answersLibrary)
 
     @Provides
     @Singleton

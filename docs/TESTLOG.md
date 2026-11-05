@@ -728,3 +728,9 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** Focused `AnswerDrafterTest` (verifying zero-fabrication adherence referencing only authentic confirmed facts, strict character length limit enforcement <= 100 chars, rich project details integration weaving problem/role/challenge/results from ProjectDetail, human approval gate requiring explicit confirmation before filling, and AI-assisted drafting with robust deterministic fallback), full unit test suite (361 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 59s`, 50 actionable tasks, 14 executed, 36 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R16` (NEEDS_USER_DEVICE).
+
+### T43 — ApprovedAnswersLibraryTest, full unit suite & assembleDebug (R17) — Session 21
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `ApprovedAnswersLibraryTest` (verifying `ApprovedAnswer` and `DefaultApprovedAnswersLibrary` persistence, automatic keyword extraction and question clustering, Jaccard similarity and category bonus scoring, instant zero-AI answer reuse with 0 token calls in `DefaultAnswerDrafter`, clean length boundary truncation with ellipsis, usage tracking and tie-breaker sorting, cluster querying, and deletion), full unit test suite (369 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 42s`, 50 actionable tasks, 4 executed, 46 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R17` (NEEDS_USER_DEVICE).
