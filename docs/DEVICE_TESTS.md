@@ -272,6 +272,17 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-R14 — AI Client Rate Limit Resilience and Fallback
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device that AI network calls gracefully retry with backoff on 429 rate limits and failover to fallback provider without crashing the application.
+**Steps:**
+1. Trigger an AI-assisted operation (e.g. JD extraction or answer drafting).
+2. If network encounters high latency or rate limiting, observe progress spinner indicating active retry.
+3. If primary key or provider is unavailable, verify secondary provider seamless fallback.
+4. If all providers fail or quota is depleted, verify error message appears calmly and the application remains in DRAFT.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)

@@ -16,6 +16,7 @@ import com.cellclaw.provider.AnthropicProvider
 import com.cellclaw.provider.GeminiProvider
 import com.cellclaw.provider.OpenAIProvider
 import com.cellclaw.provider.OpenRouterProvider
+import com.cellclaw.provider.ProviderManager
 import com.cellclaw.resume.PdfGenerator
 import com.cellclaw.resume.ResumeBuilder
 import com.cellclaw.tools.*
@@ -167,6 +168,18 @@ object AppModule {
     @Provides
     @Singleton
     fun provideOpenRouterProvider(): OpenRouterProvider = OpenRouterProvider()
+
+    @Provides
+    @Singleton
+    fun provideAiClient(
+        providerManager: ProviderManager,
+        geminiProvider: GeminiProvider,
+        applicationTracker: com.cellclaw.tracker.ApplicationTracker
+    ): com.cellclaw.ai.AiClient = com.cellclaw.ai.ResilientAiClient(
+        providerManager = providerManager,
+        geminiProvider = geminiProvider,
+        applicationTracker = applicationTracker
+    )
 
     @Provides
     @Singleton

@@ -710,3 +710,9 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** Focused `RoborazziScreenshotTest` (verifying `@Preview` definitions for all 6 screens in light and dark mode in `ScreenPreviews.kt`, component previews in `ProgressStepper.kt`, dark mode `Configuration.UI_MODE_NIGHT_YES` configurations, `ElixirTheme` token wrapping, and zero hardcoded hex literals), full unit test suite (344 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 20s`, 50 actionable tasks, 14 executed, 36 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-U10` (NEEDS_USER_DEVICE).
+
+### T40 — AiClientRetryTest, full unit suite & assembleDebug (R14) — Session 20
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `AiClientRetryTest` (verifying exponential backoff retries on simulated HTTP 429 errors, seamless failover to fallback provider when primary quota is exhausted, per-application call budget enforcement throwing `CallBudgetExceededException`, response caching keyed on `jdHash`, and terminal error handling safely leaving application in `DRAFT`), full unit test suite (349 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 3m 38s`, 50 actionable tasks, 17 executed, 33 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R14` (NEEDS_USER_DEVICE).
