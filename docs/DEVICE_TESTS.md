@@ -294,6 +294,18 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-R16 — Free-Text Answer Drafting and Approval Gate
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device that free-text form fields are populated from confirmed profile facts with character limits enforced and shown for explicit user approval before submission.
+**Steps:**
+1. Open a Google Form with a free-text question (e.g. 'Describe a challenging project you worked on').
+2. Trigger supervised form fill: verify AnswerDrafter generates a response citing confirmed profile facts and project details.
+3. Verify the generated text length does not exceed the field's character constraint.
+4. Verify the drafted answer is presented to the user with an explicit approval toggle.
+5. Tap 'Approve': verify only approved text is injected into the form input.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)

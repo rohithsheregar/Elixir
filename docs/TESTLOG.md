@@ -722,3 +722,9 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** Focused `ProfileProjectDetailsTest` (verifying `ProjectDetail` validation of title/problem/role/challenge/results, serialization round-tripping within `CandidateProfile`, backward compatibility with legacy profiles lacking project details, synthesized `ProfileFact` generation with authentic IDs, and `ProfileManager` save/delete operations), full unit test suite (355 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 41s`, 50 actionable tasks, 14 executed, 36 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R15` (NEEDS_USER_DEVICE).
+
+### T42 — AnswerDrafterTest, full unit suite & assembleDebug (R16) — Session 20
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `AnswerDrafterTest` (verifying zero-fabrication adherence referencing only authentic confirmed facts, strict character length limit enforcement <= 100 chars, rich project details integration weaving problem/role/challenge/results from ProjectDetail, human approval gate requiring explicit confirmation before filling, and AI-assisted drafting with robust deterministic fallback), full unit test suite (361 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 59s`, 50 actionable tasks, 14 executed, 36 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R16` (NEEDS_USER_DEVICE).

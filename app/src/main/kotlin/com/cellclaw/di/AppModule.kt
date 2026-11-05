@@ -183,6 +183,12 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideAnswerDrafter(
+        aiClient: com.cellclaw.ai.AiClient
+    ): com.cellclaw.form.AnswerDrafter = com.cellclaw.form.DefaultAnswerDrafter(aiClient)
+
+    @Provides
+    @Singleton
     fun provideToolRegistry(
         // --- SAFE TOOLS (retained for Elixir placement profile) ---
         calendarQuery: CalendarQueryTool,
