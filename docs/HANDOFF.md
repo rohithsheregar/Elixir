@@ -29,7 +29,7 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (369 unit tests pass, ass
 | 21 | Antigravity / Gemini 3.8 Flash | 2026-11-05 | 125dfab |
 
 ## Last Green Commit
-TBD_R17_COMMIT — [R17] implement ApprovedAnswersLibrary for zero-AI answer reuse with clustering and length constraints
+c6cc4e7 — [R17] implement ApprovedAnswersLibrary for zero-AI answer reuse with clustering and length constraints
 
 ## IN PROGRESS
 R18 — Optional AI-assisted JD extraction with regex fallback and prompt-injection protection
