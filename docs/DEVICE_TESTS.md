@@ -248,6 +248,19 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-U8 — Collapsible Accordion Groups on ProfileScreen
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device that ProfileScreen facts are grouped into collapsible accordion sections for Personal, Academics, Experience, and Skills, with smooth chevron rotation and category count badges.
+**Steps:**
+1. Open ProfileScreen with several confirmed facts across multiple fields (e.g. name, email, cgpa, degree, skills, projects).
+2. Verify 'Grouped' (Accordion) is selected by default and shows 4 accordion cards: Personal, Academics, Experience, Skills.
+3. Verify each card shows its category icon, title, subtitle, count badge, and a dropdown chevron.
+4. Tap the header of an accordion card: verify the chevron smoothly rotates 180 degrees and the section smoothly expands/collapses.
+5. In an empty category, verify 'No [category] facts yet' and '+ Add' quick button render.
+6. Tap 'All Facts' view mode chip: verify view toggles to flat list with AnimatedVisibility and animateItem intact.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)
