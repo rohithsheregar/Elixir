@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Audit 2 completed (2026-10-25). Verified score: 66.40% (344 unit tests pass, assembleDebug passes). Remediation steps R1–R13 and ALL UI redesign steps U1–U10 completed. In progress: R14–R18. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
+Audit 2 completed (2026-10-25). Verified score: 66.40% (349 unit tests pass, assembleDebug passes). Remediation steps R1–R14 and UI redesign steps U1–U10 completed. In progress: R15–R18. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -28,21 +28,22 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (344 unit tests pass, ass
 | 20 | Antigravity / Gemini 3.8 Flash | 2026-11-03 | 011eccf |
 
 ## Last Green Commit
-b4ec376 — [U10] add @Preview annotations and screenshot preview test suite for all 6 screens in light and dark mode
+a9471ba — [R14] implement resilient AiClient wrapper with 429 exponential backoff, per-application call budget, JD-hash caching, and fallback provider
 
 ## IN PROGRESS
-R14 — AiClient wrapper: retry with backoff on 429, per-application call budget, cache by JD hash, fallback provider, failure leaves the application in DRAFT
+R15 — Project details in the profile (problem, role, tools, challenge, verified results, short stories)
 Plan:
-1. Implement ResilientAiClient wrapper around Gemini/Anthropic client handling exponential backoff on HTTP 429, per-application token/call budget limit, in-memory/disk response caching keyed by JD hash, and fallback provider failover.
-2. Ensure failure leaves application state in DRAFT without corrupting tracker records.
-3. Author AiClientRetryTest.kt simulating 429 rate limit responses, jittered exponential backoffs, budget exhaustion, and cache hits.
+1. Define ProjectDetail model in CandidateProfile (title, problem, role, tools, challenge, verifiedResults, shortStory) with JSON serialization support.
+2. Extend ProfileRepository and ProfileManager to parse and preserve structured project details while retaining backward compatibility with string ProfileFacts.
+3. Author ProfileProjectDetailsTest.kt asserting structured field validation, zero-fabrication ground truth preservation, and serialization round-tripping.
 4. Verify with testDebugUnitTest and assembleDebug.
 Expected files:
-- app/src/main/kotlin/com/cellclaw/ai/ResilientAiClient.kt
-- app/src/test/kotlin/com/cellclaw/ai/AiClientRetryTest.kt
+- app/src/main/kotlin/com/cellclaw/profile/ProjectDetail.kt
+- app/src/main/kotlin/com/cellclaw/profile/CandidateProfile.kt
+- app/src/test/kotlin/com/cellclaw/profile/ProfileProjectDetailsTest.kt
 
 ## NEXT ACTION
-R14: Implement ResilientAiClient wrapper, wire into DI, author AiClientRetryTest.kt, and verify with testDebugUnitTest.
+R15: Define ProjectDetail model, integrate into CandidateProfile and ProfileRepository, author ProfileProjectDetailsTest.kt, and verify with testDebugUnitTest.
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.
