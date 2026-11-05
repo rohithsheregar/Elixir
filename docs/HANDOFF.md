@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Audit 2 completed (2026-10-25). Verified score: 66.40% (349 unit tests pass, assembleDebug passes). Remediation steps R1–R14 and UI redesign steps U1–U10 completed. In progress: R15–R18. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
+Audit 2 completed (2026-10-25). Verified score: 66.40% (355 unit tests pass, assembleDebug passes). Remediation steps R1–R15 and UI redesign steps U1–U10 completed. In progress: R16–R18. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -28,22 +28,21 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (349 unit tests pass, ass
 | 20 | Antigravity / Gemini 3.8 Flash | 2026-11-03 | 011eccf |
 
 ## Last Green Commit
-a9471ba — [R14] implement resilient AiClient wrapper with 429 exponential backoff, per-application call budget, JD-hash caching, and fallback provider
+c7b21e7 — [R15] model structured ProjectDetail in profile with ground truth problem, role, tools, challenge, results, and story
 
 ## IN PROGRESS
-R15 — Project details in the profile (problem, role, tools, challenge, verified results, short stories)
+R16 — AnswerDrafter for new free-text questions from confirmed profile facts only, respecting the field length limit, shown for approval before filling
 Plan:
-1. Define ProjectDetail model in CandidateProfile (title, problem, role, tools, challenge, verifiedResults, shortStory) with JSON serialization support.
-2. Extend ProfileRepository and ProfileManager to parse and preserve structured project details while retaining backward compatibility with string ProfileFacts.
-3. Author ProfileProjectDetailsTest.kt asserting structured field validation, zero-fabrication ground truth preservation, and serialization round-tripping.
+1. Implement AnswerDrafter in app/src/main/kotlin/com/cellclaw/form/AnswerDrafter.kt using ResilientAiClient to draft answers strictly from confirmed ProfileFacts and ProjectDetails.
+2. Enforce zero-fabrication constraint, field length limit truncation/formatting, and approval gate token requirement.
+3. Author AnswerDrafterTest.kt asserting no-fabrication rule, character length constraints, and proposal generation.
 4. Verify with testDebugUnitTest and assembleDebug.
 Expected files:
-- app/src/main/kotlin/com/cellclaw/profile/ProjectDetail.kt
-- app/src/main/kotlin/com/cellclaw/profile/CandidateProfile.kt
-- app/src/test/kotlin/com/cellclaw/profile/ProfileProjectDetailsTest.kt
+- app/src/main/kotlin/com/cellclaw/form/AnswerDrafter.kt
+- app/src/test/kotlin/com/cellclaw/form/AnswerDrafterTest.kt
 
 ## NEXT ACTION
-R15: Define ProjectDetail model, integrate into CandidateProfile and ProfileRepository, author ProfileProjectDetailsTest.kt, and verify with testDebugUnitTest.
+R16: Implement AnswerDrafter component, wire into DI, author AnswerDrafterTest.kt, and verify with testDebugUnitTest.
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.
