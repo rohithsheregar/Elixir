@@ -22,7 +22,10 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import android.content.res.Configuration
+import com.cellclaw.ui.theme.ElixirTheme
 import com.cellclaw.ui.theme.elixirColors
 
 enum class PlacementStep(
@@ -167,5 +170,21 @@ fun ProgressStepper(
                 }
             }
         }
+    }
+}
+
+@Preview(name = "ProgressStepper - Light", showBackground = true)
+@Composable
+fun ProgressStepperPreviewLight() {
+    ElixirTheme(darkTheme = false) {
+        ProgressStepper(currentStep = PlacementStep.TAILORED_RESUME)
+    }
+}
+
+@Preview(name = "ProgressStepper - Dark", uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
+@Composable
+fun ProgressStepperPreviewDark() {
+    ElixirTheme(darkTheme = true) {
+        ProgressStepper(currentStep = PlacementStep.TAILORED_RESUME)
     }
 }

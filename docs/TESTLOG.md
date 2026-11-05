@@ -704,3 +704,9 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** Focused `ProfileScreenUiTest` (verifying `ProfileFactCategory` classification across PERSONAL, ACADEMICS, EXPERIENCE, SKILLS, grouping of candidate facts, CategoryAccordionCard layout, AnimatedVisibility expansion wiring, ArrowDropDown rotating indicator, view mode switcher between ACCORDION and FLAT, zero hardcoded hex colors, and preservation of EmptyState and list item animations), full unit test suite (339 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 25s`, 50 actionable tasks, 12 executed, 38 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-U8` (NEEDS_USER_DEVICE).
+
+### T39 — RoborazziScreenshotTest, full unit suite & assembleDebug (U10) — Session 20
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `RoborazziScreenshotTest` (verifying `@Preview` definitions for all 6 screens in light and dark mode in `ScreenPreviews.kt`, component previews in `ProgressStepper.kt`, dark mode `Configuration.UI_MODE_NIGHT_YES` configurations, `ElixirTheme` token wrapping, and zero hardcoded hex literals), full unit test suite (344 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 20s`, 50 actionable tasks, 14 executed, 36 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-U10` (NEEDS_USER_DEVICE).

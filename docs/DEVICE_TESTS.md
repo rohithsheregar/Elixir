@@ -261,6 +261,17 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-U10 — Compose Previews and Light/Dark Screenshot Verification
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify in Android Studio Compose Preview panel and physical device rendering that all 6 placement screens render accurately in both Light and Dark modes.
+**Steps:**
+1. Open Android Studio and view ScreenPreviews.kt.
+2. Verify all 6 screens render in both Light Mode and Dark Mode side-by-side in the Compose Preview tool window without rendering exceptions.
+3. Verify dark mode surfaces adapt correctly using Elixir semantic color tokens with high contrast.
+4. On physical device, toggle System Dark Theme: verify Tracker, New Application, Eligibility, Resume Preview, Review, and Profile screens adapt dynamically without glitches.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)
