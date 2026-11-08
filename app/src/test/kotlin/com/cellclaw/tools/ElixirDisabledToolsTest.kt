@@ -155,7 +155,13 @@ class ElixirDisabledToolsTest {
                 FakeTool("vision.analyze", "Analyze vision"),
                 // Scheduler and heartbeat
                 FakeTool("schedule.manage", "Manage schedule"),
-                FakeTool("heartbeat.context", "Heartbeat context")
+                FakeTool("heartbeat.context", "Heartbeat context"),
+                // Placement pipeline tools
+                FakeTool("jd.parse", "Parse job description"),
+                FakeTool("eligibility.evaluate", "Evaluate eligibility"),
+                FakeTool("resume.generate", "Generate resume"),
+                FakeTool("application.prepare_review", "Prepare application review"),
+                FakeTool("application.submit", "Submit application")
                 // NOT included: sms.read, sms.send, phone.call, phone.log,
                 //               contacts.search, contacts.add, camera.snap, camera.record,
                 //               location.get, script.exec, messaging.open, messaging.read, messaging.reply,

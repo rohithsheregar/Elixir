@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Audit 2 completed (2026-10-25). Verified score: 66.40% (408 unit tests pass, assembleDebug passes). Remediation steps R1–R18, U1–U10, AG0.2–AG0.6, AG1.1–AG1.3 completed. Connected: emulator-5554 (Android 16). Next: AG1.4.
+Audit 2 completed (2026-10-25). Verified score: 66.40% (419 unit tests pass, assembleDebug passes). Remediation steps R1–R18, U1–U10, AG0.2–AG0.6, AG1.1–AG1.4 completed. Connected: emulator-5554 (Android 16). Next: AG0.7 / R19 live device test pass on emulator-5554.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -15,13 +15,13 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (408 unit tests pass, ass
 | 23 | Antigravity / Gemini 3.8 Flash | 2026-11-08 | 70f83ab |
 
 ## Last Green Commit
-Pending commit for AG1.3.
+Pending commit for AG1.4.
 
 ## IN PROGRESS
-AG1.4 — Expose placement pipeline as tools in AgentLoop with approval token gate.
+AG0.7 / R19 — Live emulator end-to-end device testing on dummy_google_form.html with emulator-5554.
 
 ## NEXT ACTION
-Implement placement tools (`jd.parse`, `eligibility.evaluate`, `resume.generate`, `application.prepare_review`, `application.submit`) in `com.cellclaw.tools.placement`, ensuring `application.submit` has `RiskTier.CONSEQUENTIAL_WRITE`. Author `PlacementToolsTest` and verify.
+Host docs/dummy_google_form.html, reverse port to emulator-5554, execute full application flow on device, record results in docs/DEVICE_TESTS.md, and tag cp-ag1-1.
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.

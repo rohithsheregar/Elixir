@@ -346,5 +346,13 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Why:** Solves context window overflow, unbounded memory growth, and token exhaustion identified in Audit 2 / Jarvis Agent Plan Phase 1 (AG1.3). Bounding conversation length ensures long-running autonomous placement sessions remain performant, cost-effective, and error-free. Verified by `AgentLoopCompactionTest` (10 tests) and full test suites (408 tests pass).
 
 
+---
+
+## D52 — Placement Pipeline Tool Exposure with Strict Approval Gate (AG1.4)
+**Choice:** Expose Elixir's core placement pipeline components as tools in `com.cellclaw.tools.placement`: `jd.parse` (wraps `AiJdExtractor`, `RiskTier.READ`), `eligibility.evaluate` (wraps `EligibilityEngine` against `ProfileRepository`, `RiskTier.READ`), `resume.generate` (wraps `ResumeBuilder` and `PdfGenerator`, `RiskTier.REVERSIBLE_WRITE`), `application.prepare_review` (wraps review preparation, `AnswerDrafter`, and `ApplicationTracker`, `RiskTier.READ`), and `application.submit` (final form submission, `RiskTier.CONSEQUENTIAL_WRITE`, `requiresApproval = true`). Wire all 5 tools into `ToolRegistry` via `AppModule`, document capabilities in `Identity.DEFAULT_IDENTITY`, and classify policies in `AutonomyPolicy`. `application.submit` strictly enforces single-use `ApprovalToken` created via direct user tap before executing state transitions.
+**Why:** Implements AG1.4 from Jarvis Agent Plan Phase 1. Transforms the modular PlacementOS components into first-class agent tools callable by Elixir's autonomous agent loop while enforcing zero fabrication and mandatory human approval prior to final application submission. Verified by `PlacementToolsTest` (11 tests), `IdentityPromptTest`, and full test suites (419 tests pass).
+
+
+
 
 

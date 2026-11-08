@@ -35,7 +35,9 @@ class IdentityPromptTest {
         "sensor.read", "settings.get",
         "browser.search", "screen.read", "email.send",
         "screen.capture", "vision.analyze",
-        "schedule.manage", "heartbeat.context"
+        "schedule.manage", "heartbeat.context",
+        "jd.parse", "eligibility.evaluate", "resume.generate",
+        "application.prepare_review", "application.submit"
     )
 
     private fun buildElixirRegistry(): ToolRegistry {

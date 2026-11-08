@@ -235,7 +235,13 @@ object AppModule {
         visionAnalyze: VisionAnalyzeTool,
         notificationListen: NotificationListenTool,
         schedulerTool: SchedulerTool,
-        heartbeatContext: HeartbeatContextTool
+        heartbeatContext: HeartbeatContextTool,
+        // Placement pipeline tools
+        jdParse: com.cellclaw.tools.placement.JdParseTool,
+        eligibilityEvaluate: com.cellclaw.tools.placement.EligibilityEvaluateTool,
+        resumeGenerate: com.cellclaw.tools.placement.ResumeGenerateTool,
+        applicationPrepareReview: com.cellclaw.tools.placement.ApplicationPrepareReviewTool,
+        applicationSubmit: com.cellclaw.tools.placement.ApplicationSubmitTool
         // --- DISABLED for Elixir profile (source files kept, not deleted) ---
         // smsRead: SmsReadTool,          // DISABLED: SMS read
         // smsSend: SmsSendTool,          // DISABLED: SMS send
@@ -272,7 +278,10 @@ object AppModule {
                 // Vision and capture
                 screenCapture, visionAnalyze,
                 // Scheduling and heartbeat
-                schedulerTool, heartbeatContext
+                schedulerTool, heartbeatContext,
+                // Placement pipeline tools
+                jdParse, eligibilityEvaluate, resumeGenerate,
+                applicationPrepareReview, applicationSubmit
             )
         }
     }

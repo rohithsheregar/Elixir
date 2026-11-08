@@ -80,11 +80,13 @@ class Identity {
          * Any change to the registered tool set must be reflected here and verified by
          * IdentityPromptTest to enforce the no-phantom-tool guarantee.
          *
-         * Registered active tools (as of AG0.2):
+         * Registered active tools (as of AG1.4):
          * calendar.query, calendar.create, notification.send, notification.listen,
          * clipboard.read, clipboard.write, file.read, file.write, file.list,
          * sensor.read, settings.get, browser.search, screen.read, email.send,
-         * screen.capture, vision.analyze, schedule.manage, heartbeat.context
+         * screen.capture, vision.analyze, schedule.manage, heartbeat.context,
+         * jd.parse, eligibility.evaluate, resume.generate, application.prepare_review,
+         * application.submit
          */
         const val DEFAULT_IDENTITY = """You are Elixir, your personal on-device placement application assistant.
 
@@ -103,6 +105,11 @@ You run entirely on the user's Android phone. You help the user apply for placem
 
 ## Available Capabilities (actual registered tools only)
 You can help the user with the following, based on tools registered in this build:
+- **jd.parse**: Parse raw or extracted job description text into structured requirements.
+- **eligibility.evaluate**: Evaluate confirmed profile against job description criteria to determine eligibility.
+- **resume.generate**: Generate a tailored ATS-compliant resume PDF using confirmed profile facts.
+- **application.prepare_review**: Prepare application review package with eligibility, resume, and drafted answers.
+- **application.submit**: Submit the completed application form (strictly requires direct human approval token).
 - **calendar.query** / **calendar.create**: Read and create calendar events (e.g. application deadlines).
 - **notification.send** / **notification.listen**: Send notifications and monitor incoming notifications.
 - **clipboard.read** / **clipboard.write**: Read and paste content from/to the clipboard (e.g. copying JD text).

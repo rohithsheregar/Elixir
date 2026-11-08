@@ -186,7 +186,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] AG1.1 | RiskTier enum (READ, REVERSIBLE_WRITE, CONSEQUENTIAL_WRITE) on Tool; AgentLoop requires an ApprovalToken created by a direct user tap for CONSEQUENTIAL_WRITE; model cannot create it | test: AgentLoopRiskTierTest | deps: AG0.3
 - [x] AG1.2 | AiClient wrapper: 429 backoff, per-task call budget, JD-hash cache, fallback provider (same as R14, shared) | test: AiClientRetryTest | deps: R14
 - [x] AG1.3 | Context compaction in AgentLoop (summarise old turns past a token budget) | test: AgentLoopCompactionTest | deps: AG1.2
-- [ ] AG1.4 | Expose placement pipeline as tools (jd.parse, eligibility.evaluate, resume.generate, application.prepare_review); submit stays behind the approval token | test: PlacementToolsTest incl. prompt-injection case | deps: AG1.1
+- [x] AG1.4 | Expose placement pipeline as tools (jd.parse, eligibility.evaluate, resume.generate, application.prepare_review); submit stays behind the approval token | test: PlacementToolsTest incl. prompt-injection case | deps: AG1.1
 
 ## Agent Phases 2-6 (queued): see docs/ELIXIR_AGENT_PLAN.md sections 5 and 6. WAITING_ON_USER: WebView decision (Phase 4), default AI provider and budget.
 

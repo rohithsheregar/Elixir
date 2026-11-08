@@ -407,6 +407,20 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-AG1.4 — Placement Tools Execution via AgentLoop
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device / emulator that the AI agent can parse JDs, evaluate eligibility, tailor resume PDFs, and prepare review packages using the placement tools, while `application.submit` strictly halts with an approval prompt requiring direct human confirmation tap.
+**Steps:**
+1. Send prompt: "Parse this JD from Acme Innovations and check if I'm eligible."
+2. Verify agent invokes `jd.parse` and `eligibility.evaluate` autonomously.
+3. Send prompt: "Generate my tailored resume for Acme."
+4. Verify agent invokes `resume.generate`, generating a text-selectable PDF and evidence map.
+5. Send prompt: "Prepare my application and submit it."
+6. Verify agent prepares review and stops immediately on `application.submit` displaying `[CONSEQUENTIAL_WRITE]` approval request.
+7. Tap 'Approve' to confirm direct user tap issues valid ApprovalToken and finishes submission.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)
