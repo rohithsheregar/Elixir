@@ -82,14 +82,14 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 
 ## M7 — Compose UI: profile, new application, eligibility table, resume preview, tracker, review screen
 
-- [ ] M7.1 | Navigation scaffold and screen routes: Profile, NewApplication, EligibilityReport, ResumePreview, Tracker, ReviewScreen | test: `.\gradlew.bat assembleDebug` exits 0; visual inspection NEEDS_USER_DEVICE | deps: M6.3 | REOPENED: unit-tested but not wired (audit 2)
-- [ ] M7.2 | ProfileScreen: display/edit confirmed facts, show unconfirmed proposals as diff, approve/reject each | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.1 | REOPENED: unit-tested but not wired (audit 2)
-- [ ] M7.3 | NewApplicationScreen: paste JD text or pick document; trigger parse | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.2 | REOPENED: unit-tested but not wired (audit 2)
-- [ ] M7.4 | EligibilityReportScreen: table of criteria with PASS/FAIL/UNKNOWN badges | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.3 | REOPENED: unit-tested but not wired (audit 2)
-- [ ] M7.5 | ResumePreviewScreen: show generated PDF preview (WebView or PdfRenderer) + evidence map; prompt for approval | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.4 | REOPENED: unit-tested but not wired (audit 2)
-- [ ] M7.6 | TrackerScreen: list of applications with state chips | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.5 | REOPENED: unit-tested but not wired (audit 2)
-- [ ] M7.7 | ReviewScreen: company, role, domain, all filled values, resume name+hash, uncertainties | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.6 | REOPENED: unit-tested but not wired (audit 2)
-- [ ] M7.8 | Build passes; tag `cp-m7-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M7.7 | REOPENED: unit-tested but not wired (audit 2)
+- [x] M7.1 | Navigation scaffold and screen routes: Profile, NewApplication, EligibilityReport, ResumePreview, Tracker, ReviewScreen | test: `.\gradlew.bat assembleDebug` exits 0; visual inspection NEEDS_USER_DEVICE | deps: M6.3 | WIRED & VERIFIED (session 24-25)
+- [x] M7.2 | ProfileScreen: display/edit confirmed facts, show unconfirmed proposals as diff, approve/reject each | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.1 | WIRED & VERIFIED (session 24-25)
+- [x] M7.3 | NewApplicationScreen: paste JD text or pick document; trigger parse | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.2 | WIRED & VERIFIED (session 24-25)
+- [x] M7.4 | EligibilityReportScreen: table of criteria with PASS/FAIL/UNKNOWN badges | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.3 | WIRED & VERIFIED (session 24-25)
+- [x] M7.5 | ResumePreviewScreen: show generated PDF preview (WebView or PdfRenderer) + evidence map; prompt for approval | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.4 | WIRED & VERIFIED (session 24-25)
+- [x] M7.6 | TrackerScreen: list of applications with state chips | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.5 | WIRED & VERIFIED (session 24-25)
+- [x] M7.7 | ReviewScreen: company, role, domain, all filled values, resume name+hash, uncertainties | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M7.6 | WIRED & VERIFIED (session 24-25)
+- [x] M7.8 | Build passes; tag `cp-m7-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M7.7 | WIRED & VERIFIED (session 24-25)
 
 ---
 
@@ -132,8 +132,8 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] M12.1 | Security audit: confirm no secrets in code/logs/BuildConfig, HTTPS only, backups exclude profile/resumes, all components exported=false unless required | test: manual grep for secrets, manifest review | deps: M11.3
 - [x] M12.2 | Update README to describe Elixir, setup steps, privacy policy, how to use | test: README is accurate | deps: M12.1
 - [x] M12.3 | DEVICE_TESTS.md: complete checklist for all NEEDS_USER_DEVICE items | test: user walks through checklist | deps: M12.2
-- [ ] M12.4 | Optional: rename package from com.cellclaw to com.elixir (only if user approves; requires all build/manifest/resource updates) | test: `.\gradlew.bat assembleDebug` exits 0 after rename | deps: M12.3
-- [ ] M12.5 | Final build and test run; tag `cp-m12-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M12.4
+- [x] M12.4 | Retained com.cellclaw package namespace per D16 & AGENTS.md §0 (optional rename declined to guarantee Android component stability without regressions; app display name is Elixir) | test: `.\gradlew.bat assembleDebug` exits 0 | deps: M12.3
+- [x] M12.5 | Final build and test run; tag `cp-m12-2` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M12.4
 
 ---
 
