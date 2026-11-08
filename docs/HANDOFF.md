@@ -29,7 +29,7 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (384 unit tests pass, ass
 | 21 | Antigravity / Gemini 3.8 Flash | 2026-11-05 | 125dfab |
 
 ## Last Green Commit
-TBD_AG0_4_COMMIT — [AG0.4] scope accessibility_config.xml packageNames to Chrome/file pickers and drop typeAllMask
+c3bce4c — [AG0.4] scope accessibility_config.xml packageNames to Chrome/file pickers and drop typeAllMask
 
 ## IN PROGRESS
 AG0.5 — Replace fallbackToDestructiveMigration() in MemoryDb with explicit Room migrations and exported schemas
