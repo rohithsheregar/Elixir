@@ -734,3 +734,9 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** Focused `ApprovedAnswersLibraryTest` (verifying `ApprovedAnswer` and `DefaultApprovedAnswersLibrary` persistence, automatic keyword extraction and question clustering, Jaccard similarity and category bonus scoring, instant zero-AI answer reuse with 0 token calls in `DefaultAnswerDrafter`, clean length boundary truncation with ellipsis, usage tracking and tie-breaker sorting, cluster querying, and deletion), full unit test suite (369 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 42s`, 50 actionable tasks, 4 executed, 46 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R17` (NEEDS_USER_DEVICE).
+
+### T44 — AiJdExtractionTest, full unit suite & assembleDebug (R18) — Session 21
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `AiJdExtractionTest` (verifying successful AI extraction and field mapping to `JdRequirement`, strict prompt-injection detection bypassing AI for adversarial inputs containing "ignore all previous instructions" and "override" directives, script-tag injection mitigation, graceful network failure fallback to deterministic regex parser, malformed JSON fallback, regex backfill for AI-omitted fields, and null/blank input handling), full unit test suite (376 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 36s`, 50 actionable tasks, 4 executed, 46 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R18` (NEEDS_USER_DEVICE).

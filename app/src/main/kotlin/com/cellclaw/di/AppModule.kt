@@ -202,6 +202,12 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideAiJdExtractor(
+        aiClient: com.cellclaw.ai.AiClient
+    ): com.cellclaw.jd.AiJdExtractor = com.cellclaw.jd.AiJdExtractor(aiClient = aiClient)
+
+    @Provides
+    @Singleton
     fun provideToolRegistry(
         // --- SAFE TOOLS (retained for Elixir placement profile) ---
         calendarQuery: CalendarQueryTool,

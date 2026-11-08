@@ -166,7 +166,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] R15 | Project details in the profile (problem, role, tools, challenge, verified results, short stories) | test: ProfileProjectDetailsTest | deps: R1
 - [x] R16 | AnswerDrafter for new free-text questions from confirmed profile facts only, respecting the field length limit, shown for approval before filling | test: AnswerDrafterTest including no-fabrication and length-limit cases | deps: R15
 - [x] R17 | Approved-answers library: offer to save approved answers and reuse them for similar questions with no AI call | test: ApprovedAnswersLibraryTest | deps: R16
-- [ ] R18 | Optional AI-assisted JD extraction with regex fallback and prompt-injection protection | test: AiJdExtractionTest | deps: R14
+- [x] R18 | Optional AI-assisted JD extraction with regex fallback and prompt-injection protection | test: AiJdExtractionTest | deps: R14
 - [ ] R19 | Device test pass on the dummy form per DEVICE_TESTS.md; record results | test: NEEDS_USER_DEVICE | deps: R8, R10, R11, U3
 
 ---

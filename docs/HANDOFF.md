@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Audit 2 completed (2026-10-25). Verified score: 66.40% (369 unit tests pass, assembleDebug passes). Remediation steps R1–R17 and UI redesign steps U1–U10 completed. In progress: R18. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
+Audit 2 completed (2026-10-25). Verified score: 66.40% (376 unit tests pass, assembleDebug passes). Remediation steps R1–R18 and UI redesign steps U1–U10 completed. R19 is NEEDS_USER_DEVICE. Next: AG0 steps. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -29,20 +29,19 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (369 unit tests pass, ass
 | 21 | Antigravity / Gemini 3.8 Flash | 2026-11-05 | 125dfab |
 
 ## Last Green Commit
-c6cc4e7 — [R17] implement ApprovedAnswersLibrary for zero-AI answer reuse with clustering and length constraints
+TBD_R18_COMMIT — [R18] AI-assisted JD extraction with prompt-injection protection and regex fallback
 
 ## IN PROGRESS
-R18 — Optional AI-assisted JD extraction with regex fallback and prompt-injection protection
-Plan:
-1. Implement AiJdExtractor wrapping JdParser in com.cellclaw.jd with prompt-injection defense and regex fallback.
-2. Author AiJdExtractionTest.kt covering extraction accuracy, adversarial injection sanitization, and fallback triggers.
-3. Verify with testDebugUnitTest and assembleDebug.
-Expected files:
-- app/src/main/kotlin/com/cellclaw/jd/AiJdExtractor.kt
-- app/src/test/kotlin/com/cellclaw/jd/AiJdExtractionTest.kt
+R19 — Device test pass on the dummy form per DEVICE_TESTS.md (NEEDS_USER_DEVICE)
+AG0.2 — Rewrite Identity.DEFAULT_IDENTITY as Elixir; build capability list from ToolRegistry; remove SMS/call/camera/shell claims
+Plan for AG0.2:
+1. Find Identity.DEFAULT_IDENTITY in source.
+2. Rewrite as Elixir identity referencing only tools actually in ToolRegistry.
+3. Author IdentityPromptTest asserting no tool absent from registry is named.
+4. Verify with testDebugUnitTest and assembleDebug.
 
 ## NEXT ACTION
-R18: Implement AiJdExtractor in com.cellclaw.jd, author AiJdExtractionTest.kt, and verify with testDebugUnitTest.
+AG0.2: Find Identity.DEFAULT_IDENTITY, rewrite as Elixir, author IdentityPromptTest, verify with testDebugUnitTest.
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.

@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cellclaw.eligibility.EligibilityEngine
+import com.cellclaw.jd.AiJdExtractor
 import com.cellclaw.jd.DocumentReadResult
 import com.cellclaw.jd.JdDocumentReader
 import com.cellclaw.jd.JdParser
@@ -46,7 +47,8 @@ class NewApplicationViewModel @Inject constructor(
     private val jdDocumentReader: JdDocumentReader,
     private val eligibilityEngine: EligibilityEngine,
     private val profileRepository: ProfileRepository,
-    private val applicationTracker: ApplicationTracker
+    private val applicationTracker: ApplicationTracker,
+    private val aiJdExtractor: AiJdExtractor? = null
 ) : ViewModel() {
 
     companion object {
@@ -121,7 +123,20 @@ class NewApplicationViewModel @Inject constructor(
             _uiState.value = _uiState.value.copy(errorMessage = "Please enter or paste JD text.")
             return
         }
-        val parsed = jdParser.parse(text)
+        val extractor = aiJdExtractor
+        if (extractor == null) {
+            val parsed = jdParser.parse(text)
+            applyParsedResult(parsed)
+        } else {
+            _uiState.value = _uiState.value.copy(isParsing = true)
+            viewModelScope.launch {
+                val parsed = extractor.extract(text)
+                applyParsedResult(parsed)
+            }
+        }
+    }
+
+    private fun applyParsedResult(parsed: JdRequirement) {
         val comp = _uiState.value.company.ifBlank { parsed.company.value.orEmpty() }
         val r = _uiState.value.role.ifBlank { parsed.role.value.orEmpty() }
         savedStateHandle[KEY_COMPANY] = comp
@@ -130,6 +145,7 @@ class NewApplicationViewModel @Inject constructor(
             parsedRequirement = parsed,
             company = comp,
             role = r,
+            isParsing = false,
             errorMessage = null
         )
     }
