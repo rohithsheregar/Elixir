@@ -29,7 +29,7 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (382 unit tests pass, ass
 | 21 | Antigravity / Gemini 3.8 Flash | 2026-11-05 | 125dfab |
 
 ## Last Green Commit
-TBD_AG0_2_COMMIT — [AG0.2] rewrite Identity.DEFAULT_IDENTITY as Elixir and enforce no-phantom-tool guarantee
+9b1a822 — [AG0.2] rewrite Identity.DEFAULT_IDENTITY as Elixir and enforce no-phantom-tool guarantee
 
 ## IN PROGRESS
 AG0.3 — AutonomyPolicy deny-by-default: unknown tools return ASK (or DENY), initial profile CAUTIOUS not FULL_AUTO
