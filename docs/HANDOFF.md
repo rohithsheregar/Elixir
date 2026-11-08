@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Audit 2 completed (2026-10-25). Verified score: 66.40% (383 unit tests pass, assembleDebug passes). Remediation steps R1–R18, U1–U10, AG0.2, AG0.3 completed. R19 and AG0.7 are NEEDS_USER_DEVICE. Connected: emulator-5554 (Android 16). In progress: AG0.4.
+Audit 2 completed (2026-10-25). Verified score: 66.40% (384 unit tests pass, assembleDebug passes). Remediation steps R1–R18, U1–U10, AG0.2–AG0.4 completed. R19 and AG0.7 are NEEDS_USER_DEVICE. Connected: emulator-5554 (Android 16). In progress: AG0.5.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -29,18 +29,18 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (383 unit tests pass, ass
 | 21 | Antigravity / Gemini 3.8 Flash | 2026-11-05 | 125dfab |
 
 ## Last Green Commit
-f10a9fb — [AG0.3] AutonomyPolicy deny-by-default for unknown tools and CAUTIOUS default profile
+TBD_AG0_4_COMMIT — [AG0.4] scope accessibility_config.xml packageNames to Chrome/file pickers and drop typeAllMask
 
 ## IN PROGRESS
-AG0.4 — accessibility_config.xml: add packageNames for Chrome and the system file picker; drop typeAllMask for the event types actually used
-Plan for AG0.4:
-1. Inspect app/src/main/res/xml/accessibility_config.xml.
-2. Restrict packageNames to Chrome, document pickers, and Elixir; replace typeAllMask with specific event types used by form automation.
-3. Author ElixirManifestTest to parse config and assert packageNames scope.
+AG0.5 — Replace fallbackToDestructiveMigration() in MemoryDb with explicit Room migrations and exported schemas
+Plan for AG0.5:
+1. Inspect MemoryDb.kt and ApplicationRecord / MemoryDb schemas.
+2. Replace fallbackToDestructiveMigration() with explicit Migration(s) preserving ApplicationRecord table rows.
+3. Author MemoryDbMigrationTest asserting data retention across version bumps.
 4. Verify with testDebugUnitTest and assembleDebug.
 
 ## NEXT ACTION
-AG0.4: Update accessibility_config.xml, author ElixirManifestTest, and verify with testDebugUnitTest.
+AG0.5: Inspect MemoryDb.kt, define explicit Room migration, author MemoryDbMigrationTest, and verify.
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.

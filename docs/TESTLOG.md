@@ -752,3 +752,9 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** Focused `AutonomyPolicyTest` (verifying `AutonomyPolicy` default initial profile is `CAUTIOUS`, benign reads default to `AUTO`, sensitive reads and write operations require `ASK`, unknown tools evaluate to `ASK` under deny-by-default rather than `AUTO`, explicit overrides to `AUTO`/`DENY`, and `AppConfig`/`SettingsViewModel`/`SetupViewModel` default alignment to `CAUTIOUS`), full unit test suite (383 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 43s`, 50 actionable tasks, 4 executed, 46 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-AG0.3` (NEEDS_USER_DEVICE).
+
+### T47 — ElixirManifestTest, full unit suite & assembleDebug (AG0.4) — Session 21
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `ElixirManifestTest` (verifying `accessibility_config.xml` declares `android:packageNames` restricted to Chrome `com.android.chrome`, system document pickers `com.android.documentsui`, `com.google.android.documentsui`, `com.google.android.apps.docs`, and Elixir `com.cellclaw`; drops `typeAllMask` in favor of specific event types `typeWindowStateChanged`, `typeWindowContentChanged`, `typeViewClicked`, `typeViewFocused`, `typeViewTextChanged`, `typeViewScrolled`), full unit test suite (384 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 5s`, 50 actionable tasks, 2 executed, 48 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-AG0.4` (NEEDS_USER_DEVICE).

@@ -351,6 +351,17 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-AG0.4 — Accessibility Config Scoping to Chrome and File Picker
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device / emulator that the accessibility service binds and receives events only while interacting with Chrome, system document pickers, or Elixir, and completely ignores unrelated apps.
+**Steps:**
+1. Enable Elixir Accessibility Service in Android Settings.
+2. Open an unpermitted app (e.g. Calculator, Clock, Messages): observe logcat to confirm zero accessibility event logging or processing.
+3. Open Chrome or file picker: verify accessibility events are received and processed normally.
+4. Switch back to Elixir: verify accessibility state reflects permitted package.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)

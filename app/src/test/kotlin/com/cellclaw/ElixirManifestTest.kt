@@ -91,4 +91,54 @@ class ElixirManifestTest {
             manifestWithoutComments.contains("WakeWordService")
         )
     }
+
+    @Test
+    fun `accessibility config scopes packageNames and drops typeAllMask (AG0_4)`() {
+        val configFile = sequenceOf(
+            File("src/main/res/xml/accessibility_config.xml"),
+            File("app/src/main/res/xml/accessibility_config.xml")
+        ).firstOrNull { it.exists() } ?: error("accessibility_config.xml not found")
+
+        val configText = configFile.readText()
+
+        // 1. Must scope packageNames to Chrome, document pickers, and Elixir
+        assertTrue(
+            "accessibility_config.xml must declare android:packageNames",
+            configText.contains("android:packageNames=")
+        )
+        assertTrue(
+            "accessibility_config.xml must include Chrome package",
+            configText.contains("com.android.chrome")
+        )
+        assertTrue(
+            "accessibility_config.xml must include system file picker",
+            configText.contains("com.android.documentsui")
+        )
+        assertTrue(
+            "accessibility_config.xml must include Elixir package",
+            configText.contains("com.cellclaw")
+        )
+
+        // 2. Must drop typeAllMask in favor of specific event types used by form automation
+        assertFalse(
+            "accessibility_config.xml must NOT use typeAllMask (least-privilege requirement)",
+            configText.contains("typeAllMask")
+        )
+        assertTrue(
+            "accessibility_config.xml must listen for window state changes",
+            configText.contains("typeWindowStateChanged")
+        )
+        assertTrue(
+            "accessibility_config.xml must listen for window content changes",
+            configText.contains("typeWindowContentChanged")
+        )
+        assertTrue(
+            "accessibility_config.xml must listen for view click events",
+            configText.contains("typeViewClicked")
+        )
+        assertTrue(
+            "accessibility_config.xml must listen for text changes (read-back verification)",
+            configText.contains("typeViewTextChanged")
+        )
+    }
 }
