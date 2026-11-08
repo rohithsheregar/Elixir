@@ -9,7 +9,12 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
-@Entity(tableName = "applications")
+import androidx.room.Index
+
+@Entity(
+    tableName = "applications",
+    indices = [Index(value = ["jd_hash"])]
+)
 data class ApplicationEntity(
     @PrimaryKey val id: String,
     @ColumnInfo(name = "company") val company: String,

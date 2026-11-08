@@ -43,7 +43,7 @@ object AppModule {
             context,
             MemoryDb::class.java,
             "cellclaw_memory"
-        ).fallbackToDestructiveMigration().build()
+        ).addMigrations(*MemoryDb.ALL_MIGRATIONS).build()
     }
 
     @Provides

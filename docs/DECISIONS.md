@@ -316,3 +316,11 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 ## D47 — Accessibility Config Scoping to Chrome and File Picker (AG0.4)
 **Choice:** Restrict `app/src/main/res/xml/accessibility_config.xml` to declare `android:packageNames="com.android.chrome,com.android.documentsui,com.google.android.documentsui,com.google.android.apps.docs,com.cellclaw"`, matching the permitted package set enforced by `AccessibilitySession`. Drop `typeAllMask` in favor of specific event types required for form automation and read-back verification: `typeWindowStateChanged|typeWindowContentChanged|typeViewClicked|typeViewFocused|typeViewTextChanged|typeViewScrolled`.
 **Why:** Addresses least-privilege security requirement in Jarvis Agent Plan Phase 0 (AG0.4) and PlacementOS skill rules (Section 4.2). Scoping package names prevents Elixir's accessibility service from receiving event callbacks from arbitrary system apps, banking apps, or messengers, eliminating unneeded background processing and preventing leakage of sensitive screen content. Verified by `ElixirManifestTest` and full test suites.
+
+
+---
+
+## D48 — Room Explicit Database Migrations and Schema Export (AG0.5)
+**Choice:** Remove `.fallbackToDestructiveMigration()` from `AppModule.kt` when building `MemoryDb`. Configure KSP schema export via `ksp { arg("room.schemaLocation", "$projectDir/schemas") }` in `app/build.gradle.kts` and set `exportSchema = true` on `@Database(version = 4)`. Implement explicit, forward-only Room migrations `MIGRATION_1_2` (adds `scheduled_tasks`), `MIGRATION_2_3` (adds `applications`), and `MIGRATION_3_4` (adds performance index on `applications.jd_hash`). Provide complete unit test coverage in `MemoryDbMigrationTest` verifying that existing `applications` rows and data integrity survive version bumps without data wiping.
+**Why:** Addresses critical data-safety risk in Jarvis Agent Plan Phase 0 (AG0.5). Previously, any schema changes silently dropped the user's database tables, wiping candidate application tracking history, stored resume versions, and scheduled tasks. Explicit migrations guarantee zero data loss during app updates. Verified by `MemoryDbMigrationTest` and full test suites.
+

@@ -65,6 +65,10 @@ android {
     }
 }
 
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 /** Gradle 9-compatible task: injects ExecOperations to run adb commands. */
 abstract class EnableAccessibilityTask @Inject constructor(
     private val execOps: ExecOperations

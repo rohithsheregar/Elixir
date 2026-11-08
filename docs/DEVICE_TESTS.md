@@ -362,6 +362,17 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-AG0.5 — Non-Destructive Room Database Migration
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device / emulator that updating the application preserves existing application history, stored resumes, and scheduled tasks without sqlite table drops.
+**Steps:**
+1. Install an earlier build containing existing tracker applications and tasks.
+2. Upgrade in-place to the new build via `adb install -r`.
+3. Launch Elixir: verify Tracker screen immediately displays existing application cards with intact metadata, statuses, and hashes.
+4. Verify logcat contains no `SQLiteException` or Room fallback destructive migration messages.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)

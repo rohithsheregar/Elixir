@@ -758,3 +758,9 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** Focused `ElixirManifestTest` (verifying `accessibility_config.xml` declares `android:packageNames` restricted to Chrome `com.android.chrome`, system document pickers `com.android.documentsui`, `com.google.android.documentsui`, `com.google.android.apps.docs`, and Elixir `com.cellclaw`; drops `typeAllMask` in favor of specific event types `typeWindowStateChanged`, `typeWindowContentChanged`, `typeViewClicked`, `typeViewFocused`, `typeViewTextChanged`, `typeViewScrolled`), full unit test suite (384 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 5s`, 50 actionable tasks, 2 executed, 48 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-AG0.4` (NEEDS_USER_DEVICE).
+
+### T48 — MemoryDbMigrationTest, full unit suite & assembleDebug (AG0.5) — Session 22
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `MemoryDbMigrationTest` (verifying `MemoryDb.ALL_MIGRATIONS` definitions, execution of `MIGRATION_1_2` creating `scheduled_tasks`, `MIGRATION_2_3` creating `applications`, and `MIGRATION_3_4` creating index on `jd_hash`, data retention across version migrations with zero destructive data wiping, schema export at `app/schemas/com.cellclaw.memory.MemoryDb/4.json`), full unit test suite (388 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 8s`, 41 actionable tasks, 3 executed, 38 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-AG0.5` (NEEDS_USER_DEVICE).
