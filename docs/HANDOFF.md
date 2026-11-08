@@ -15,7 +15,7 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (419 unit tests pass, ass
 | 23 | Antigravity / Gemini 3.8 Flash | 2026-11-08 | 70f83ab |
 
 ## Last Green Commit
-Pending commit for AG1.4.
+1ebe2a5 — [AG1.4] expose placement pipeline as tools with approval token gate (tag: cp-ag1-1)
 
 ## IN PROGRESS
 AG0.7 / R19 — Live emulator end-to-end device testing on dummy_google_form.html with emulator-5554.
