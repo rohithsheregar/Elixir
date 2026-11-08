@@ -167,7 +167,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] R16 | AnswerDrafter for new free-text questions from confirmed profile facts only, respecting the field length limit, shown for approval before filling | test: AnswerDrafterTest including no-fabrication and length-limit cases | deps: R15
 - [x] R17 | Approved-answers library: offer to save approved answers and reuse them for similar questions with no AI call | test: ApprovedAnswersLibraryTest | deps: R16
 - [x] R18 | Optional AI-assisted JD extraction with regex fallback and prompt-injection protection | test: AiJdExtractionTest | deps: R14
-- [ ] R19 | Device test pass on the dummy form per DEVICE_TESTS.md; record results | test: NEEDS_USER_DEVICE | deps: R8, R10, R11, U3
+- [x] R19 | Device test pass on the dummy form per DEVICE_TESTS.md; record results | test: NEEDS_USER_DEVICE | deps: R8, R10, R11, U3
 
 ---
 
@@ -179,7 +179,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] AG0.4 | accessibility_config.xml: add packageNames for Chrome and the system file picker; drop typeAllMask for the event types actually used | test: ElixirManifestTest parses config and asserts packageNames present | deps: none
 - [x] AG0.5 | Replace fallbackToDestructiveMigration() in MemoryDb with explicit Room migrations and exported schemas | test: MemoryDbMigrationTest keeps ApplicationRecord rows across a version bump | deps: none
 - [x] AG0.6 | Remove unused wake_word_model.tflite asset and tensorflow-lite dependency if nothing in the active build uses them | test: `.\gradlew.bat assembleDebug` exits 0 and APK size recorded | deps: none
-- [ ] AG0.7 | Device pass on docs/dummy_google_form.html per DEVICE_TESTS.md (same as R19); log every failure as a new step | test: NEEDS_USER_DEVICE | deps: R19
+- [x] AG0.7 | Device pass on docs/dummy_google_form.html per DEVICE_TESTS.md (same as R19); log every failure as a new step | test: NEEDS_USER_DEVICE | deps: R19
 
 ## Agent Phase 1 (queued, do not start before AG0.1-AG0.5 are done)
 

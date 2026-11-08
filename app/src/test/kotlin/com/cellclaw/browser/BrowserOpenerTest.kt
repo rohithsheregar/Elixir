@@ -107,4 +107,18 @@ class BrowserOpenerTest {
         assertEquals("com.android.chrome", BrowserOpener.CHROME_PACKAGE)
         assertEquals("android.intent.action.VIEW", BrowserOpener.ACTION_VIEW)
     }
+
+    @Test
+    fun testAllowLocalhostForDummyFormTestHarness() {
+        val harnessUrls = listOf(
+            "http://localhost:8080/dummy_google_form.html",
+            "http://10.0.2.2:8080/dummy_google_form.html",
+            "http://127.0.0.1:8080/dummy_google_form.html"
+        )
+        for (url in harnessUrls) {
+            val result = validator.validate(url)
+            assertTrue("Expected WarningHttp for harness URL $url but got $result", result is UrlValidationResult.WarningHttp)
+            assertEquals(url, (result as UrlValidationResult.WarningHttp).url)
+        }
+    }
 }

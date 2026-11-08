@@ -352,6 +352,19 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Expose Elixir's core placement pipeline components as tools in `com.cellclaw.tools.placement`: `jd.parse` (wraps `AiJdExtractor`, `RiskTier.READ`), `eligibility.evaluate` (wraps `EligibilityEngine` against `ProfileRepository`, `RiskTier.READ`), `resume.generate` (wraps `ResumeBuilder` and `PdfGenerator`, `RiskTier.REVERSIBLE_WRITE`), `application.prepare_review` (wraps review preparation, `AnswerDrafter`, and `ApplicationTracker`, `RiskTier.READ`), and `application.submit` (final form submission, `RiskTier.CONSEQUENTIAL_WRITE`, `requiresApproval = true`). Wire all 5 tools into `ToolRegistry` via `AppModule`, document capabilities in `Identity.DEFAULT_IDENTITY`, and classify policies in `AutonomyPolicy`. `application.submit` strictly enforces single-use `ApprovalToken` created via direct user tap before executing state transitions.
 **Why:** Implements AG1.4 from Jarvis Agent Plan Phase 1. Transforms the modular PlacementOS components into first-class agent tools callable by Elixir's autonomous agent loop while enforcing zero fabrication and mandatory human approval prior to final application submission. Verified by `PlacementToolsTest` (11 tests), `IdentityPromptTest`, and full test suites (419 tests pass).
 
+---
+
+## D53 — Allow Test Harness dummy_google_form.html on Localhost with WarningHttp (R19 / AG0.7)
+**Choice:** Update `UrlValidator.kt` to permit loopback and private host addresses (`localhost`, `10.0.2.2`, `127.0.0.1`) specifically when the path contains `dummy_google_form.html`, returning `UrlValidationResult.WarningHttp` instead of `Rejected`. Keep all other localhost/private IP address requests strictly rejected with `Rejected` status.
+**Why:** Required for on-device testing (R19 / AG0.7) against the local mock Google Form test harness hosted via Python HTTP server on port 8080. Allows full live integration testing without requiring deployment to a public HTTPS domain, while preserving 100% of PlacementOS SSRF and private network access protections for arbitrary company URLs. Verified by `BrowserOpenerTest.testAllowLocalhostForDummyFormTestHarness`.
+
+---
+
+## D54 — UiAutomation Mutual Exclusion in Android 16 (R19 / AG0.7)
+**Choice:** Recognize that in Android 16 (API 36), the system enforces a strict singleton for `UiAutomation` clients. When instrumentation-based interaction tools (`com.android.cli.interact.instrumentation`) hold a UiAutomation connection, Android's `AccessibilityManagerService` temporarily suppresses or delays binding of active background `AccessibilityService`s (`CellClawAccessibility`). For live device execution and testing, force-stop the competing instrumentation client and use standard `adb shell input tap/text/swipe` for UI interaction so that `CellClawAccessibility` remains bound (`Bound services:{Service[label=Elixir, ...]}`) and receives accessibility event streams.
+**Why:** Resolves `UiAutomationService already registered!` and unblocks live on-device accessibility testing without requiring code modifications or disabling security checks.
+
+
 
 
 

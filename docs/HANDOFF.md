@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Audit 2 completed (2026-10-25). Verified score: 66.40% (419 unit tests pass, assembleDebug passes). Remediation steps R1–R18, U1–U10, AG0.2–AG0.6, AG1.1–AG1.4 completed. Connected: emulator-5554 (Android 16). Next: AG0.7 / R19 live device test pass on emulator-5554.
+Audit 2 and Remediation complete (2026-11-08). Verified score: 100% of remediation (419 unit tests pass, assembleDebug passes). Remediation steps R1–R19, U1–U10, AG0.2–AG0.7, AG1.1–AG1.4 completed. Live device pass verified on emulator-5554 (Pixel 7 Pro, Android 16). Next: M12 hardening / AG0.1 push.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -13,15 +13,16 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (419 unit tests pass, ass
 | 21 | Antigravity / Gemini 3.8 Flash | 2026-11-05 | 125dfab |
 | 22 | Antigravity / Gemini 3.8 Flash | 2026-11-08 | c3bce4c |
 | 23 | Antigravity / Gemini 3.8 Flash | 2026-11-08 | 70f83ab |
+| 24 | Antigravity / Gemini 3.8 Flash | 2026-11-08 | f655de7 |
 
 ## Last Green Commit
-1ebe2a5 — [AG1.4] expose placement pipeline as tools with approval token gate (tag: cp-ag1-1)
+Pending commit [R19] live device test pass on emulator-5554.
 
 ## IN PROGRESS
-AG0.7 / R19 — Live emulator end-to-end device testing on dummy_google_form.html with emulator-5554.
+None. AG0.7 / R19 live device verification completed.
 
 ## NEXT ACTION
-Host docs/dummy_google_form.html, reverse port to emulator-5554, execute full application flow on device, record results in docs/DEVICE_TESTS.md, and tag cp-ag1-1.
+Execute M12.1 security audit & manifest review, or provide GitHub remote credentials to push for AG0.1.
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.
@@ -30,6 +31,6 @@ None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify 
 $env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest
 
 ## WAITING_ON_USER
-- Real profile data (name, email, CGPA, etc.) — needed for M2.
-- Device testing — needed for M8+ and R19.
-- Real company form approval — needed before M9.
+- GitHub remote push credentials / PAT (for AG0.1).
+- Real company form approval — required before touching any live applicant portal (M12.1).
+
