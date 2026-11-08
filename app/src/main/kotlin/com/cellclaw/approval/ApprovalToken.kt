@@ -8,12 +8,14 @@ import javax.inject.Singleton
 
 data class ApprovalToken(
     val tokenId: String,
-    val applicationId: String,
-    val company: String,
-    val role: String,
-    val urlOrigin: String,
-    val formStateHash: String,
-    val resumeHash: String,
+    val applicationId: String = "",
+    val company: String = "",
+    val role: String = "",
+    val urlOrigin: String = "",
+    val formStateHash: String = "",
+    val resumeHash: String = "",
+    val actionName: String = "",
+    val actionTarget: String = "",
     val issuedAt: Long = System.currentTimeMillis(),
     val expiresAt: Long,
     val used: Boolean = false,
@@ -37,6 +39,7 @@ sealed interface TokenValidationResult {
     data class OriginMismatch(val expected: String, val actual: String) : TokenValidationResult
     data class FormStateMismatch(val expected: String, val actual: String) : TokenValidationResult
     data class ResumeHashMismatch(val expected: String, val actual: String) : TokenValidationResult
+    data class ActionMismatch(val expected: String, val actual: String) : TokenValidationResult
 }
 
 @Singleton
@@ -93,6 +96,39 @@ class ApprovalTokenManager @Inject constructor() {
     }
 
     /**
+     * Issues a generalised action approval token for CONSEQUENTIAL_WRITE tools.
+     * Enforces the hard security rule: tokens can only be created by an explicit direct user tap.
+     * Models, subagents, and background processes cannot create or forge approval tokens.
+     */
+    fun issueActionToken(
+        userDirectTapConfirmed: Boolean,
+        actionName: String,
+        actionTarget: String = "",
+        validityDurationMs: Long = 5 * 60 * 1000L
+    ): TokenIssuanceResult {
+        if (!userDirectTapConfirmed) {
+            return TokenIssuanceResult.Rejected(
+                "Security policy violation: Approval tokens can only be created by direct user tap."
+            )
+        }
+
+        val now = System.currentTimeMillis()
+        val token = ApprovalToken(
+            tokenId = generateSecureTokenId(),
+            actionName = actionName,
+            actionTarget = actionTarget,
+            issuedAt = now,
+            expiresAt = now + validityDurationMs,
+            used = false,
+            revoked = false,
+            revocationReason = null
+        )
+
+        tokens[token.tokenId] = token
+        return TokenIssuanceResult.Success(token)
+    }
+
+    /**
      * Validates that the token exists, is not consumed, has not expired, has not been revoked,
      * and strictly matches the target submission bindings.
      */
@@ -136,6 +172,34 @@ class ApprovalTokenManager @Inject constructor() {
 
         if (token.resumeHash != resumeHash) {
             return TokenValidationResult.ResumeHashMismatch(expected = token.resumeHash, actual = resumeHash)
+        }
+
+        return TokenValidationResult.Valid
+    }
+
+    /**
+     * Validates a generalised action token against [expectedAction].
+     */
+    fun validateActionToken(
+        tokenId: String,
+        expectedAction: String
+    ): TokenValidationResult {
+        val token = tokens[tokenId] ?: return TokenValidationResult.TokenNotFound
+
+        if (token.used) {
+            return TokenValidationResult.AlreadyUsed
+        }
+
+        if (token.revoked) {
+            return TokenValidationResult.Revoked(token.revocationReason ?: "UNKNOWN")
+        }
+
+        if (System.currentTimeMillis() > token.expiresAt) {
+            return TokenValidationResult.Expired
+        }
+
+        if (token.actionName.isNotBlank() && !token.actionName.equals(expectedAction.trim(), ignoreCase = true)) {
+            return TokenValidationResult.ActionMismatch(expected = expectedAction, actual = token.actionName)
         }
 
         return TokenValidationResult.Valid

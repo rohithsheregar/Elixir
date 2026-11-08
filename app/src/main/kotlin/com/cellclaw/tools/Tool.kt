@@ -20,6 +20,13 @@ interface Tool {
     /** Whether this tool requires user approval before execution */
     val requiresApproval: Boolean
 
+    /**
+     * Security risk tier of this tool.
+     * Defaults to [RiskTier.CONSEQUENTIAL_WRITE] if [requiresApproval] is true, else [RiskTier.READ].
+     */
+    val riskTier: RiskTier
+        get() = if (requiresApproval) RiskTier.CONSEQUENTIAL_WRITE else RiskTier.READ
+
     /** Execute the tool with the given parameters */
     suspend fun execute(params: JsonObject): ToolResult
 }

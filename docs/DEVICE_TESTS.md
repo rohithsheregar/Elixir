@@ -384,6 +384,18 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-AG1.1 — RiskTier Consequential Action Confirmation Gate
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device / emulator that agent interactions trigger approval requests only for CONSEQUENTIAL_WRITE operations and never execute them without a direct user tap.
+**Steps:**
+1. Engage agent with a safe read prompt (e.g. "What's on my screen?"): verify execution is instant and uninterrupted.
+2. Engage agent with a consequential action (e.g. "Submit this form" or modify sensitive system state): verify agent pauses in `WAITING_APPROVAL`.
+3. Verify approval notification/modal displays `[CONSEQUENTIAL_WRITE]` with exact action parameters.
+4. User taps 'Approve': verify execution proceeds.
+5. User taps 'Deny': verify execution halts cleanly.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)

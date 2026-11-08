@@ -770,3 +770,9 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** Removed `app/src/main/assets/wake_word_model.tflite`, deleted `androidResources.noCompress` for `tflite`, and excised `implementation(libs.tensorflow.lite)` from `app/build.gradle.kts`. Ran full unit test suite (`388 tests passed`, 0 failures) and debug build (`BUILD SUCCESSFUL in 2m 33s`, 50 actionable tasks, 21 executed, 29 up-to-date). Debug APK size dropped from 39,218,354 bytes (~37.40 MB) to 22,510,410 bytes (~21.47 MB)—an immediate 16.7 MB (42.6%) reduction due to elimination of unused native `.so` binaries. Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-AG0.6` (NEEDS_USER_DEVICE).
+
+### T50 — AgentLoopRiskTierTest, full unit suite & assembleDebug (AG1.1) — Session 22
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `AgentLoopRiskTierTest` (verifying `RiskTier` enum on `Tool`, automatic execution of `READ` tools without token, autonomy-governed `REVERSIBLE_WRITE`, strict `ApprovalToken` enforcement for `CONSEQUENTIAL_WRITE`, rejection of forged model tokens, rejection of already-consumed tokens, rejection of expired tokens, rejection of action-mismatched tokens, fallback to human approval queue when token is absent, denial enforcement when user rejects, prohibition of `FULL_AUTO` bypass on consequential writes, and inability of models to issue valid tokens without direct user tap), full unit test suite (398 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 48s`, 41 actionable tasks, 3 executed, 38 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-AG1.1` (NEEDS_USER_DEVICE).

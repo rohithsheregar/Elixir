@@ -6,10 +6,24 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Identity @Inject constructor(
-    private val appConfig: AppConfig,
-    private val semanticMemory: SemanticMemory
-) {
+class Identity {
+    private val appConfig: AppConfig
+    private val semanticMemory: SemanticMemory?
+
+    @Inject
+    constructor(
+        appConfig: AppConfig,
+        semanticMemory: SemanticMemory
+    ) {
+        this.appConfig = appConfig
+        this.semanticMemory = semanticMemory
+    }
+
+    /** Secondary constructor for JVM unit tests */
+    constructor(appConfig: AppConfig = AppConfig()) {
+        this.appConfig = appConfig
+        this.semanticMemory = null
+    }
     fun buildSystemPrompt(toolRegistry: ToolRegistry): String {
         return buildString {
             appendLine(DEFAULT_IDENTITY)

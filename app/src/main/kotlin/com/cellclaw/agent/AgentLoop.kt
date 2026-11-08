@@ -4,33 +4,86 @@ import android.util.Log
 import com.cellclaw.approval.ApprovalQueue
 import com.cellclaw.approval.ApprovalRequest
 import com.cellclaw.approval.ApprovalResult
+import com.cellclaw.approval.ApprovalTokenManager
+import com.cellclaw.approval.TokenIssuanceResult
+import com.cellclaw.approval.TokenValidationResult
 import com.cellclaw.config.AppConfig
 import com.cellclaw.config.Identity
 import com.cellclaw.memory.ConversationStore
 import com.cellclaw.provider.*
 import com.cellclaw.provider.ProviderManager
+import com.cellclaw.tools.RiskTier
 import com.cellclaw.tools.ToolRegistry
 import com.cellclaw.tools.ToolResult
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
-class AgentLoop @Inject constructor(
-    private val providerManager: ProviderManager,
-    private val toolRegistry: ToolRegistry,
-    private val approvalQueue: ApprovalQueue,
-    private val conversationStore: ConversationStore,
-    private val identity: Identity,
-    private val autonomyPolicy: AutonomyPolicy,
-    private val appConfig: AppConfig,
+class AgentLoop {
+    private val providerManager: ProviderManager
+    private val toolRegistry: ToolRegistry
+    private val approvalQueue: ApprovalQueue
+    private val conversationStore: ConversationStore
+    private val identity: Identity
+    private val autonomyPolicy: AutonomyPolicy
+    private val appConfig: AppConfig
     private val heartbeatManagerProvider: Provider<HeartbeatManager>
-) {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    private val approvalTokenManager: ApprovalTokenManager
+    private val scope: CoroutineScope
+
+    @Inject
+    constructor(
+        providerManager: ProviderManager,
+        toolRegistry: ToolRegistry,
+        approvalQueue: ApprovalQueue,
+        conversationStore: ConversationStore,
+        identity: Identity,
+        autonomyPolicy: AutonomyPolicy,
+        appConfig: AppConfig,
+        heartbeatManagerProvider: Provider<HeartbeatManager>,
+        approvalTokenManager: ApprovalTokenManager
+    ) : this(
+        providerManager = providerManager,
+        toolRegistry = toolRegistry,
+        approvalQueue = approvalQueue,
+        conversationStore = conversationStore,
+        identity = identity,
+        autonomyPolicy = autonomyPolicy,
+        appConfig = appConfig,
+        heartbeatManagerProvider = heartbeatManagerProvider,
+        approvalTokenManager = approvalTokenManager,
+        coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    )
+
+    constructor(
+        providerManager: ProviderManager,
+        toolRegistry: ToolRegistry,
+        approvalQueue: ApprovalQueue,
+        conversationStore: ConversationStore,
+        identity: Identity,
+        autonomyPolicy: AutonomyPolicy,
+        appConfig: AppConfig,
+        heartbeatManagerProvider: Provider<HeartbeatManager>,
+        approvalTokenManager: ApprovalTokenManager,
+        coroutineScope: CoroutineScope
+    ) {
+        this.providerManager = providerManager
+        this.toolRegistry = toolRegistry
+        this.approvalQueue = approvalQueue
+        this.conversationStore = conversationStore
+        this.identity = identity
+        this.autonomyPolicy = autonomyPolicy
+        this.appConfig = appConfig
+        this.heartbeatManagerProvider = heartbeatManagerProvider
+        this.approvalTokenManager = approvalTokenManager
+        this.scope = coroutineScope
+    }
     private val json = Json { ignoreUnknownKeys = true }
 
     private val _state = MutableStateFlow(AgentState.IDLE)
@@ -197,8 +250,62 @@ class AgentLoop @Inject constructor(
                     continue
                 }
 
-                // Check approval
-                val approved = checkApproval(call.name, call.input)
+                // Check approval based on risk tier and autonomy policy
+                val approved: Boolean
+                if (tool.riskTier == RiskTier.CONSEQUENTIAL_WRITE) {
+                    // CONSEQUENTIAL_WRITE strictly requires a valid ApprovalToken created by a direct user tap.
+                    // Models cannot fabricate or issue valid ApprovalTokens.
+                    val tokenParam = try {
+                        call.input["approval_token"]?.jsonPrimitive?.content
+                            ?: call.input["token_id"]?.jsonPrimitive?.content
+                    } catch (_: Exception) {
+                        null
+                    }
+
+                    if (tokenParam != null) {
+                        val validation = approvalTokenManager.validateActionToken(tokenParam, call.name)
+                        if (validation == TokenValidationResult.Valid) {
+                            approvalTokenManager.consumeToken(tokenParam)
+                            approved = true
+                        } else {
+                            toolResults.add(ContentBlock.ToolResult(
+                                call.id,
+                                "Security policy violation: Tool '${call.name}' is a CONSEQUENTIAL_WRITE action. " +
+                                "Provided ApprovalToken is invalid ($validation). A valid single-use ApprovalToken created via direct user tap is required.",
+                                isError = true
+                            ))
+                            if (!isHeartbeatRun) _events.emit(AgentEvent.ToolCallDenied(call.name))
+                            continue
+                        }
+                    } else {
+                        // Model did not provide an ApprovalToken: pause and request direct human tap via ApprovalQueue
+                        _state.value = AgentState.WAITING_APPROVAL
+                        val request = ApprovalRequest(
+                            toolName = call.name,
+                            parameters = call.input,
+                            description = "[CONSEQUENTIAL_WRITE] Allow ${call.name}?"
+                        )
+                        val result = approvalQueue.request(request)
+                        _state.value = AgentState.EXECUTING_TOOLS
+                        if (result == ApprovalResult.APPROVED) {
+                            val tokenResult = approvalTokenManager.issueActionToken(
+                                userDirectTapConfirmed = true,
+                                actionName = call.name
+                            )
+                            if (tokenResult is TokenIssuanceResult.Success) {
+                                approvalTokenManager.consumeToken(tokenResult.token.tokenId)
+                                approved = true
+                            } else {
+                                approved = false
+                            }
+                        } else {
+                            approved = false
+                        }
+                    }
+                } else {
+                    approved = checkApproval(call.name, call.input)
+                }
+
                 if (!approved) {
                     toolResults.add(ContentBlock.ToolResult(
                         call.id, "Tool execution denied by user", isError = true

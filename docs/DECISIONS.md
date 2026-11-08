@@ -332,3 +332,11 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Why:** Addresses bloat and attack surface reduction identified in Jarvis Agent Plan Phase 0 (AG0.6). WakeWordService was quarantined in milestone M0/R2, leaving TensorFlow Lite and the model asset completely unused in the production code path. Removing the dependency eliminated native C++ shared libraries (`libtensorflowlite_jni.so`), dropping the debug APK size from 39.2 MB (39,218,354 bytes) to 22.5 MB (22,510,410 bytes)—a 42.6% reduction (16.7 MB saved)—while preserving 100% of placement features and test passes. Verified by `testDebugUnitTest` (388 tests pass) and `assembleDebug`.
 
 
+---
+
+## D50 — RiskTier Categorization & Generalized ApprovalToken Enforcement in AgentLoop (AG1.1)
+**Choice:** Introduce `RiskTier` enum (`READ`, `REVERSIBLE_WRITE`, `CONSEQUENTIAL_WRITE`) in `com.cellclaw.tools`. Add `val riskTier: RiskTier` property to `Tool` interface defaulting to `CONSEQUENTIAL_WRITE` when `requiresApproval = true` and `READ` otherwise. Generalize `ApprovalToken` and `ApprovalTokenManager` to support action-bound tokens (`actionName`, `actionTarget`) alongside legacy placement tokens, providing `issueActionToken` (strictly requiring `userDirectTapConfirmed = true`) and `validateActionToken`. In `AgentLoop`, intercept all tool calls: tools with `RiskTier.CONSEQUENTIAL_WRITE` strictly require a valid, unconsumed, unexpired, action-matching `ApprovalToken` created via a direct user tap; if the model passes a forged or missing token, `AgentLoop` pauses with `WAITING_APPROVAL` and prompts the user via `ApprovalQueue`. Even under `FULL_AUTO` autonomy profile, consequential writes cannot execute autonomously.
+**Why:** Implements Phase 1 security architecture from `docs/ELIXIR_AGENT_PLAN.md` (AG1.1). Guarantees that AI models cannot hallucinate or bypass authorization for irreversible, impactful phone or placement actions (form submits, deletions, communications). Direct user agency is preserved as an unshakeable system invariant. Verified by `AgentLoopRiskTierTest` (10 tests) and full test suites (398 tests pass).
+
+
+
