@@ -208,6 +208,11 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideContextCompactor(): com.cellclaw.agent.ContextCompactor =
+        com.cellclaw.agent.DefaultContextCompactor()
+
+    @Provides
+    @Singleton
     fun provideToolRegistry(
         // --- SAFE TOOLS (retained for Elixir placement profile) ---
         calendarQuery: CalendarQueryTool,

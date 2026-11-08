@@ -339,4 +339,12 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Why:** Implements Phase 1 security architecture from `docs/ELIXIR_AGENT_PLAN.md` (AG1.1). Guarantees that AI models cannot hallucinate or bypass authorization for irreversible, impactful phone or placement actions (form submits, deletions, communications). Direct user agency is preserved as an unshakeable system invariant. Verified by `AgentLoopRiskTierTest` (10 tests) and full test suites (398 tests pass).
 
 
+---
+
+## D51 — Context Compaction & Safe Boundary Split in AgentLoop (AG1.3)
+**Choice:** Introduce `ContextCompactor` interface and `DefaultContextCompactor` implementation in `com.cellclaw.agent`. When conversation history exceeds the configured token budget (`appConfig.maxTokens`) or turn limit, `AgentLoop` automatically compacts older messages into a consolidated context summary block before dispatching the completion request to the active AI provider. The compactor: (1) estimates tokens via standard 4-char heuristic across text, tool use, and tool result blocks; (2) preserves the most recent turns (`keepRecentCount`); (3) enforces safe split boundaries so that tool calls and their matching `ToolResult` blocks are never split across compaction boundaries, preventing API 400 orphaned result errors; (4) preserves strict role alternation (User summary -> Assistant ack -> User); (5) retains prior compaction context during chained compactions; (6) supports AI-assisted summarization with robust deterministic structured fallback when offline, rate-limited, or mocked; (7) emits `AgentEvent.ContextCompacted` to inform listeners.
+**Why:** Solves context window overflow, unbounded memory growth, and token exhaustion identified in Audit 2 / Jarvis Agent Plan Phase 1 (AG1.3). Bounding conversation length ensures long-running autonomous placement sessions remain performant, cost-effective, and error-free. Verified by `AgentLoopCompactionTest` (10 tests) and full test suites (408 tests pass).
+
+
+
 

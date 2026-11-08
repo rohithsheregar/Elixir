@@ -396,6 +396,17 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-AG1.3 — Long-Running Conversation Context Compaction
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device / emulator that multi-turn agent conversations automatically compact earlier context without dropping user intent or orphaning tool executions.
+**Steps:**
+1. Start Elixir and engage in a sustained multi-turn conversation (15+ turns) with multiple tool invocations.
+2. Verify in logcat / UI that ContextCompacted event is triggered without user disruption.
+3. Verify that the agent maintains continuous context of earlier instructions while keeping latency low and memory bounded.
+4. Verify no crash or duplicate message rendering in ChatScreen.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)

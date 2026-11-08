@@ -90,6 +90,7 @@ class ChatViewModel @Inject constructor(
                             addMessage("assistant", note)
                         }
                     }
+                    is AgentEvent.ContextCompacted -> {}
                 }
             }
         }

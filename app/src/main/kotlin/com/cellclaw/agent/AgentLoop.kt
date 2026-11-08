@@ -35,6 +35,7 @@ class AgentLoop {
     private val appConfig: AppConfig
     private val heartbeatManagerProvider: Provider<HeartbeatManager>
     private val approvalTokenManager: ApprovalTokenManager
+    private val contextCompactor: ContextCompactor
     private val scope: CoroutineScope
 
     @Inject
@@ -47,7 +48,8 @@ class AgentLoop {
         autonomyPolicy: AutonomyPolicy,
         appConfig: AppConfig,
         heartbeatManagerProvider: Provider<HeartbeatManager>,
-        approvalTokenManager: ApprovalTokenManager
+        approvalTokenManager: ApprovalTokenManager,
+        contextCompactor: ContextCompactor
     ) : this(
         providerManager = providerManager,
         toolRegistry = toolRegistry,
@@ -58,7 +60,8 @@ class AgentLoop {
         appConfig = appConfig,
         heartbeatManagerProvider = heartbeatManagerProvider,
         approvalTokenManager = approvalTokenManager,
-        coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+        coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default),
+        contextCompactor = contextCompactor
     )
 
     constructor(
@@ -72,6 +75,32 @@ class AgentLoop {
         heartbeatManagerProvider: Provider<HeartbeatManager>,
         approvalTokenManager: ApprovalTokenManager,
         coroutineScope: CoroutineScope
+    ) : this(
+        providerManager = providerManager,
+        toolRegistry = toolRegistry,
+        approvalQueue = approvalQueue,
+        conversationStore = conversationStore,
+        identity = identity,
+        autonomyPolicy = autonomyPolicy,
+        appConfig = appConfig,
+        heartbeatManagerProvider = heartbeatManagerProvider,
+        approvalTokenManager = approvalTokenManager,
+        coroutineScope = coroutineScope,
+        contextCompactor = DefaultContextCompactor()
+    )
+
+    constructor(
+        providerManager: ProviderManager,
+        toolRegistry: ToolRegistry,
+        approvalQueue: ApprovalQueue,
+        conversationStore: ConversationStore,
+        identity: Identity,
+        autonomyPolicy: AutonomyPolicy,
+        appConfig: AppConfig,
+        heartbeatManagerProvider: Provider<HeartbeatManager>,
+        approvalTokenManager: ApprovalTokenManager,
+        coroutineScope: CoroutineScope,
+        contextCompactor: ContextCompactor
     ) {
         this.providerManager = providerManager
         this.toolRegistry = toolRegistry
@@ -83,6 +112,7 @@ class AgentLoop {
         this.heartbeatManagerProvider = heartbeatManagerProvider
         this.approvalTokenManager = approvalTokenManager
         this.scope = coroutineScope
+        this.contextCompactor = contextCompactor
     }
     private val json = Json { ignoreUnknownKeys = true }
 
@@ -171,6 +201,8 @@ class AgentLoop {
 
         while ((maxIterations == 0 || iterations < maxIterations) && _state.value == AgentState.THINKING) {
             iterations++
+
+            compactConversationHistoryIfNeeded()
 
             val request = CompletionRequest(
                 systemPrompt = identity.buildSystemPrompt(toolRegistry),
@@ -392,8 +424,62 @@ class AgentLoop {
                 val role = if (msg.role == "user") Role.USER else Role.ASSISTANT
                 conversationHistory.add(Message(role, listOf(ContentBlock.Text(msg.content))))
             }
+            compactConversationHistoryIfNeeded()
         }
     }
+
+    /**
+     * Compacts conversation history if it exceeds token or message thresholds.
+     */
+    private suspend fun compactConversationHistoryIfNeeded() {
+        val maxTokens = appConfig.maxTokens
+        if (contextCompactor.shouldCompact(conversationHistory, maxTokens = maxTokens)) {
+            val provider = try { providerManager.activeProvider() } catch (_: Exception) { null }
+            val compacted = contextCompactor.compact(
+                messages = conversationHistory,
+                maxTokens = maxTokens,
+                aiProvider = provider
+            )
+            if (compacted != conversationHistory && compacted.isNotEmpty()) {
+                conversationHistory.clear()
+                conversationHistory.addAll(compacted)
+                _events.emit(AgentEvent.ContextCompacted(compacted.size))
+            }
+        }
+    }
+
+    /**
+     * Compacts conversation history with explicit limits.
+     * Exposed for manual triggering or testing.
+     */
+    suspend fun compactHistory(
+        maxTokens: Int = ContextCompactor.DEFAULT_MAX_TOKENS,
+        maxMessages: Int = ContextCompactor.DEFAULT_MAX_MESSAGES,
+        keepRecentCount: Int = ContextCompactor.DEFAULT_KEEP_RECENT
+    ): Boolean {
+        if (contextCompactor.shouldCompact(conversationHistory, maxTokens = maxTokens, maxMessages = maxMessages)) {
+            val provider = try { providerManager.activeProvider() } catch (_: Exception) { null }
+            val compacted = contextCompactor.compact(
+                messages = conversationHistory,
+                maxTokens = maxTokens,
+                maxMessages = maxMessages,
+                keepRecentCount = keepRecentCount,
+                aiProvider = provider
+            )
+            if (compacted != conversationHistory && compacted.isNotEmpty()) {
+                conversationHistory.clear()
+                conversationHistory.addAll(compacted)
+                _events.emit(AgentEvent.ContextCompacted(compacted.size))
+                return true
+            }
+        }
+        return false
+    }
+
+    /**
+     * Returns an unmodifiable snapshot of the current conversation history.
+     */
+    fun getConversationHistory(): List<Message> = conversationHistory.toList()
 
     companion object {
         private const val TAG = "AgentLoop"
@@ -414,4 +500,5 @@ sealed class AgentEvent {
     data class Error(val message: String) : AgentEvent()
     data object HeartbeatStart : AgentEvent()
     data class HeartbeatComplete(val detection: HeartbeatDetector.DetectionResult) : AgentEvent()
+    data class ContextCompacted(val messageCount: Int) : AgentEvent()
 }
