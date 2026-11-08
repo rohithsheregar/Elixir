@@ -16,14 +16,13 @@ Audit 2 and Remediation complete (2026-11-08). Verified score: 100% of remediati
 | 24 | Antigravity / Gemini 3.8 Flash | 2026-11-08 | f655de7 |
 
 ## Last Green Commit
-40672e6 — [R19] live device test pass on dummy_google_form.html with emulator-5554 (tag: cp-ag0-1)
-
+241a5ff — [M12.3] mark M8.4-M11.3 wired milestones and M12.1-M12.3 complete (tags: cp-ag0-1, cp-ag1-1)
 
 ## IN PROGRESS
-None. AG0.7 / R19 live device verification completed.
+None. Milestones M0–M11, R1–R19, U1–U10, AG0.2–AG0.7, AG1.1–AG1.4, M12.1–M12.3 completed and device verified.
 
 ## NEXT ACTION
-Execute M12.1 security audit & manifest review, or provide GitHub remote credentials to push for AG0.1.
+Awaiting user decision on optional M12.4 package rename (com.cellclaw -> com.elixir) or GitHub remote push token for AG0.1.
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.
@@ -32,6 +31,8 @@ None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify 
 $env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest
 
 ## WAITING_ON_USER
+- User decision on optional M12.4 package rename (`com.cellclaw` -> `com.elixir`).
 - GitHub remote push credentials / PAT (for AG0.1).
 - Real company form approval — required before touching any live applicant portal (M12.1).
+
 
