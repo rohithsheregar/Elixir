@@ -29,7 +29,7 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (383 unit tests pass, ass
 | 21 | Antigravity / Gemini 3.8 Flash | 2026-11-05 | 125dfab |
 
 ## Last Green Commit
-TBD_AG0_3_COMMIT — [AG0.3] AutonomyPolicy deny-by-default for unknown tools and CAUTIOUS default profile
+f10a9fb — [AG0.3] AutonomyPolicy deny-by-default for unknown tools and CAUTIOUS default profile
 
 ## IN PROGRESS
 AG0.4 — accessibility_config.xml: add packageNames for Chrome and the system file picker; drop typeAllMask for the event types actually used
