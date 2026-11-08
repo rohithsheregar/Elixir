@@ -330,6 +330,16 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-AG0.2 — Elixir System Prompt and Capability Parity
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device / emulator that agent interactions introduce assistant as Elixir and execute only valid registered placement tools without hallucinating phantom tools.
+**Steps:**
+1. Launch app on device / emulator and engage agent prompt.
+2. Verify introductory response identifies assistant as Elixir.
+3. Inquire about capabilities: verify response only mentions registered tools (calendar, notifications, files, clipboard, sensors, screen reading, email, vision, scheduling) and disclaims SMS, calls, camera, and shell.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)

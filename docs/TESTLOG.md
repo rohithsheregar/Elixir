@@ -740,3 +740,9 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** Focused `AiJdExtractionTest` (verifying successful AI extraction and field mapping to `JdRequirement`, strict prompt-injection detection bypassing AI for adversarial inputs containing "ignore all previous instructions" and "override" directives, script-tag injection mitigation, graceful network failure fallback to deterministic regex parser, malformed JSON fallback, regex backfill for AI-omitted fields, and null/blank input handling), full unit test suite (376 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 36s`, 50 actionable tasks, 4 executed, 46 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-R18` (NEEDS_USER_DEVICE).
+
+### T45 — IdentityPromptTest, full unit suite & assembleDebug (AG0.2) — Session 21
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `IdentityPromptTest` (verifying `Identity.DEFAULT_IDENTITY` assistant name explicitly as Elixir, absence of legacy CellClaw branding, strict no-phantom-tool guarantee ensuring every cited tool exists in `ToolRegistry`, omission of disabled tool claims SMS/calls/contacts/camera/location/shell, inclusion of Zero Fabrication and User Agency core principles, and registry parity with expected 17 tools), full unit test suite (382 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 54s`, 50 actionable tasks, 4 executed, 46 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-AG0.2` (NEEDS_USER_DEVICE).

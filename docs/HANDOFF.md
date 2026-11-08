@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Audit 2 completed (2026-10-25). Verified score: 66.40% (376 unit tests pass, assembleDebug passes). Remediation steps R1–R18 and UI redesign steps U1–U10 completed. R19 is NEEDS_USER_DEVICE. Next: AG0 steps. Jarvis Agent phases AG0-AG6 defined in docs/ELIXIR_AGENT_PLAN.md.
+Audit 2 completed (2026-10-25). Verified score: 66.40% (382 unit tests pass, assembleDebug passes). Remediation steps R1–R18, U1–U10, and AG0.2 completed. R19 and AG0.7 are NEEDS_USER_DEVICE. Connected: emulator-5554 (Android 16). In progress: AG0.3.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -29,19 +29,18 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (376 unit tests pass, ass
 | 21 | Antigravity / Gemini 3.8 Flash | 2026-11-05 | 125dfab |
 
 ## Last Green Commit
-TBD_R18_COMMIT — [R18] AI-assisted JD extraction with prompt-injection protection and regex fallback
+TBD_AG0_2_COMMIT — [AG0.2] rewrite Identity.DEFAULT_IDENTITY as Elixir and enforce no-phantom-tool guarantee
 
 ## IN PROGRESS
-R19 — Device test pass on the dummy form per DEVICE_TESTS.md (NEEDS_USER_DEVICE)
-AG0.2 — Rewrite Identity.DEFAULT_IDENTITY as Elixir; build capability list from ToolRegistry; remove SMS/call/camera/shell claims
-Plan for AG0.2:
-1. Find Identity.DEFAULT_IDENTITY in source.
-2. Rewrite as Elixir identity referencing only tools actually in ToolRegistry.
-3. Author IdentityPromptTest asserting no tool absent from registry is named.
+AG0.3 — AutonomyPolicy deny-by-default: unknown tools return ASK (or DENY), initial profile CAUTIOUS not FULL_AUTO
+Plan for AG0.3:
+1. Inspect AutonomyPolicy.kt and AppConfig.kt for default autonomy profile and unknown tool resolution.
+2. Ensure unknown tools evaluate to ASK (or DENY) under deny-by-default, and default profile is CAUTIOUS.
+3. Extend AutonomyPolicyTest with unknown tool and default profile assertions.
 4. Verify with testDebugUnitTest and assembleDebug.
 
 ## NEXT ACTION
-AG0.2: Find Identity.DEFAULT_IDENTITY, rewrite as Elixir, author IdentityPromptTest, verify with testDebugUnitTest.
+AG0.3: Inspect AutonomyPolicy.kt and AutonomyPolicyTest.kt, enforce CAUTIOUS default and deny-by-default for unknown tools.
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.
