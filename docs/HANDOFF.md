@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Audit 2 completed (2026-10-25). Verified score: 66.40% (388 unit tests pass, assembleDebug passes). Remediation steps R1–R18, U1–U10, AG0.2–AG0.5 completed. R19 and AG0.7 are NEEDS_USER_DEVICE. Connected: emulator-5554 (Android 16). In progress: AG0.6.
+Audit 2 completed (2026-10-25). Verified score: 66.40% (388 unit tests pass, assembleDebug passes). Remediation steps R1–R18, U1–U10, AG0.2–AG0.6 completed. R19 and AG0.7 are live device verification. Connected: emulator-5554 (Android 16). In progress: AG1.1.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -14,13 +14,13 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (388 unit tests pass, ass
 | 22 | Antigravity / Gemini 3.8 Flash | 2026-11-08 | c3bce4c |
 
 ## Last Green Commit
-42da88a — [AG0.5] replace destructive migration with explicit Room migrations and exported schemas
+063d49d — [AG0.6] remove unused wake-word model asset and tensorflow-lite dependency
 
 ## IN PROGRESS
-AG0.6 — Remove unused wake_word_model.tflite asset and tensorflow-lite dependency
+AG1.1 — RiskTier enum on Tool & ApprovalToken enforcement for CONSEQUENTIAL_WRITE in AgentLoop
 
 ## NEXT ACTION
-AG0.6: Inspect wake_word_model.tflite and tensorflow-lite references in app/build.gradle.kts and assets, remove if unused, verify assembleDebug, record APK size in TESTLOG.
+AG1.1: Add RiskTier enum to Tool.kt, configure tool tiers, author AgentLoopRiskTierTest, and wire ApprovalToken gate.
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.
