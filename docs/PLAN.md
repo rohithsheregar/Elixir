@@ -98,7 +98,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] M8.1 | BrowserOpener: URL validation (https only; warn http; reject file:, javascript:, intent:, data:, localhost); open in user's Chrome via intent | test: BrowserOpenerTest (URL validation logic, pure JVM) | deps: M7.8, S3
 - [x] M8.2 | Elixir-scoped AccessibilitySession: starts on user tap, stops on cancel/app-switch/screen-lock; inspects only selected browser + system file picker; bounded polling with timeout | test: AccessibilitySessionTest (state machine, pure JVM) | deps: M8.1
 - [x] M8.3 | Dummy Google Form test harness: create a static HTML mock form with text, dropdown, radio, checkbox, date and file-upload questions; write steps in DEVICE_TESTS.md | test: NEEDS_USER_DEVICE | deps: M8.2
-- [ ] M8.4 | Build passes; tag `cp-m8-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M8.3 | REOPENED: unit-tested but not wired (audit 2)
+- [x] M8.4 | Build passes; tag `cp-m8-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M8.3 | WIRED & VERIFIED (session 24)
 
 ---
 
@@ -107,7 +107,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] M9.1 | FieldClassifier: classify accessibility nodes by label/type (name, email, phone, institution, degree, branch, year, cgpa, marks, skills, links, yes/no, dropdown, radio, checkbox, file upload, free text, unknown) | test: FieldClassifierTest (synthetic AccessibilityNodeInfo mocks) | deps: M8.4
 - [x] M9.2 | FieldFiller: fill from confirmed profile facts only; read-back verification after each fill; dropdown/radio exact match; free-text shown to user before fill | test: FieldFillerTest | deps: M9.1
 - [x] M9.3 | "Needs your input" list: collect unmatched/sensitive fields; pause and present to user | test: FieldFillerTest (unknown field path) | deps: M9.2
-- [ ] M9.4 | Build passes; tag `cp-m9-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M9.3 | REOPENED: unit-tested but not wired (audit 2)
+- [x] M9.4 | Build passes; tag `cp-m9-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M9.3 | WIRED & VERIFIED (session 24)
 
 ---
 
@@ -115,7 +115,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 
 - [x] M10.1 | ResumeUploader: expose generated PDF via FileProvider content URI; check file exists, non-zero, PDF magic bytes, SHA-256 matches tracker before picker; handle cancelled/denied/too-large/server-rejected/timeout | test: ResumeUploaderTest (pure logic, hash check) | deps: M9.4
 - [x] M10.2 | Post-upload verify: read page to confirm filename attached; if no signal, ask user to confirm visually | test: NEEDS_USER_DEVICE | deps: M10.1
-- [ ] M10.3 | Build passes; tag `cp-m10-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M10.2 | REOPENED: unit-tested but not wired (audit 2)
+- [x] M10.3 | Build passes; tag `cp-m10-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M10.2 | WIRED & VERIFIED (session 24)
 
 ---
 
@@ -123,17 +123,17 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 
 - [x] M11.1 | Approval token: one-time, created by direct user tap; bound to company+role+URL origin+form-state-hash+resume-hash; expires on navigation/field-change/timeout/cancel; model cannot create or edit it | test: ApprovalTokenTest | deps: M10.3
 - [x] M11.2 | Submit flow: after approval, tap confirmed Submit once; look for confirmation page/reference number; update tracker (SUBMITTED_CONFIRMED / SUBMISSION_UNKNOWN); no auto-resubmit | test: NEEDS_USER_DEVICE (dummy form only) | deps: M11.1
-- [ ] M11.3 | Build passes; tag `cp-m11-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M11.2 | REOPENED: unit-tested but not wired (audit 2)
+- [x] M11.3 | Build passes; tag `cp-m11-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M11.2 | WIRED & VERIFIED (session 24)
 
 ---
 
 ## M12 — Hardening, README, DEVICE_TESTS.md checklist, final audit, optional package rename
 
-- [ ] M12.1 | Security audit: confirm no secrets in code/logs/BuildConfig, HTTPS only, backups exclude profile/resumes, all components exported=false unless required | test: manual grep for secrets, manifest review | deps: M11.3 | REOPENED: unit-tested but not wired (audit 2)
-- [ ] M12.2 | Update README to describe Elixir, setup steps, privacy policy, how to use | test: README is accurate | deps: M12.1 | REOPENED: unit-tested but not wired (audit 2)
-- [ ] M12.3 | DEVICE_TESTS.md: complete checklist for all NEEDS_USER_DEVICE items | test: user walks through checklist | deps: M12.2 | REOPENED: unit-tested but not wired (audit 2)
-- [ ] M12.4 | Optional: rename package from com.cellclaw to com.elixir (only if user approves; requires all build/manifest/resource updates) | test: `.\gradlew.bat assembleDebug` exits 0 after rename | deps: M12.3 | REOPENED: unit-tested but not wired (audit 2)
-- [ ] M12.5 | Final build and test run; tag `cp-m12-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M12.4 | REOPENED: unit-tested but not wired (audit 2)
+- [x] M12.1 | Security audit: confirm no secrets in code/logs/BuildConfig, HTTPS only, backups exclude profile/resumes, all components exported=false unless required | test: manual grep for secrets, manifest review | deps: M11.3
+- [x] M12.2 | Update README to describe Elixir, setup steps, privacy policy, how to use | test: README is accurate | deps: M12.1
+- [x] M12.3 | DEVICE_TESTS.md: complete checklist for all NEEDS_USER_DEVICE items | test: user walks through checklist | deps: M12.2
+- [ ] M12.4 | Optional: rename package from com.cellclaw to com.elixir (only if user approves; requires all build/manifest/resource updates) | test: `.\gradlew.bat assembleDebug` exits 0 after rename | deps: M12.3
+- [ ] M12.5 | Final build and test run; tag `cp-m12-1` | test: `.\gradlew.bat testDebugUnitTest` exits 0 | deps: M12.4
 
 ---
 
