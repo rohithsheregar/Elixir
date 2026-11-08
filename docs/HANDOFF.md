@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Audit 2 completed (2026-10-25). Verified score: 66.40% (388 unit tests pass, assembleDebug passes). Remediation steps R1–R18, U1–U10, AG0.2–AG0.6 completed. R19 and AG0.7 are live device verification. Connected: emulator-5554 (Android 16). In progress: AG1.1.
+Audit 2 completed (2026-10-25). Verified score: 66.40% (398 unit tests pass, assembleDebug passes). Remediation steps R1–R18, U1–U10, AG0.2–AG0.6, AG1.1 completed. Connected: emulator-5554 (Android 16). In progress: AG1.2/AG1.3.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -14,13 +14,13 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (388 unit tests pass, ass
 | 22 | Antigravity / Gemini 3.8 Flash | 2026-11-08 | c3bce4c |
 
 ## Last Green Commit
-063d49d — [AG0.6] remove unused wake-word model asset and tensorflow-lite dependency
+1e6be17 — [AG1.1] enforce RiskTier on Tool and ApprovalToken verification for CONSEQUENTIAL_WRITE in AgentLoop
 
 ## IN PROGRESS
-AG1.1 — RiskTier enum on Tool & ApprovalToken enforcement for CONSEQUENTIAL_WRITE in AgentLoop
+AG1.2 / AG1.3 — Context compaction in AgentLoop past token budget
 
 ## NEXT ACTION
-AG1.1: Add RiskTier enum to Tool.kt, configure tool tiers, author AgentLoopRiskTierTest, and wire ApprovalToken gate.
+AG1.3: Inspect conversationHistory in AgentLoop, implement context compaction past token budget, author AgentLoopCompactionTest, and verify.
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.
