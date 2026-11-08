@@ -54,7 +54,8 @@ class ApprovalPolicyTest {
         assertEquals(ToolApprovalPolicy.DENY, policy.getPolicy("phone.call"))
         assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("script.exec"))
 
-        // Read ops should still be AUTO
-        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("sms.read"))
+        // Basic read ops should still be AUTO under default CAUTIOUS profile
+        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("calendar.query"))
+        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("file.read"))
     }
 }

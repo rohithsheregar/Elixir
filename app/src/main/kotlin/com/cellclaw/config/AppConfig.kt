@@ -59,7 +59,7 @@ class AppConfig @Inject constructor(
         set(value) = prefs.edit().putInt("max_iterations", value).apply()
 
     var permissionProfile: String
-        get() = prefs.getString("permission_profile", "FULL_AUTO") ?: "FULL_AUTO"
+        get() = prefs.getString("permission_profile", "CAUTIOUS") ?: "CAUTIOUS"
         set(value) = prefs.edit().putString("permission_profile", value).apply()
 
     var wakeWordEnabled: Boolean

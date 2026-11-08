@@ -340,6 +340,17 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-AG0.3 — Autonomy Policy Deny-by-Default and Cautious Default Profile
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device / emulator that fresh app installation defaults to CAUTIOUS autonomy profile and unknown or unapproved tools trigger explicit approval prompts rather than executing autonomously.
+**Steps:**
+1. Clear app storage or install fresh build: verify Settings screen displays 'Cautious' as the active permission profile.
+2. Trigger an action involving an unknown or consequential tool.
+3. Verify that Elixir displays an explicit approval confirmation dialog rather than auto-executing.
+4. User selects 'Deny' or 'Approve': verify execution respects user agency.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)

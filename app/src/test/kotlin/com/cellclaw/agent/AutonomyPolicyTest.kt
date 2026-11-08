@@ -14,13 +14,35 @@ class AutonomyPolicyTest {
     }
 
     @Test
-    fun `read operations default to AUTO`() {
-        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("sms.read"))
-        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("contacts.search"))
+    fun `initial profile is CAUTIOUS by default`() {
+        // Basic reads are AUTO under CAUTIOUS
         assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("calendar.query"))
-        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("location.get"))
         assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("file.read"))
+        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("file.list"))
         assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("settings.get"))
+        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("sensor.read"))
+        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("clipboard.read"))
+        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("browser.search"))
+
+        // Sensitive reads require approval (ASK) under CAUTIOUS
+        assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("sms.read"))
+        assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("location.get"))
+        assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("phone.log"))
+
+        // Writes and consequential actions require approval (ASK) under CAUTIOUS
+        assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("file.write"))
+        assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("sms.send"))
+        assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("calendar.create"))
+        assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("email.send"))
+        assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("script.exec"))
+    }
+
+    @Test
+    fun `unknown tools deny-by-default to ASK`() {
+        // AG0.3 requirement: unknown tools must evaluate to ASK (deny-by-default), never AUTO
+        assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("unknown.tool"))
+        assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("arbitrary.plugin.command"))
+        assertEquals(ToolApprovalPolicy.ASK, policy.getPolicy("unregistered_tool"))
     }
 
     @Test
@@ -35,10 +57,14 @@ class AutonomyPolicyTest {
     }
 
     @Test
-    fun `unknown tools default to AUTO (FULL_AUTO profile)`() {
-        // AutonomyPolicy initialises with FULL_AUTO; known tools are AUTO.
-        // Unknown tool names fall back to AUTO via getPolicy().
-        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("unknown.tool"))
+    fun `read operations are AUTO under FULL_AUTO profile`() {
+        policy.applyProfile(PermissionProfile.FULL_AUTO)
+        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("sms.read"))
+        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("contacts.search"))
+        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("calendar.query"))
+        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("location.get"))
+        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("file.read"))
+        assertEquals(ToolApprovalPolicy.AUTO, policy.getPolicy("settings.get"))
     }
 
     @Test

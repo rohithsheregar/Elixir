@@ -746,3 +746,9 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** Focused `IdentityPromptTest` (verifying `Identity.DEFAULT_IDENTITY` assistant name explicitly as Elixir, absence of legacy CellClaw branding, strict no-phantom-tool guarantee ensuring every cited tool exists in `ToolRegistry`, omission of disabled tool claims SMS/calls/contacts/camera/location/shell, inclusion of Zero Fabrication and User Agency core principles, and registry parity with expected 17 tools), full unit test suite (382 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 54s`, 50 actionable tasks, 4 executed, 46 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-AG0.2` (NEEDS_USER_DEVICE).
+
+### T46 — AutonomyPolicyTest, full unit suite & assembleDebug (AG0.3) — Session 21
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `AutonomyPolicyTest` (verifying `AutonomyPolicy` default initial profile is `CAUTIOUS`, benign reads default to `AUTO`, sensitive reads and write operations require `ASK`, unknown tools evaluate to `ASK` under deny-by-default rather than `AUTO`, explicit overrides to `AUTO`/`DENY`, and `AppConfig`/`SettingsViewModel`/`SetupViewModel` default alignment to `CAUTIOUS`), full unit test suite (383 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 43s`, 50 actionable tasks, 4 executed, 46 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-AG0.3` (NEEDS_USER_DEVICE).

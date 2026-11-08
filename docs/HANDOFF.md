@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Audit 2 completed (2026-10-25). Verified score: 66.40% (382 unit tests pass, assembleDebug passes). Remediation steps R1–R18, U1–U10, and AG0.2 completed. R19 and AG0.7 are NEEDS_USER_DEVICE. Connected: emulator-5554 (Android 16). In progress: AG0.3.
+Audit 2 completed (2026-10-25). Verified score: 66.40% (383 unit tests pass, assembleDebug passes). Remediation steps R1–R18, U1–U10, AG0.2, AG0.3 completed. R19 and AG0.7 are NEEDS_USER_DEVICE. Connected: emulator-5554 (Android 16). In progress: AG0.4.
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -29,18 +29,18 @@ Audit 2 completed (2026-10-25). Verified score: 66.40% (382 unit tests pass, ass
 | 21 | Antigravity / Gemini 3.8 Flash | 2026-11-05 | 125dfab |
 
 ## Last Green Commit
-9b1a822 — [AG0.2] rewrite Identity.DEFAULT_IDENTITY as Elixir and enforce no-phantom-tool guarantee
+TBD_AG0_3_COMMIT — [AG0.3] AutonomyPolicy deny-by-default for unknown tools and CAUTIOUS default profile
 
 ## IN PROGRESS
-AG0.3 — AutonomyPolicy deny-by-default: unknown tools return ASK (or DENY), initial profile CAUTIOUS not FULL_AUTO
-Plan for AG0.3:
-1. Inspect AutonomyPolicy.kt and AppConfig.kt for default autonomy profile and unknown tool resolution.
-2. Ensure unknown tools evaluate to ASK (or DENY) under deny-by-default, and default profile is CAUTIOUS.
-3. Extend AutonomyPolicyTest with unknown tool and default profile assertions.
+AG0.4 — accessibility_config.xml: add packageNames for Chrome and the system file picker; drop typeAllMask for the event types actually used
+Plan for AG0.4:
+1. Inspect app/src/main/res/xml/accessibility_config.xml.
+2. Restrict packageNames to Chrome, document pickers, and Elixir; replace typeAllMask with specific event types used by form automation.
+3. Author ElixirManifestTest to parse config and assert packageNames scope.
 4. Verify with testDebugUnitTest and assembleDebug.
 
 ## NEXT ACTION
-AG0.3: Inspect AutonomyPolicy.kt and AutonomyPolicyTest.kt, enforce CAUTIOUS default and deny-by-default for unknown tools.
+AG0.4: Update accessibility_config.xml, author ElixirManifestTest, and verify with testDebugUnitTest.
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.

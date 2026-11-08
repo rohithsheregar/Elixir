@@ -22,7 +22,7 @@ class SetupViewModel @Inject constructor(
     private val _selectedProvider = MutableStateFlow(providerManager.activeType())
     val selectedProvider: StateFlow<String> = _selectedProvider.asStateFlow()
 
-    private val _selectedProfile = MutableStateFlow(PermissionProfile.FULL_AUTO)
+    private val _selectedProfile = MutableStateFlow(PermissionProfile.CAUTIOUS)
     val selectedProfile: StateFlow<PermissionProfile> = _selectedProfile.asStateFlow()
 
     val availableProviders: List<ProviderInfo> = providerManager.availableProviders()

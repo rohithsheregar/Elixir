@@ -56,7 +56,7 @@ class AutonomyPolicy @Inject constructor() {
     )
 
     init {
-        applyProfile(PermissionProfile.FULL_AUTO)
+        applyProfile(PermissionProfile.CAUTIOUS)
     }
 
     fun applyProfile(profile: PermissionProfile) {
@@ -88,7 +88,7 @@ class AutonomyPolicy @Inject constructor() {
     }
 
     fun getPolicy(toolName: String): ToolApprovalPolicy {
-        return policies[toolName] ?: ToolApprovalPolicy.AUTO
+        return policies[toolName] ?: ToolApprovalPolicy.ASK
     }
 
     fun setPolicy(toolName: String, policy: ToolApprovalPolicy) {

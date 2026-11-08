@@ -22,7 +22,7 @@ class SettingsViewModel @Inject constructor(
 
     private val _permissionProfile = MutableStateFlow(
         try { PermissionProfile.valueOf(appConfig.permissionProfile) }
-        catch (_: Exception) { PermissionProfile.FULL_AUTO }
+        catch (_: Exception) { PermissionProfile.CAUTIOUS }
     )
     val permissionProfile: StateFlow<PermissionProfile> = _permissionProfile.asStateFlow()
 
