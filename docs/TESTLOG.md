@@ -764,3 +764,9 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Exit code:** 0
 **Status:** PASS
 **Summary:** Focused `MemoryDbMigrationTest` (verifying `MemoryDb.ALL_MIGRATIONS` definitions, execution of `MIGRATION_1_2` creating `scheduled_tasks`, `MIGRATION_2_3` creating `applications`, and `MIGRATION_3_4` creating index on `jd_hash`, data retention across version migrations with zero destructive data wiping, schema export at `app/schemas/com.cellclaw.memory.MemoryDb/4.json`), full unit test suite (388 tests passed), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 8s`, 41 actionable tasks, 3 executed, 38 up-to-date). Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-AG0.5` (NEEDS_USER_DEVICE).
+
+### T49 — Remove TFLite asset & dependency, full unit suite & assembleDebug (AG0.6) — Session 22
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Removed `app/src/main/assets/wake_word_model.tflite`, deleted `androidResources.noCompress` for `tflite`, and excised `implementation(libs.tensorflow.lite)` from `app/build.gradle.kts`. Ran full unit test suite (`388 tests passed`, 0 failures) and debug build (`BUILD SUCCESSFUL in 2m 33s`, 50 actionable tasks, 21 executed, 29 up-to-date). Debug APK size dropped from 39,218,354 bytes (~37.40 MB) to 22,510,410 bytes (~21.47 MB)—an immediate 16.7 MB (42.6%) reduction due to elimination of unused native `.so` binaries. Physical device verification documented in `docs/DEVICE_TESTS.md` under `DT-AG0.6` (NEEDS_USER_DEVICE).

@@ -178,7 +178,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] AG0.3 | AutonomyPolicy deny-by-default: unknown tools return ASK (or DENY), initial profile CAUTIOUS not FULL_AUTO | test: extend AutonomyPolicyTest (unknown tool, default profile) | deps: none
 - [x] AG0.4 | accessibility_config.xml: add packageNames for Chrome and the system file picker; drop typeAllMask for the event types actually used | test: ElixirManifestTest parses config and asserts packageNames present | deps: none
 - [x] AG0.5 | Replace fallbackToDestructiveMigration() in MemoryDb with explicit Room migrations and exported schemas | test: MemoryDbMigrationTest keeps ApplicationRecord rows across a version bump | deps: none
-- [ ] AG0.6 | Remove unused wake_word_model.tflite asset and tensorflow-lite dependency if nothing in the active build uses them | test: `.\gradlew.bat assembleDebug` exits 0 and APK size recorded | deps: none
+- [x] AG0.6 | Remove unused wake_word_model.tflite asset and tensorflow-lite dependency if nothing in the active build uses them | test: `.\gradlew.bat assembleDebug` exits 0 and APK size recorded | deps: none
 - [ ] AG0.7 | Device pass on docs/dummy_google_form.html per DEVICE_TESTS.md (same as R19); log every failure as a new step | test: NEEDS_USER_DEVICE | deps: R19
 
 ## Agent Phase 1 (queued, do not start before AG0.1-AG0.5 are done)

@@ -373,6 +373,17 @@ Mark as `NEEDS_USER_DEVICE`. Never claim `PASS` without seeing physical device o
 
 ---
 
+### DT-AG0.6 — Slim APK Installation and Launch Performance
+**Status:** NEEDS_USER_DEVICE
+**Goal:** Verify on physical device / emulator that removing the dead TFLite model and native binaries installs cleanly and runs smoothly without native library link warnings.
+**Steps:**
+1. Install the slim debug APK (`adb install -r app/build/outputs/apk/debug/app-debug.apk`).
+2. Launch Elixir via `am start -n com.cellclaw/.ui.MainActivity`.
+3. Inspect `adb logcat`: verify absence of TensorFlow or missing library errors.
+4. Verify APK download and install speed improvements on device.
+
+---
+
 ## M12 — Hardening
 
 ### DT-M12.1 — Real Google Form (user must approve before testing)

@@ -324,3 +324,11 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Remove `.fallbackToDestructiveMigration()` from `AppModule.kt` when building `MemoryDb`. Configure KSP schema export via `ksp { arg("room.schemaLocation", "$projectDir/schemas") }` in `app/build.gradle.kts` and set `exportSchema = true` on `@Database(version = 4)`. Implement explicit, forward-only Room migrations `MIGRATION_1_2` (adds `scheduled_tasks`), `MIGRATION_2_3` (adds `applications`), and `MIGRATION_3_4` (adds performance index on `applications.jd_hash`). Provide complete unit test coverage in `MemoryDbMigrationTest` verifying that existing `applications` rows and data integrity survive version bumps without data wiping.
 **Why:** Addresses critical data-safety risk in Jarvis Agent Plan Phase 0 (AG0.5). Previously, any schema changes silently dropped the user's database tables, wiping candidate application tracking history, stored resume versions, and scheduled tasks. Explicit migrations guarantee zero data loss during app updates. Verified by `MemoryDbMigrationTest` and full test suites.
 
+
+---
+
+## D49 — Removal of Unused Wake-Word Assets and TensorFlow Lite Dependency (AG0.6)
+**Choice:** Remove `app/src/main/assets/wake_word_model.tflite`, delete `noCompress += listOf("tflite")` from `androidResources` in `app/build.gradle.kts`, and remove `implementation(libs.tensorflow.lite)` from the application dependencies.
+**Why:** Addresses bloat and attack surface reduction identified in Jarvis Agent Plan Phase 0 (AG0.6). WakeWordService was quarantined in milestone M0/R2, leaving TensorFlow Lite and the model asset completely unused in the production code path. Removing the dependency eliminated native C++ shared libraries (`libtensorflowlite_jni.so`), dropping the debug APK size from 39.2 MB (39,218,354 bytes) to 22.5 MB (22,510,410 bytes)—a 42.6% reduction (16.7 MB saved)—while preserving 100% of placement features and test passes. Verified by `testDebugUnitTest` (388 tests pass) and `assembleDebug`.
+
+

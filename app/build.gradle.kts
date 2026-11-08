@@ -58,11 +58,6 @@ android {
         compose = true
         buildConfig = true
     }
-
-    androidResources {
-        @Suppress("DEPRECATION")
-        noCompress += listOf("tflite")
-    }
 }
 
 ksp {
@@ -153,9 +148,6 @@ dependencies {
 
     // Location
     implementation(libs.location)
-
-    // TensorFlow Lite
-    implementation(libs.tensorflow.lite)
 
     // AndroidX Core & Splash Screen
     implementation(libs.core.ktx)
