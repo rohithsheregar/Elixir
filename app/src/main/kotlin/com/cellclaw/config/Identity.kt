@@ -80,18 +80,19 @@ class Identity {
          * Any change to the registered tool set must be reflected here and verified by
          * IdentityPromptTest to enforce the no-phantom-tool guarantee.
          *
-         * Registered active tools (as of AG1.4):
+         * Registered active tools (as of AG2.1):
          * calendar.query, calendar.create, notification.send, notification.listen,
          * clipboard.read, clipboard.write, file.read, file.write, file.list,
          * sensor.read, settings.get, browser.search, screen.read, email.send,
          * screen.capture, vision.analyze, schedule.manage, heartbeat.context,
          * jd.parse, eligibility.evaluate, resume.generate, application.prepare_review,
-         * application.submit
+         * application.submit, web.fetch, job.search
          */
         const val DEFAULT_IDENTITY = """You are Elixir, your personal on-device placement application assistant.
 
 You run entirely on the user's Android phone. You help the user apply for placement and internship opportunities by:
-- Parsing job descriptions to extract requirements and eligibility criteria.
+- Searching the internet for open roles, campus placements, and job openings.
+- Fetching and parsing job descriptions to extract requirements and eligibility criteria.
 - Checking the user's confirmed profile against each company's criteria.
 - Generating a truthful, JD-tailored resume PDF using only confirmed profile facts.
 - Supervising Google Form / company application form filling with explicit user approval at every step.
@@ -105,6 +106,8 @@ You run entirely on the user's Android phone. You help the user apply for placem
 
 ## Available Capabilities (actual registered tools only)
 You can help the user with the following, based on tools registered in this build:
+- **job.search**: Search the internet for open job roles, internships, and placement drives matching keywords and location.
+- **web.fetch**: Fetch clean readable content from web pages, job postings, and careers links.
 - **jd.parse**: Parse raw or extracted job description text into structured requirements.
 - **eligibility.evaluate**: Evaluate confirmed profile against job description criteria to determine eligibility.
 - **resume.generate**: Generate a tailored ATS-compliant resume PDF using confirmed profile facts.

@@ -360,9 +360,22 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 
 ---
 
-## D54 — UiAutomation Mutual Exclusion in Android 16 (R19 / AG0.7)
-**Choice:** Recognize that in Android 16 (API 36), the system enforces a strict singleton for `UiAutomation` clients. When instrumentation-based interaction tools (`com.android.cli.interact.instrumentation`) hold a UiAutomation connection, Android's `AccessibilityManagerService` temporarily suppresses or delays binding of active background `AccessibilityService`s (`CellClawAccessibility`). For live device execution and testing, force-stop the competing instrumentation client and use standard `adb shell input tap/text/swipe` for UI interaction so that `CellClawAccessibility` remains bound (`Bound services:{Service[label=Elixir, ...]}`) and receives accessibility event streams.
-**Why:** Resolves `UiAutomationService already registered!` and unblocks live on-device accessibility testing without requiring code modifications or disabling security checks.
+## D55 — Agent Phase 2: WebFetchTool & JobSearchTool Integration (AG2.1, AG2.2)
+**Choice:** Implement `WebFetchTool` (`web.fetch`) and `JobSearchTool` (`job.search`) in `com.cellclaw.tools`. `WebFetchTool` retrieves web pages with OkHttpClient, sanitizes HTML (stripping `<script>`, `<style>`, `<noscript>`, `<svg>`, `<header>`, `<footer>`, `<nav>`, and comments), converts structural elements (`<p>`, `<div>`, `<li>`) into readable formatted markdown/text, decodes HTML entities, enforces character length truncation (`max_chars`), and integrates with `UrlValidator` to reject dangerous schemes and SSRF addresses (including AWS/GCP link-local metadata `169.254.0.0/16`). `JobSearchTool` queries DuckDuckGo for active placement/job openings, extracts structured company, role, URL, and snippet records, and supports optional auto-staging of candidate jobs directly into `ApplicationTracker` in `DRAFT` state. Both tools operate under `RiskTier.READ` and are wired into `AppModule` and `Identity.DEFAULT_IDENTITY`.
+**Why:** Directly addresses user request for Agent Phase 2 web automation and internet job research while preserving PlacementOS privacy and security principles. Verified by `WebFetchToolTest` (5 tests) and `JobSearchToolTest` (4 tests).
+
+---
+
+## D56 — Dynamic ThemeMode Reactive StateFlow for Dark/Light/System Toggles (AG2.3)
+**Choice:** Add `themeMode` ("SYSTEM", "LIGHT", "DARK") and reactive `themeModeFlow: StateFlow<String>` in `AppConfig`. Collect `themeModeFlow` in `MainActivity` and pass `darkTheme = isDark` into `CellClawTheme`. Provide 1-tap toggle button in `TrackerScreen`'s top app bar (cycling Dark -> Light -> System) and persistent selection chips (System, Light, Dark) under an Appearance card in `SettingsScreen`.
+**Why:** User explicitly requested dark theme toggling as a strict precondition for app usage. Reactive StateFlow recomposes the Jetpack Compose tree immediately across all screens without needing activity recreation or configuration changes. Verified live on Pixel 7 Pro (`emulator-5554`).
+
+---
+
+## D57 — GeminiProvider Bearer Header Support & Google AI Studio Key Distinction
+**Choice:** Enhance `GeminiProvider` to dynamically inspect configured API keys: if prefixed with `AQ.` or `ya29.` (OAuth/Bearer tokens), pass via `Authorization: Bearer <key>` header; otherwise, pass via standard `x-goog-api-key: <key>` header and query param. When verified live on Pixel 7 Pro with the user's provided `AQ.` token, Google returned 401 UNAUTHENTICATED `API_KEY_SERVICE_BLOCKED` from the `generativelanguage.googleapis.com` endpoint, confirming live connectivity and demonstrating that public Gemini Generative Language API calls require a Google AI Studio API key (`AIzaSy...`) rather than internal Cloud/workspace OAuth tokens.
+**Why:** Prevents request malformation and clearly diagnoses authentication issues for the user.
+
 
 
 

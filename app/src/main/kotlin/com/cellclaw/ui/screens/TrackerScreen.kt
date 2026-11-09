@@ -11,8 +11,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.BrightnessAuto
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
@@ -69,6 +72,17 @@ fun TrackerScreen(
                     }
                     IconButton(onClick = onNavigateToProfile) {
                         Icon(Icons.Default.Person, contentDescription = "Profile")
+                    }
+                    val themeMode by viewModel.themeMode.collectAsState()
+                    IconButton(onClick = { viewModel.toggleTheme() }) {
+                        Icon(
+                            imageVector = when (themeMode) {
+                                "DARK" -> Icons.Default.DarkMode
+                                "LIGHT" -> Icons.Default.LightMode
+                                else -> Icons.Default.BrightnessAuto
+                            },
+                            contentDescription = "Toggle Theme (Current: $themeMode)"
+                        )
                     }
                     IconButton(onClick = onNavigateToSettings) {
                         Icon(Icons.Default.Settings, contentDescription = "Settings")

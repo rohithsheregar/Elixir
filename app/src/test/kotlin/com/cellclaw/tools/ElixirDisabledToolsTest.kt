@@ -58,7 +58,9 @@ class ElixirDisabledToolsTest {
         "screen.capture",
         "vision.analyze",
         "schedule.manage",
-        "heartbeat.context"
+        "heartbeat.context",
+        "web.fetch",
+        "job.search"
     )
 
     @Test
@@ -161,7 +163,10 @@ class ElixirDisabledToolsTest {
                 FakeTool("eligibility.evaluate", "Evaluate eligibility"),
                 FakeTool("resume.generate", "Generate resume"),
                 FakeTool("application.prepare_review", "Prepare application review"),
-                FakeTool("application.submit", "Submit application")
+                FakeTool("application.submit", "Submit application"),
+                // Agent Phase 2 tools
+                FakeTool("web.fetch", "Fetch web page content"),
+                FakeTool("job.search", "Search for job openings")
                 // NOT included: sms.read, sms.send, phone.call, phone.log,
                 //               contacts.search, contacts.add, camera.snap, camera.record,
                 //               location.get, script.exec, messaging.open, messaging.read, messaging.reply,

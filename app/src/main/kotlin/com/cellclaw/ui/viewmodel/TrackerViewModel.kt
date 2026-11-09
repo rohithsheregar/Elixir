@@ -2,6 +2,7 @@ package com.cellclaw.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cellclaw.config.AppConfig
 import com.cellclaw.tracker.ApplicationRecord
 import com.cellclaw.tracker.ApplicationState
 import com.cellclaw.tracker.ApplicationTracker
@@ -24,8 +25,20 @@ data class TrackerUiState(
 
 @HiltViewModel
 class TrackerViewModel @Inject constructor(
-    private val applicationTracker: ApplicationTracker
+    private val applicationTracker: ApplicationTracker,
+    private val appConfig: AppConfig
 ) : ViewModel() {
+
+    val themeMode: StateFlow<String> = appConfig.themeModeFlow
+
+    fun toggleTheme() {
+        val next = when (appConfig.themeMode) {
+            "DARK" -> "LIGHT"
+            "LIGHT" -> "SYSTEM"
+            else -> "DARK"
+        }
+        appConfig.themeMode = next
+    }
 
     private val _selectedFilter = MutableStateFlow<ApplicationState?>(null)
     private val _searchQuery = MutableStateFlow("")

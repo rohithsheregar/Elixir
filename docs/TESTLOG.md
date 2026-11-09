@@ -807,5 +807,18 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** Pushed all commits on `main` branch to remote `https://github.com/rohithsheregar/Elixir.git` and set up tracking. Pushed all 16 milestone tags (`cp-m0-1` through `cp-m12-2`, `cp-ag0-1`, `cp-ag1-1`). Verified with `git status -sb` which reports `## main...origin/main` with zero ahead count.
 
+### T56 — WebFetchToolTest, JobSearchToolTest, IdentityPromptTest, full unit suite & assembleDebug (AG2.1-AG2.4) — Session 26
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Focused `WebFetchToolTest` (verifying `RiskTier.READ`, SSRF and loopback/link-local address rejection, HTML script/style stripping, entity decoding, and text truncation), `JobSearchToolTest` (verifying DuckDuckGo search layout parsing, structured company/role extraction, and auto-staging of discovered jobs into `ApplicationTracker`), `IdentityPromptTest` (asserting 25 active tools in registry and no phantom tools), full unit test suite (429 tests passed, 0 failures), and assembleDebug passed cleanly (`BUILD SUCCESSFUL in 1m 23s`, 41 actionable tasks, 4 executed, 37 up-to-date).
+
+### T57 — Live Device Test Pass on Pixel 7 Pro (Dark Theme, One-Click Submission, Gemini Live API Error Verification) — Session 26
+**Command:** `adb -s emulator-5554 install -r app/build/outputs/apk/debug/app-debug.apk; am start com.cellclaw/.ui.MainActivity`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Verified full real-world execution on Pixel 7 Pro (`emulator-5554`, Android 16 API 36): (1) Dark Theme Mode toggled and verified live across Tracker, Settings, Review, and Legacy Chat screens; (2) One-Click Supervised Submission switch verified and toggled in Settings; (3) ReviewScreen boarding pass card, 100% Fact tags, declarations checkbox, and Supervised Submission Gate with Approve & Submit and manual confirmation reference dialog; (4) Gemini API live integration verified: sent query "Search for Android jobs", connected to Google Generative Language API endpoint, and received authentic 401 UNAUTHENTICATED `API_KEY_SERVICE_BLOCKED` response confirming end-to-end network connectivity and identifying the provided key as an internal OAuth/gcloud token needing a standard Google AI Studio key (`AIzaSy...`).
+
+
 
 

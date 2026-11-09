@@ -45,6 +45,8 @@ fun SettingsScreen(
     val autoSpeakResponses by viewModel.autoSpeakResponses.collectAsState()
     val overlayEnabled by viewModel.overlayEnabled.collectAsState()
     val maxIterations by viewModel.maxIterations.collectAsState()
+    val themeMode by viewModel.themeMode.collectAsState()
+    val oneClickSubmitEnabled by viewModel.oneClickSubmitEnabled.collectAsState()
     val context = LocalContext.current
 
     Scaffold(
@@ -67,6 +69,67 @@ fun SettingsScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // Appearance / Theme Section
+            Text("Appearance", style = MaterialTheme.typography.titleMedium)
+            Card(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text("Theme Mode", style = MaterialTheme.typography.bodyLarge)
+                    Text(
+                        "Choose between System default, Light theme, or Dark theme.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        listOf("SYSTEM" to "System", "LIGHT" to "Light", "DARK" to "Dark").forEach { (modeKey, modeLabel) ->
+                            FilterChip(
+                                selected = themeMode == modeKey,
+                                onClick = { viewModel.setThemeMode(modeKey) },
+                                label = { Text(modeLabel) },
+                                leadingIcon = {
+                                    if (themeMode == modeKey) {
+                                        Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(16.dp))
+                                    }
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+
+            // Placement Automation Section
+            Text("Placement Automation", style = MaterialTheme.typography.titleMedium)
+            Card(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text("One-Click Supervised Submission", style = MaterialTheme.typography.bodyLarge)
+                            Text(
+                                "When enabled, tapping Approve on the Review screen performs form-fill, attachment verification, and user-supervised submission in one smooth flow.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                        Switch(
+                            checked = oneClickSubmitEnabled,
+                            onCheckedChange = { viewModel.setOneClickSubmitEnabled(it) }
+                        )
+                    }
+                }
+            }
+
             // Provider section
             Text("AI Provider", style = MaterialTheme.typography.titleMedium)
             Card(modifier = Modifier.fillMaxWidth()) {

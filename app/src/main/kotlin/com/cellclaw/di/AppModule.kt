@@ -241,7 +241,10 @@ object AppModule {
         eligibilityEvaluate: com.cellclaw.tools.placement.EligibilityEvaluateTool,
         resumeGenerate: com.cellclaw.tools.placement.ResumeGenerateTool,
         applicationPrepareReview: com.cellclaw.tools.placement.ApplicationPrepareReviewTool,
-        applicationSubmit: com.cellclaw.tools.placement.ApplicationSubmitTool
+        applicationSubmit: com.cellclaw.tools.placement.ApplicationSubmitTool,
+        // Agent Phase 2: Internet Research & Job Search tools
+        webFetch: com.cellclaw.tools.WebFetchTool,
+        jobSearch: com.cellclaw.tools.JobSearchTool
         // --- DISABLED for Elixir profile (source files kept, not deleted) ---
         // smsRead: SmsReadTool,          // DISABLED: SMS read
         // smsSend: SmsSendTool,          // DISABLED: SMS send
@@ -281,7 +284,9 @@ object AppModule {
                 schedulerTool, heartbeatContext,
                 // Placement pipeline tools
                 jdParse, eligibilityEvaluate, resumeGenerate,
-                applicationPrepareReview, applicationSubmit
+                applicationPrepareReview, applicationSubmit,
+                // Internet research & job search
+                webFetch, jobSearch
             )
         }
     }

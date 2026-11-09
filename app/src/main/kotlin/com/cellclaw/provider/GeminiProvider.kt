@@ -59,7 +59,8 @@ class GeminiProvider @Inject constructor() : Provider {
 
             var lastError: String? = null
             for (tryModel in modelsToTry) {
-                val url = "$API_URL/$tryModel:generateContent?key=$apiKey"
+                val isBearer = apiKey.startsWith("AQ.") || apiKey.startsWith("ya29.")
+                val url = if (isBearer) "$API_URL/$tryModel:generateContent" else "$API_URL/$tryModel:generateContent?key=$apiKey"
 
                 // Retry up to 3 times for transient network errors (DNS, connection reset, etc.)
                 var response: okhttp3.Response? = null
@@ -68,11 +69,18 @@ class GeminiProvider @Inject constructor() : Provider {
 
                 for (attempt in 1..3) {
                     try {
-                        val httpRequest = Request.Builder()
+                        val reqBuilder = Request.Builder()
                             .url(url)
                             .addHeader("Content-Type", "application/json")
                             .post(body.toRequestBody("application/json".toMediaType()))
-                            .build()
+
+                        if (isBearer) {
+                            reqBuilder.addHeader("Authorization", "Bearer $apiKey")
+                        } else {
+                            reqBuilder.addHeader("x-goog-api-key", apiKey)
+                        }
+
+                        val httpRequest = reqBuilder.build()
 
                         response = client.newCall(httpRequest).execute()
                         responseBody = response.body?.string()

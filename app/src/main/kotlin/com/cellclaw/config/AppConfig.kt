@@ -3,6 +3,9 @@ package com.cellclaw.config
 import android.content.Context
 import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -11,6 +14,9 @@ open class AppConfig {
     private val prefs: SharedPreferences?
     private val inMemoryProps = mutableMapOf<String, Any>()
 
+    private val _themeModeFlow = MutableStateFlow("SYSTEM")
+    open val themeModeFlow: StateFlow<String> = _themeModeFlow.asStateFlow()
+
     @Inject
     constructor(@ApplicationContext context: Context) {
         this.prefs = try {
@@ -18,11 +24,13 @@ open class AppConfig {
         } catch (_: Exception) {
             null
         }
+        _themeModeFlow.value = prefs?.getString("theme_mode", "SYSTEM") ?: "SYSTEM"
     }
 
     /** Secondary constructor for JVM unit tests with no Android context */
     constructor() {
         this.prefs = null
+        _themeModeFlow.value = "SYSTEM"
     }
 
     open var providerType: String
@@ -145,5 +153,24 @@ open class AppConfig {
         set(value) {
             prefs?.edit()?.putBoolean("heartbeat_always_poll", value)?.apply()
             inMemoryProps["heartbeat_always_poll"] = value
+        }
+
+    /** Theme mode: SYSTEM, LIGHT, or DARK */
+    open var themeMode: String
+        get() = prefs?.getString("theme_mode", "SYSTEM")
+            ?: (inMemoryProps["theme_mode"] as? String ?: "SYSTEM")
+        set(value) {
+            prefs?.edit()?.putString("theme_mode", value)?.apply()
+            inMemoryProps["theme_mode"] = value
+            _themeModeFlow.value = value
+        }
+
+    /** One-click supervised form-fill automation (PlacementOS 5.4) */
+    open var oneClickSubmitEnabled: Boolean
+        get() = prefs?.getBoolean("one_click_submit_enabled", false)
+            ?: (inMemoryProps["one_click_submit_enabled"] as? Boolean ?: false)
+        set(value) {
+            prefs?.edit()?.putBoolean("one_click_submit_enabled", value)?.apply()
+            inMemoryProps["one_click_submit_enabled"] = value
         }
 }

@@ -146,4 +146,18 @@ class SettingsViewModel @Inject constructor(
         autonomyPolicy.setPolicy(toolName, next)
         _policies.value = autonomyPolicy.allPolicies()
     }
+
+    val themeMode: StateFlow<String> = appConfig.themeModeFlow
+
+    private val _oneClickSubmitEnabled = MutableStateFlow(appConfig.oneClickSubmitEnabled)
+    val oneClickSubmitEnabled: StateFlow<Boolean> = _oneClickSubmitEnabled.asStateFlow()
+
+    fun setThemeMode(mode: String) {
+        appConfig.themeMode = mode
+    }
+
+    fun setOneClickSubmitEnabled(enabled: Boolean) {
+        appConfig.oneClickSubmitEnabled = enabled
+        _oneClickSubmitEnabled.value = enabled
+    }
 }
