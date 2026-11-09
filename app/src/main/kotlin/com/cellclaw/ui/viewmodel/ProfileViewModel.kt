@@ -86,10 +86,10 @@ class ProfileViewModel @Inject constructor(
         )
     }
 
-    fun importResumeFromStream(inputStream: InputStream, mimeType: String?, fileName: String?) {
+    fun importResumeFromBytes(bytes: ByteArray, mimeType: String?, fileName: String?) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true, message = "Reading resume document...")
-            when (val docResult = jdDocumentReader.read(inputStream, mimeType, fileName)) {
+            when (val docResult = jdDocumentReader.read(java.io.ByteArrayInputStream(bytes), mimeType, fileName)) {
                 is DocumentReadResult.Success -> {
                     importResumeFromText(docResult.text)
                 }
@@ -101,6 +101,19 @@ class ProfileViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun importResumeFromStream(inputStream: InputStream, mimeType: String?, fileName: String?) {
+        val bytes = try {
+            inputStream.readBytes()
+        } catch (e: Exception) {
+            _uiState.value = _uiState.value.copy(
+                isLoading = false,
+                message = "Could not read file stream: ${e.message}"
+            )
+            return
+        }
+        importResumeFromBytes(bytes, mimeType, fileName)
     }
 
     fun importResumeFromText(text: String) {

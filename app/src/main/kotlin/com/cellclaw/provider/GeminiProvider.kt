@@ -23,10 +23,11 @@ class GeminiProvider @Inject constructor() : Provider {
 
     /** Fallback models to try when the primary model returns 404 */
     private val fallbackModels = listOf(
-        "gemini-3-flash-preview",
-        "gemini-3.1-pro-preview",
+        "gemini-2.0-flash",
+        "gemini-1.5-flash",
         "gemini-2.5-flash",
-        "gemini-2.5-pro"
+        "gemini-2.5-pro",
+        "gemini-1.5-pro"
     )
 
     private val client = OkHttpClient.Builder()
@@ -41,8 +42,8 @@ class GeminiProvider @Inject constructor() : Provider {
     }
 
     fun configure(apiKey: String, model: String = DEFAULT_MODEL) {
-        this.apiKey = apiKey
-        this.model = model
+        this.apiKey = apiKey.trim()
+        this.model = model.trim().ifBlank { DEFAULT_MODEL }
     }
 
     override suspend fun complete(request: CompletionRequest): CompletionResponse =
@@ -57,10 +58,11 @@ class GeminiProvider @Inject constructor() : Provider {
 
             Log.d(TAG, "Request body size: ${body.length} chars, messages: ${request.messages.size}")
 
+            val cleanKey = apiKey.trim()
             var lastError: String? = null
             for (tryModel in modelsToTry) {
-                val isBearer = apiKey.startsWith("AQ.") || apiKey.startsWith("ya29.")
-                val url = if (isBearer) "$API_URL/$tryModel:generateContent" else "$API_URL/$tryModel:generateContent?key=$apiKey"
+                val isBearer = cleanKey.startsWith("AQ.") || cleanKey.startsWith("ya29.")
+                val url = if (isBearer) "$API_URL/$tryModel:generateContent" else "$API_URL/$tryModel:generateContent?key=$cleanKey"
 
                 // Retry up to 3 times for transient network errors (DNS, connection reset, etc.)
                 var response: okhttp3.Response? = null
@@ -75,9 +77,9 @@ class GeminiProvider @Inject constructor() : Provider {
                             .post(body.toRequestBody("application/json".toMediaType()))
 
                         if (isBearer) {
-                            reqBuilder.addHeader("Authorization", "Bearer $apiKey")
+                            reqBuilder.addHeader("Authorization", "Bearer $cleanKey")
                         } else {
-                            reqBuilder.addHeader("x-goog-api-key", apiKey)
+                            reqBuilder.addHeader("x-goog-api-key", cleanKey)
                         }
 
                         val httpRequest = reqBuilder.build()
@@ -119,9 +121,17 @@ class GeminiProvider @Inject constructor() : Provider {
                     continue
                 }
 
-                // Other errors (401, 500, etc.) — don't fallback, throw immediately
+                // Other errors (400, 401, 403, 500, etc.) — extract clear message and throw immediately
                 Log.e(TAG, "Gemini API error ${resp.code}: ${respBody.take(2000)}")
-                throw ProviderException("Gemini API error ${resp.code}: $respBody")
+                val parsedMessage = try {
+                    val errorObj = json.parseToJsonElement(respBody).jsonObject["error"]?.jsonObject
+                    val msg = errorObj?.get("message")?.jsonPrimitive?.contentOrNull
+                    val status = errorObj?.get("status")?.jsonPrimitive?.contentOrNull
+                    if (msg != null) "Google Gemini API ($status): $msg" else null
+                } catch (_: Exception) {
+                    null
+                } ?: "Gemini API error ${resp.code}: $respBody"
+                throw ProviderException(parsedMessage)
             }
 
             throw ProviderException("All models unavailable. Last error: $lastError")
@@ -323,6 +333,6 @@ class GeminiProvider @Inject constructor() : Provider {
     companion object {
         private const val TAG = "GeminiProvider"
         const val API_URL = "https://generativelanguage.googleapis.com/v1beta/models"
-        const val DEFAULT_MODEL = "gemini-3-flash-preview"
+        const val DEFAULT_MODEL = "gemini-2.0-flash"
     }
 }

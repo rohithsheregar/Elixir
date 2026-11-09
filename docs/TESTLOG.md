@@ -836,6 +836,20 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 4. **Autonomous Job Research (`ResearchScreen`)**: Integrated 3-loop autonomous architecture (`JobResearchEngine`: Discovery -> Validation -> Fit/Relevance/Trustworthiness Scoring -> Auto-Staging into `ApplicationTracker`). Executed live multi-platform research on device; observed 41 live telemetry log events, evaluated real Greenhouse/LinkedIn postings, scored candidate relevance & trust, and auto-staged 10 vetted job opportunities.
 5. **One-Touch Link Ingestion (`NewApplicationScreen`)**: Added `fetchAndAnalyzeUrl` backed by `WebFetchTool`. Entering target form URL automatically displays "Auto-Fetch & Analyze with AI Mind" button and ingests web content to extract company name and role.
 
+### T60 — Modern Minimal UI Redesign, Resume Stream Closure Fix, and Official Gemini 2.0 Flash Default (AG2.11) — Session 28
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug; adb -s emulator-5554 install -r app/build/outputs/apk/debug/app-debug.apk; adb -s emulator-5554 shell am start -n com.cellclaw/.ui.MainActivity`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Full unit test suite (436 unit tests passing, exit code 0) and debug APK compilation (`BUILD SUCCESSFUL in 1m 15s`, 50 actionable tasks, 4 executed, 46 up-to-date) passed cleanly. Conducted live emulator verification on Pixel 7 Pro (`emulator-5554`, Android 16 API 36):
+1. **Modern Minimalist UI Redesign**:
+   - `TrackerScreen`: "Elixir / Applications Radar" header, 4-stat Quick Metrics Bar (`Total`, `Draft`, `Ready`, `Submitted`), pill filter bar, modern application cards with company initials avatar circle, live state indicator dot, and extended pill FAB.
+   - `ProfileScreen`: Hero identity card with candidate initials avatar, B.Tech/degree badge, and completion percentage meter. Bento AI Resume Scanner card with glowing accent border, Paste Text dialog, and categorized accordion groups with confirmed badges.
+   - `SettingsScreen`: Sectioned cards (Appearance, Placement Automation, AI Provider Engine, Active Model) with subtle borders and 18dp rounded corners.
+   - `ResearchScreen`: Cyber telemetry console (`Color(0xFF0D1117)`) with colored stage tags (`[DISCOVERY]`, `[VALIDATION]`, `[RELEVANCE]`, `[AUTO_STAGING]`), quick search keyword chips, and vetted job cards with fit/trust chips.
+2. **Resume Stream Closure Bug Fix & AI Loading Dialog**: Synchronously reads bytes via `readBytes()` in Compose and dispatches to `importResumeFromBytes` in `ProfileViewModel`. Verified that the interactive AI Loading Dialog with pulsating icon, linear progress bar, and status messages appears and successfully extracts and renders candidate profile details and missing essential fields checklist.
+3. **Official Gemini 2.0 Flash Default & Documentation Compliance**: Configured `GeminiProvider.DEFAULT_MODEL = "gemini-2.0-flash"` (Google's official recommended model), added automatic whitespace `.trim()` to all input API keys, and structured error extraction for `error.message`.
+Tagged milestone `cp-ag2-3`.
+
 
 
 

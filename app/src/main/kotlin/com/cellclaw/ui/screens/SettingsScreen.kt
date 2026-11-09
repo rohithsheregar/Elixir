@@ -3,9 +3,11 @@ package com.cellclaw.ui.screens
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -19,6 +21,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -68,16 +71,21 @@ fun SettingsScreen(
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
             // Appearance / Theme Section
-            Text("Appearance", style = MaterialTheme.typography.titleMedium)
-            Card(modifier = Modifier.fillMaxWidth()) {
+            Text("Appearance", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(18.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.45f))
+            ) {
                 Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    modifier = Modifier.padding(18.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    Text("Theme Mode", style = MaterialTheme.typography.bodyLarge)
+                    Text("Theme Mode", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
                     Text(
                         "Choose between System default, Light theme, or Dark theme.",
                         style = MaterialTheme.typography.bodySmall,
@@ -91,6 +99,7 @@ fun SettingsScreen(
                             FilterChip(
                                 selected = themeMode == modeKey,
                                 onClick = { viewModel.setThemeMode(modeKey) },
+                                shape = RoundedCornerShape(12.dp),
                                 label = { Text(modeLabel) },
                                 leadingIcon = {
                                     if (themeMode == modeKey) {
@@ -104,11 +113,16 @@ fun SettingsScreen(
             }
 
             // Placement Automation Section
-            Text("Placement Automation", style = MaterialTheme.typography.titleMedium)
-            Card(modifier = Modifier.fillMaxWidth()) {
+            Text("Placement Automation", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(18.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.45f))
+            ) {
                 Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    modifier = Modifier.padding(18.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -116,7 +130,7 @@ fun SettingsScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
-                            Text("One-Click Supervised Submission", style = MaterialTheme.typography.bodyLarge)
+                            Text("One-Click Supervised Submission", style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
                             Text(
                                 "When enabled, tapping Approve on the Review screen performs form-fill, attachment verification, and user-supervised submission in one smooth flow.",
                                 style = MaterialTheme.typography.bodySmall,
@@ -132,31 +146,34 @@ fun SettingsScreen(
             }
 
             // Provider section
-            Text("AI Provider", style = MaterialTheme.typography.titleMedium)
-            Card(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.padding(16.dp)) {
+            Text("AI Provider Engine", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(18.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.45f))
+            ) {
+                Column(modifier = Modifier.padding(18.dp)) {
                     for (provider in providers) {
                         val isActive = activeProvider == provider.type
 
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 8.dp),
+                                .clickable { viewModel.switchProvider(provider.type) }
+                                .padding(vertical = 10.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Column(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .clickable { viewModel.switchProvider(provider.type) }
-                            ) {
+                            Column(modifier = Modifier.weight(1f)) {
                                 Text(
                                     provider.displayName,
-                                    style = MaterialTheme.typography.bodyLarge
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    fontWeight = FontWeight.SemiBold
                                 )
                                 Text(
                                     if (provider.hasKey) "API key configured"
-                                    else "No API key (tap to configure)",
+                                    else "No API key configured (tap to add)",
                                     style = MaterialTheme.typography.bodySmall,
                                     color = if (provider.hasKey)
                                         MaterialTheme.colorScheme.primary
@@ -165,12 +182,19 @@ fun SettingsScreen(
                             }
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 if (isActive) {
-                                    Icon(
-                                        Icons.Default.Check,
-                                        "Active",
-                                        tint = MaterialTheme.colorScheme.primary,
+                                    Surface(
+                                        shape = RoundedCornerShape(8.dp),
+                                        color = MaterialTheme.colorScheme.primaryContainer,
                                         modifier = Modifier.padding(end = 8.dp)
-                                    )
+                                    ) {
+                                        Text(
+                                            "Active",
+                                            style = MaterialTheme.typography.labelSmall,
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
+                                        )
+                                    }
                                 }
                                 RadioButton(
                                     selected = isActive,
@@ -189,16 +213,21 @@ fun SettingsScreen(
                         }
 
                         if (provider != providers.last()) {
-                            HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                            HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp), color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f))
                         }
                     }
                 }
             }
 
             // Model section
-            Text("Model", style = MaterialTheme.typography.titleMedium)
-            Card(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.padding(16.dp)) {
+            Text("Active Model", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(18.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.45f))
+            ) {
+                Column(modifier = Modifier.padding(18.dp)) {
                     if (availableModels.isNotEmpty()) {
                         var expanded by remember { mutableStateOf(false) }
                         ExposedDropdownMenuBox(

@@ -393,6 +393,21 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 5. One-touch link ingestion in `NewApplicationScreen`: `fetchAndAnalyzeUrl` backed by `WebFetchTool`.
 **Why:** Directly addresses user's requirements for zero-manual typing profile onboarding, intelligent multi-page form filling, next-level autonomous job research, and seamless model configuration. Verified by unit tests (436 passing) and live device testing on Pixel 7 Pro (`emulator-5554`).
 
+---
+
+## D60 — Modern Minimal UI Redesign, Resume Stream Closure Fix, and Official Gemini 2.0 Flash Default (AG2.11)
+**Choice:**
+1. Fix resume upload stream closure: In Compose, launching a coroutine inside `openInputStream(uri)?.use { ... }` causes premature stream closure (`IOException: Stream closed`) because the coroutine outlives the `use` block. Replaced with synchronous byte ingestion `readBytes()` in Compose and `importResumeFromBytes` in `ProfileViewModel`.
+2. Interactive AI Loading Dialog: Replace screen-blanking progress indicator with an interactive dialog featuring a pulsating AI brain/star indicator, linear progress bar, and real-time status message from `uiState.message`, keeping background content visible.
+3. Official Google Gemini model defaults: Set `GeminiProvider.DEFAULT_MODEL` to official production model `gemini-2.0-flash`, update supported fallback list (`gemini-2.0-flash`, `gemini-1.5-flash`, `gemini-2.5-flash`, `gemini-2.5-pro`, `gemini-1.5-pro`), add `.trim()` to all input API keys, and extract Google's JSON error messages (`error.message`).
+4. Modern minimalist UI redesign across all primary screens:
+   - `ProfileScreen`: Hero identity card with initials avatar and completion percentage meter, Bento AI Resume Scanner card with glowing accent border, extracted preview spotlight, and categorized accordion groups.
+   - `TrackerScreen`: "Elixir / Applications Radar" header, 4-stat Quick Metrics Bar (`Total`, `Draft`, `Ready`, `Submitted`), pill filter bar, modern application cards with company initial avatars and status indicator dots.
+   - `SettingsScreen`: Sectioned cards (Appearance, Placement Automation, AI Provider Engine, Active Model) with subtle borders and 18dp rounded corners.
+   - `ResearchScreen`: Cyber telemetry console (`Color(0xFF0D1117)`) with colored stage tags (`[DISCOVERY]`, `[VALIDATION]`, `[RELEVANCE]`, `[AUTO_STAGING]`), quick search chips, and vetted job cards with fit/trust chips.
+**Why:** Directly addresses user feedback regarding basic UI, failure during resume upload, and official Gemini API documentation requirements. Verified with 436 passing unit tests and live device verification on Pixel 7 Pro (`emulator-5554`).
+
+
 
 
 

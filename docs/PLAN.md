@@ -200,6 +200,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] AG2.8 | Multi-Step Form Automation: Auto-detect "Next" / "Continue" buttons, multi-page progression with read-back verification, halting at final Submit approval gate | test: OrchestratorFlowTest | deps: AG2.4
 - [x] AG2.9 | Autonomous Job Research Engine & ResearchScreen: Multi-loop architecture (Discovery, Validation, Relevance & Trustworthiness Scoring, Auto-Staging), telemetry logs console, live progress indicator | test: JobResearchEngineTest, live emulator pass | deps: AG2.2
 - [x] AG2.10 | One-Touch Application URL Ingestion: Automatic page fetching and company/role extraction from shared links in NewApplicationScreen | test: assembleDebug, live emulator pass | deps: AG2.1, AG2.9
+- [x] AG2.11 | Minimal Modern UI redesign across Tracker, Profile, Settings & Research screens; fix resume stream closure via synchronous byte ingestion & AI loading dialog; set official Gemini default model to gemini-2.0-flash with key whitespace trimming | test: 436 unit tests pass, assembleDebug, emulator-5554 verified | deps: AG2.6, AG2.7, AG2.9
 
 ## Agent Phases 3-6 (queued): see docs/ELIXIR_AGENT_PLAN.md sections 5 and 6. WAITING_ON_USER: Valid Gemini AI Studio API key (AIzaSy...), WebView decision (Phase 4), default AI provider and budget.
 

@@ -3,6 +3,7 @@ package com.cellclaw.ui.screens
 import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -13,11 +14,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.CheckCircle
@@ -27,18 +30,23 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.Work
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cellclaw.profile.ExtractedProfileData
 import com.cellclaw.profile.ProfileFact
@@ -104,8 +112,15 @@ fun ProfileScreen(
         if (uri != null) {
             val mimeType = context.contentResolver.getType(uri)
             val fileName = queryFileName(context, uri)
-            context.contentResolver.openInputStream(uri)?.use { inputStream ->
-                viewModel.importResumeFromStream(inputStream, mimeType, fileName)
+            val bytes = try {
+                context.contentResolver.openInputStream(uri)?.use { it.readBytes() }
+            } catch (e: Exception) {
+                null
+            }
+            if (bytes != null && bytes.isNotEmpty()) {
+                viewModel.importResumeFromBytes(bytes, mimeType, fileName)
+            } else {
+                Toast.makeText(context, "Could not open or read the selected file", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -124,7 +139,7 @@ fun ProfileScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Placement Profile") },
+                title = { Text("Placement Profile", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -138,108 +153,275 @@ fun ProfileScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                defaultFieldHint = ""
-                showAddDialog = true
-            }) {
+            FloatingActionButton(
+                onClick = {
+                    defaultFieldHint = ""
+                    showAddDialog = true
+                },
+                shape = RoundedCornerShape(16.dp)
+            ) {
                 Icon(Icons.Default.Add, contentDescription = "Add Fact")
             }
         }
     ) { innerPadding ->
         if (uiState.isLoading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                // Section 0A: AI Resume Auto-Setup Card
-                item(key = "resume_auto_setup") {
-                    Card(
-                        modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f)
-                        )
+            Dialog(onDismissRequest = {}) {
+                Card(
+                    shape = RoundedCornerShape(24.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)),
+                    elevation = CardDefaults.cardElevation(8.dp),
+                    modifier = Modifier.fillMaxWidth().padding(16.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp),
-                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        Box(
+                            modifier = Modifier
+                                .size(72.dp)
+                                .background(
+                                    MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+                                    shape = CircleShape
+                               ),
+                            contentAlignment = Alignment.Center
                         ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(52.dp),
+                                strokeWidth = 3.5.dp,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Icon(
+                                Icons.Default.AutoAwesome,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+
+                        Text(
+                            text = "AI Resume Engine Active",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Text(
+                            text = uiState.message ?: "Extracting candidate profile facts and verifying integrity...",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            textAlign = TextAlign.Center
+                        )
+
+                        LinearProgressIndicator(
+                            modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(4.dp))
+                        )
+                    }
+                }
+            }
+        }
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // Section 00: Hero Candidate Identity & Readiness Meter
+            item(key = "hero_candidate_identity") {
+                val candidateName = uiState.profile?.name?.value ?: "Candidate Profile"
+                val candidateDegree = uiState.profile?.degree?.value ?: "Placement Ready"
+                val candidateBranch = uiState.profile?.branch?.value
+                val initials = candidateName.split(" ").mapNotNull { it.firstOrNull()?.toString() }.take(2).joinToString("").ifBlank { "CP" }
+
+                val keyFields = listOfNotNull(
+                    uiState.profile?.name,
+                    uiState.profile?.email,
+                    uiState.profile?.phone,
+                    uiState.profile?.college,
+                    uiState.profile?.degree,
+                    uiState.profile?.branch,
+                    uiState.profile?.cgpa
+                )
+                val completeness = (keyFields.size.toFloat() / 7f).coerceIn(0f, 1f)
+
+                Card(
+                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                    ),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f))
+                ) {
+                    Column(modifier = Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(14.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(54.dp)
+                                    .background(
+                                        Brush.linearGradient(
+                                            listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.tertiary)
+                                        ),
+                                        shape = CircleShape
+                                    ),
+                                contentAlignment = Alignment.Center
                             ) {
-                                Icon(
-                                    Icons.Default.CloudUpload,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.primary,
-                                    modifier = Modifier.size(24.dp)
+                                Text(
+                                    text = initials,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    color = Color.White
+                                )
+                            }
+
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = candidateName,
+                                    style = MaterialTheme.typography.titleLarge,
+                                    fontWeight = FontWeight.Bold
                                 )
                                 Text(
-                                    text = "Automated Profile Setup with AI",
+                                    text = if (candidateBranch != null) "$candidateDegree • $candidateBranch" else candidateDegree,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+
+                        // Profile Readiness Meter
+                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "Profile Completeness",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                                Text(
+                                    text = "${(completeness * 100).toInt()}%",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = if (completeness >= 0.8f) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
+                                )
+                            }
+                            LinearProgressIndicator(
+                                progress = { completeness },
+                                modifier = Modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(4.dp)),
+                                color = if (completeness >= 0.8f) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary
+                            )
+                        }
+                    }
+                }
+            }
+
+            // Section 0A: AI Resume Auto-Setup Card (Bento Style)
+            item(key = "resume_auto_setup") {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.25f)
+                    ),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.35f))
+                ) {
+                    Column(
+                        modifier = Modifier.padding(18.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(38.dp)
+                                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.15f), shape = CircleShape),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    Icons.Default.AutoAwesome,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                            Column {
+                                Text(
+                                    text = "AI Resume Setup",
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.Bold
                                 )
+                                Text(
+                                    text = "Auto-extract your verified details with zero typing",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
                             }
-                            Text(
-                                text = "Upload your existing resume (PDF, DOCX, or TXT). Elixir's AI extracts your education, GPA, skills, projects, and contact details automatically without manual typing.",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
-                            ) {
-                                Button(
-                                    onClick = {
-                                        documentPicker.launch(
-                                            arrayOf(
-                                                "application/pdf",
-                                                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                                                "text/plain"
-                                            )
+                        }
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            Button(
+                                onClick = {
+                                    documentPicker.launch(
+                                        arrayOf(
+                                            "application/pdf",
+                                            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                            "text/plain",
+                                            "*/*"
                                         )
-                                    },
-                                    modifier = Modifier.weight(1f)
-                                ) {
-                                    Icon(Icons.Default.Description, contentDescription = null, modifier = Modifier.size(16.dp))
-                                    Spacer(Modifier.width(6.dp))
-                                    Text("Upload Resume")
-                                }
-                                OutlinedButton(
-                                    onClick = { showPasteResumeDialog = true }
-                                ) {
-                                    Text("Paste Text")
-                                }
+                                    )
+                                },
+                                shape = RoundedCornerShape(12.dp),
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Icon(Icons.Default.CloudUpload, contentDescription = null, modifier = Modifier.size(18.dp))
+                                Spacer(Modifier.width(8.dp))
+                                Text("Upload Resume", fontWeight = FontWeight.SemiBold)
+                            }
+
+                            OutlinedButton(
+                                onClick = { showPasteResumeDialog = true },
+                                shape = RoundedCornerShape(12.dp),
+                                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+                            ) {
+                                Text("Paste Text")
                             }
                         }
                     }
                 }
+            }
 
-                // Section 0B: AI Extracted Profile Preview (when resume is analyzed)
-                if (uiState.extractedData != null) {
-                    val data = uiState.extractedData!!
-                    item(key = "extracted_preview") {
-                        Card(
-                            modifier = Modifier.fillMaxWidth(),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
-                            ),
-                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
+            // Section 0B: AI Extracted Profile Preview (when resume is analyzed)
+            if (uiState.extractedData != null) {
+                val data = uiState.extractedData!!
+                item(key = "extracted_preview") {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(20.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surface
+                        ),
+                        border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.primary),
+                        elevation = CardDefaults.cardElevation(4.dp)
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(20.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            Column(
-                                modifier = Modifier.padding(16.dp),
-                                verticalArrangement = Arrangement.spacedBy(10.dp)
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
@@ -247,72 +429,124 @@ fun ProfileScreen(
                                 ) {
                                     Icon(Icons.Default.CheckCircle, null, tint = MaterialTheme.colorScheme.primary)
                                     Text(
-                                        "AI Extracted Profile Preview",
+                                        "Extracted Profile Preview",
                                         style = MaterialTheme.typography.titleMedium,
                                         fontWeight = FontWeight.Bold
                                     )
                                 }
-
-                                Text("Name: ${data.name ?: "Not detected"}", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
-                                Text("Contact: ${data.email ?: "No email"} | ${data.phone ?: "No phone"}", style = MaterialTheme.typography.bodySmall)
-                                Text("Academics: ${data.degree ?: "Degree"} in ${data.branch ?: "Branch"} (${data.graduationYear ?: "Year"})", style = MaterialTheme.typography.bodySmall)
-                                Text("CGPA: ${data.cgpa ?: "Not found"}/${data.cgpaScale ?: "10.0"}", style = MaterialTheme.typography.bodySmall)
-                                
-                                if (data.skills.isNotEmpty()) {
-                                    Text("Extracted Skills (${data.skills.size}):", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold)
-                                    FlowRow(
-                                        horizontalArrangement = Arrangement.spacedBy(6.dp),
-                                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                                    ) {
-                                        data.skills.take(12).forEach { skill ->
-                                            SuggestionChip(onClick = {}, label = { Text(skill) })
-                                        }
-                                    }
-                                }
-
-                                if (data.missingEssentialFields.isNotEmpty()) {
-                                    Surface(
-                                        shape = RoundedCornerShape(8.dp),
-                                        color = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.7f),
-                                        modifier = Modifier.fillMaxWidth()
-                                    ) {
-                                        Row(
-                                            modifier = Modifier.padding(10.dp),
-                                            verticalAlignment = Alignment.CenterVertically,
-                                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                                        ) {
-                                            Icon(Icons.Default.Warning, null, tint = MaterialTheme.colorScheme.error)
-                                            Text(
-                                                "Missing for placement: ${data.missingEssentialFields.joinToString(", ")}",
-                                                style = MaterialTheme.typography.bodySmall,
-                                                color = MaterialTheme.colorScheme.onErrorContainer
-                                            )
-                                        }
-                                    }
-                                }
-
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                Surface(
+                                    shape = RoundedCornerShape(12.dp),
+                                    color = MaterialTheme.colorScheme.primaryContainer
                                 ) {
-                                    Button(
-                                        onClick = { viewModel.confirmExtractedProfile(data) },
-                                        modifier = Modifier.weight(1f)
+                                    Text(
+                                        "AI Scanned",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
+                            }
+
+                            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+
+                            Text(
+                                text = data.name ?: "Name not detected",
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold
+                            )
+
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text("Email", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    Text(data.email ?: "Not specified", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
+                                }
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text("Phone", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    Text(data.phone ?: "Not specified", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
+                                }
+                            }
+
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text("Education", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    Text("${data.degree ?: "Degree"} in ${data.branch ?: "Branch"}", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
+                                }
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text("CGPA / Score", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    Text("${data.cgpa ?: "—"} / ${data.cgpaScale ?: "10.0"}", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.primary)
+                                }
+                            }
+
+                            if (data.skills.isNotEmpty()) {
+                                Text("Extracted Skills (${data.skills.size}):", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
+                                FlowRow(
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                                ) {
+                                    data.skills.take(15).forEach { skill ->
+                                        SuggestionChip(
+                                            onClick = {},
+                                            label = { Text(skill, style = MaterialTheme.typography.bodySmall) },
+                                            shape = RoundedCornerShape(8.dp)
+                                        )
+                                    }
+                                }
+                            }
+
+                            if (data.missingEssentialFields.isNotEmpty()) {
+                                Surface(
+                                    shape = RoundedCornerShape(12.dp),
+                                    color = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.6f),
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Row(
+                                        modifier = Modifier.padding(12.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                                     ) {
-                                        Icon(Icons.Default.Check, null)
-                                        Spacer(Modifier.width(6.dp))
-                                        Text("Confirm & Save Profile")
+                                        Icon(Icons.Default.Warning, null, tint = MaterialTheme.colorScheme.error)
+                                        Text(
+                                            "Missing placement fields: ${data.missingEssentialFields.joinToString(", ")}",
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onErrorContainer
+                                        )
                                     }
-                                    OutlinedButton(onClick = { viewModel.dismissExtractedData() }) {
-                                        Text("Dismiss")
-                                    }
+                                }
+                            }
+
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                            ) {
+                                Button(
+                                    onClick = { viewModel.confirmExtractedProfile(data) },
+                                    shape = RoundedCornerShape(12.dp),
+                                    modifier = Modifier.weight(1f)
+                                ) {
+                                    Icon(Icons.Default.Check, null)
+                                    Spacer(Modifier.width(6.dp))
+                                    Text("Confirm & Apply Profile")
+                                }
+                                OutlinedButton(
+                                    onClick = { viewModel.dismissExtractedData() },
+                                    shape = RoundedCornerShape(12.dp)
+                                ) {
+                                    Text("Dismiss")
                                 }
                             }
                         }
                     }
                 }
+            }
 
-                // Section 0C: Missing Placement Facts Checklist (if regular profile is missing facts)
+            // Section 0C: Missing Placement Facts Checklist (if regular profile is missing facts)
                 if (uiState.extractedData == null && uiState.missingEssentialFields.isNotEmpty() && uiState.confirmedFacts.isNotEmpty()) {
                     item(key = "missing_fields_checklist") {
                         Card(
@@ -488,7 +722,6 @@ fun ProfileScreen(
                 }
             }
         }
-    }
 
     // Dialog for adding a new fact
     if (showAddDialog) {
