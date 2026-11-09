@@ -20,3 +20,5 @@ local.properties
 *.jpeg
 .env
 .env.*
+resume.b64
+
