@@ -27,6 +27,11 @@ import java.util.UUID
 import javax.inject.Inject
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.put
+import com.cellclaw.tools.WebFetchTool
 
 data class NewApplicationUiState(
     val jdText: String = "",
@@ -48,7 +53,8 @@ class NewApplicationViewModel @Inject constructor(
     private val eligibilityEngine: EligibilityEngine,
     private val profileRepository: ProfileRepository,
     private val applicationTracker: ApplicationTracker,
-    private val aiJdExtractor: AiJdExtractor? = null
+    private val aiJdExtractor: AiJdExtractor? = null,
+    private val webFetchTool: WebFetchTool? = null
 ) : ViewModel() {
 
     companion object {
@@ -76,6 +82,53 @@ class NewApplicationViewModel @Inject constructor(
     fun onSourceUrlChanged(url: String) {
         savedStateHandle[KEY_SOURCE_URL] = url
         _uiState.value = _uiState.value.copy(sourceUrl = url)
+    }
+
+    fun fetchAndAnalyzeUrl(url: String) {
+        val targetUrl = url.trim()
+        if (targetUrl.isBlank() || webFetchTool == null) return
+
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isParsing = true, errorMessage = null, sourceUrl = targetUrl)
+            savedStateHandle[KEY_SOURCE_URL] = targetUrl
+
+            val fetchResult = webFetchTool.execute(
+                buildJsonObject {
+                    put("url", targetUrl)
+                    put("max_chars", 8000)
+                }
+            )
+
+            if (!fetchResult.success) {
+                _uiState.value = _uiState.value.copy(
+                    isParsing = false,
+                    errorMessage = "Could not fetch page: ${fetchResult.error}"
+                )
+                return@launch
+            }
+
+            val pageText: String = (fetchResult.data as? JsonObject)?.get("text")?.jsonPrimitive?.content.orEmpty()
+            val parsedReq = if (aiJdExtractor != null) {
+                aiJdExtractor.extract(pageText)
+            } else {
+                jdParser.parse(pageText)
+            }
+
+            val comp: String = _uiState.value.company.ifBlank { parsedReq.company.value.orEmpty() }
+            val r: String = _uiState.value.role.ifBlank { parsedReq.role.value.orEmpty() }
+
+            savedStateHandle[KEY_JD_TEXT] = pageText
+            savedStateHandle[KEY_COMPANY] = comp
+            savedStateHandle[KEY_ROLE] = r
+
+            _uiState.value = _uiState.value.copy(
+                jdText = pageText,
+                company = comp,
+                role = r,
+                parsedRequirement = parsedReq,
+                isParsing = false
+            )
+        }
     }
 
     fun onCompanyChanged(company: String) {

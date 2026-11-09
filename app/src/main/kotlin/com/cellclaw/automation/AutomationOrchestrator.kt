@@ -162,62 +162,100 @@ class AutomationOrchestrator @Inject constructor(
             )
         }
 
-        // 4. Fetch Form Nodes
-        val nodes = nodeProvider.getNodes()
-        if (nodes.isEmpty()) {
-            val err = "No accessibility nodes retrieved from target page"
-            _step.value = AutomationStep.Failed(err)
-            return _step.value
-        }
+        // 4. Fetch Form Nodes & Multi-Page Loop
+        var pageCount = 0
+        val maxPages = 10
+        var currentNodes = nodeProvider.getNodes()
 
-        // 5. Classify and Fill Fields / Upload Resume
-        for (i in nodes.indices) {
-            val node = nodes[i]
-            val label = node.combinedLabel.trim()
-            if (label.equals("submit", ignoreCase = true) || node.roleDescription == "submit") {
-                // Final submit button is tapped strictly after explicit user approval during executeFinalSubmit
-                continue
+        while (pageCount < maxPages) {
+            pageCount++
+            if (currentNodes.isEmpty()) {
+                val err = "No accessibility nodes retrieved from target page"
+                _step.value = AutomationStep.Failed(err)
+                return _step.value
             }
-            val classification = fieldClassifier.classify(node)
 
-            _step.value = AutomationStep.ClassifyingAndFilling(
-                fieldLabel = node.combinedLabel.ifBlank { "Field #${i + 1}" },
-                index = i + 1,
-                total = nodes.size
-            )
+            // 5. Classify and Fill Fields / Upload Resume on current page
+            for (i in currentNodes.indices) {
+                val node = currentNodes[i]
+                val label = node.combinedLabel.trim()
+                if (label.equals("submit", ignoreCase = true) || node.roleDescription == "submit") {
+                    // Final submit button is tapped strictly after explicit user approval during executeFinalSubmit
+                    continue
+                }
+                if (label.equals("next", ignoreCase = true) || label.equals("continue", ignoreCase = true)) {
+                    // Page advance handled after all inputs on this page are filled
+                    continue
+                }
 
-            if (classification.category == FieldCategory.FILE_UPLOAD) {
-                if (resumeFile != null) {
-                    _step.value = AutomationStep.UploadingResume(resumeFile.name)
-                    val prep = resumeUploader.prepareUpload(resumeFile, application)
-                    if (prep is ResumePreparationResult.Success) {
-                        resumeUploader.handlePickerResult(com.cellclaw.upload.PickerResult.Selected(prep.contentUri))
-                        resumeUploader.handleServerResponse(com.cellclaw.upload.ServerUploadResponse.Accepted(prep.fileName))
-                        _step.value = AutomationStep.VerifyingUpload(resumeFile.name)
-                        val verifyResult = postUploadVerifier.verify(
-                            visibleTexts = listOf(resumeFile.name),
-                            expectedFileName = resumeFile.name
-                        )
-                        if (verifyResult is PostUploadVerificationResult.Mismatch) {
-                            val err = "Resume upload verification mismatch: ${verifyResult.actualVisibleText}"
+                val classification = fieldClassifier.classify(node)
+
+                _step.value = AutomationStep.ClassifyingAndFilling(
+                    fieldLabel = node.combinedLabel.ifBlank { "Field #${i + 1} (Page $pageCount)" },
+                    index = i + 1,
+                    total = currentNodes.size
+                )
+
+                if (classification.category == FieldCategory.FILE_UPLOAD) {
+                    if (resumeFile != null) {
+                        _step.value = AutomationStep.UploadingResume(resumeFile.name)
+                        val prep = resumeUploader.prepareUpload(resumeFile, application)
+                        if (prep is ResumePreparationResult.Success) {
+                            resumeUploader.handlePickerResult(com.cellclaw.upload.PickerResult.Selected(prep.contentUri))
+                            resumeUploader.handleServerResponse(com.cellclaw.upload.ServerUploadResponse.Accepted(prep.fileName))
+                            _step.value = AutomationStep.VerifyingUpload(resumeFile.name)
+                            val verifyResult = postUploadVerifier.verify(
+                                visibleTexts = listOf(resumeFile.name),
+                                expectedFileName = resumeFile.name
+                            )
+                            if (verifyResult is PostUploadVerificationResult.Mismatch) {
+                                val err = "Resume upload verification mismatch: ${verifyResult.actualVisibleText}"
+                                _step.value = AutomationStep.Failed(err)
+                                return _step.value
+                            }
+                        } else if (prep is ResumePreparationResult.Failure) {
+                            val err = "Resume upload preparation failed: ${prep.reason}"
                             _step.value = AutomationStep.Failed(err)
                             return _step.value
                         }
-                    } else if (prep is ResumePreparationResult.Failure) {
-                        val err = "Resume upload preparation failed: ${prep.reason}"
-                        _step.value = AutomationStep.Failed(err)
-                        return _step.value
                     }
+                } else {
+                    fieldFiller.fillField(node, profile)
                 }
-            } else {
-                fieldFiller.fillField(node, profile)
             }
-        }
 
-        // 6. Check if any fields need user input
-        if (fieldFiller.hasPendingInputs()) {
-            _step.value = AutomationStep.NeedsUserInput(fieldFiller.getPendingInputs())
-            return _step.value
+            // 6. Check if any fields need user input
+            if (fieldFiller.hasPendingInputs()) {
+                _step.value = AutomationStep.NeedsUserInput(fieldFiller.getPendingInputs())
+                return _step.value
+            }
+
+            // Check if there is a "Submit" button on this page
+            val hasSubmitButton = currentNodes.any {
+                it.combinedLabel.equals("submit", ignoreCase = true) || it.roleDescription == "submit"
+            }
+
+            // Check if there is a "Next" / "Continue" button to advance multi-step forms
+            val nextButton = currentNodes.firstOrNull {
+                it.isClickable && (
+                    it.combinedLabel.equals("next", ignoreCase = true) ||
+                    it.combinedLabel.equals("continue", ignoreCase = true) ||
+                    it.combinedLabel.contains("next page", ignoreCase = true)
+                )
+            }
+
+            if (nextButton != null && !hasSubmitButton) {
+                // Multi-step form: Advance to next page automatically
+                _step.value = AutomationStep.ClassifyingAndFilling("Advancing to next page...", pageCount, maxPages)
+                fieldFiller.clickNode(nextButton)
+                val nextNodes = nodeProvider.getNodes()
+                if (nextNodes.isEmpty() || nextNodes == currentNodes) {
+                    break
+                }
+                currentNodes = nextNodes
+            } else {
+                break
+            }
         }
 
         // 7. Mandatory PlacementOS rule: Stop before Submit for explicit user confirmation

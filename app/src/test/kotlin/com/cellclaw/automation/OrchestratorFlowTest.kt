@@ -408,4 +408,58 @@ class OrchestratorFlowTest {
         assertTrue(failed.error.contains("URL rejected"))
         assertEquals(null, lastOpenedUrl)
     }
+
+    @Test
+    fun `multi-page form advances through Next buttons until Submit page`() = runTest(testDispatcher) {
+        val app = ApplicationRecord(
+            id = "app-flow-multipage",
+            company = "MultiPage Corp",
+            role = "Software Engineer",
+            sourceUrl = "https://docs.google.com/forms/d/e/multi-page/viewform",
+            jdHash = "jdhashmulti",
+            resumeHash = "somehash",
+            eligibilityResult = "ELIGIBLE"
+        )
+        tracker.registerApplication(app)
+
+        val tokenResult = tokenManager.issueToken(
+            userDirectTapConfirmed = true,
+            applicationId = app.id,
+            company = app.company,
+            role = app.role,
+            urlOrigin = "https://docs.google.com",
+            formStateHash = "hash",
+            resumeHash = "somehash"
+        )
+        val token = (tokenResult as com.cellclaw.approval.TokenIssuanceResult.Success).token
+
+        val profile = CandidateProfile(
+            name = fact("name", "Rohith Sheregar"),
+            email = fact("email", "rohith@example.com")
+        )
+
+        var callCount = 0
+        val page1Nodes = listOf(
+            AccessibilityNodeData(text = "Full Name *", className = "android.widget.EditText", isEditable = true),
+            AccessibilityNodeData(text = "Next", className = "android.widget.Button", isClickable = true)
+        )
+        val page2Nodes = listOf(
+            AccessibilityNodeData(text = "Email Address *", className = "android.widget.EditText", isEditable = true),
+            AccessibilityNodeData(text = "Submit", className = "android.widget.Button", isClickable = true)
+        )
+
+        val step = orchestrator.runAutomation(
+            application = app,
+            token = token,
+            profile = profile,
+            resumeFile = null,
+            nodeProvider = {
+                callCount++
+                if (callCount == 1) page1Nodes else page2Nodes
+            }
+        )
+
+        assertTrue("Must click Next button", nodeOperator.clickedLabels.any { it.contains("Next", ignoreCase = true) })
+        assertTrue("Must reach AwaitingUserFinalSubmitApproval on page 2", step is AutomationStep.AwaitingUserFinalSubmitApproval)
+    }
 }

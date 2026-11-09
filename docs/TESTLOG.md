@@ -825,6 +825,18 @@ Strip warnings for .so libs (tensorflow etc) — non-fatal.
 **Status:** PASS
 **Summary:** Generated and integrated Logo 4 (Cyber Phoenix bird holding glowing digital resume scroll) across all Android density buckets: `mipmap-mdpi` (48px), `hdpi` (72px), `xhdpi` (96px), `xxhdpi` (144px), `xxxhdpi` (192px), adaptive round icons in `mipmap-anydpi-v26/ic_launcher_round.xml`, `ic_splash_logo.png` (320x320), `ic_elixir_foreground.png` (432x432), and vector drawable `ic_elixir_launcher_foreground.xml` (108dp x 108dp). Full unit test suite (429 tests) and assembleDebug passed (`BUILD SUCCESSFUL in 6m 5s`, 50 actionable tasks, exit code 0). Installed APK on Pixel 7 Pro (`emulator-5554`, Android 16 API 36) and verified live: app launcher drawer displays new Cyber Phoenix icon, splash screen renders glowing cyber bird on dark background (`#111022`), and MainActivity opens smoothly.
 
+### T59 — AI Resume Ingestion, Multi-Step Form Automation, Autonomous Job Research, Settings & Link Ingestion (AG2.6-AG2.10) — Session 27
+**Command:** `$env:JDK_JAVA_OPTIONS='-Djdk.net.unixdomain.tmpdir=C:\Temp'; .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug`
+**Exit code:** 0
+**Status:** PASS
+**Summary:** Verified full unit test suite (436 passed, 0 failed) and assembled debug APK (`BUILD SUCCESSFUL in 1m 16s`, 50 actionable tasks, 5 executed, 45 up-to-date). Conducted live emulator verification on Pixel 7 Pro (`emulator-5554`, Android 16 API 36):
+1. **SettingsScreen**: Model/provider switching enabled regardless of whether API key is pre-configured, radio buttons and rows fully interactive, model list updated to latest Gemini models (`gemini-2.5-flash`, `gemini-2.0-flash`, `gemini-1.5-flash`), with explicit Google AI Studio guidance (`AIzaSy...`).
+2. **ProfileScreen**: Automated Profile Setup with AI card integrated with system document picker (`ActivityResultContracts.OpenDocument`) for PDF/DOCX/TXT and direct text paste dialog; verified real-time AI parsing, extracted profile review banner, and missing essentials detection (CGPA, degree, phone, etc.) with 1-tap quick add chips.
+3. **Multi-Step Form Automation**: Extended `AutomationOrchestrator` to detect "Next", "Continue", and multi-page form steps, automatically filling verified candidate facts with read-back verification and advancing page-by-page until halting at the final "Submit" gate for user review. Verified via `OrchestratorFlowTest`.
+4. **Autonomous Job Research (`ResearchScreen`)**: Integrated 3-loop autonomous architecture (`JobResearchEngine`: Discovery -> Validation -> Fit/Relevance/Trustworthiness Scoring -> Auto-Staging into `ApplicationTracker`). Executed live multi-platform research on device; observed 41 live telemetry log events, evaluated real Greenhouse/LinkedIn postings, scored candidate relevance & trust, and auto-staged 10 vetted job opportunities.
+5. **One-Touch Link Ingestion (`NewApplicationScreen`)**: Added `fetchAndAnalyzeUrl` backed by `WebFetchTool`. Entering target form URL automatically displays "Auto-Fetch & Analyze with AI Mind" button and ingests web content to extract company name and role.
+
+
 
 
 

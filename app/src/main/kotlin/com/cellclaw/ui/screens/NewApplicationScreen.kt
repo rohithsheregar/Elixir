@@ -13,6 +13,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -46,7 +47,7 @@ fun NewApplicationScreen(
         if (!initialJdText.isNullOrBlank()) {
             val text = initialJdText.trim()
             if ((text.startsWith("http://") || text.startsWith("https://")) && !text.contains("\n") && !text.contains(" ")) {
-                viewModel.onSourceUrlChanged(text)
+                viewModel.fetchAndAnalyzeUrl(text)
             } else {
                 viewModel.onJdTextChanged(text)
                 viewModel.parseCurrentJd()
@@ -161,6 +162,18 @@ fun NewApplicationScreen(
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
+
+            if (uiState.sourceUrl.isNotBlank() && (uiState.sourceUrl.startsWith("http://") || uiState.sourceUrl.startsWith("https://"))) {
+                FilledTonalButton(
+                    onClick = { viewModel.fetchAndAnalyzeUrl(uiState.sourceUrl) },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !uiState.isParsing
+                ) {
+                    Icon(Icons.Default.Search, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Spacer(Modifier.width(6.dp))
+                    Text("Auto-Fetch & Analyze with AI Mind")
+                }
+            }
 
             // Raw JD Text
             OutlinedTextField(

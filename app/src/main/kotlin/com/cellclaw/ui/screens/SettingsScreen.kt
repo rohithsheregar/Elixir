@@ -3,6 +3,7 @@ package com.cellclaw.ui.screens
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -144,21 +145,25 @@ fun SettingsScreen(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Column(modifier = Modifier.weight(1f)) {
+                            Column(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .clickable { viewModel.switchProvider(provider.type) }
+                            ) {
                                 Text(
                                     provider.displayName,
                                     style = MaterialTheme.typography.bodyLarge
                                 )
                                 Text(
                                     if (provider.hasKey) "API key configured"
-                                    else "No API key",
+                                    else "No API key (tap to configure)",
                                     style = MaterialTheme.typography.bodySmall,
                                     color = if (provider.hasKey)
                                         MaterialTheme.colorScheme.primary
                                     else MaterialTheme.colorScheme.error
                                 )
                             }
-                            Row {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
                                 if (isActive) {
                                     Icon(
                                         Icons.Default.Check,
@@ -169,11 +174,7 @@ fun SettingsScreen(
                                 }
                                 RadioButton(
                                     selected = isActive,
-                                    onClick = {
-                                        if (provider.hasKey) {
-                                            viewModel.switchProvider(provider.type)
-                                        }
-                                    }
+                                    onClick = { viewModel.switchProvider(provider.type) }
                                 )
                             }
                         }
@@ -477,37 +478,63 @@ private fun ApiKeyInput(
     var showKey by remember { mutableStateOf(false) }
     var editing by remember { mutableStateOf(!hasKey) }
 
+    val hintText = when (providerType) {
+        "gemini" -> "Requires a Google AI Studio API key (AIzaSy... from aistudio.google.com/app/apikey)"
+        "anthropic" -> "Requires an Anthropic API key (sk-ant-...)"
+        "openai" -> "Requires an OpenAI API key (sk-...)"
+        "openrouter" -> "Requires an OpenRouter API key (sk-or-...)"
+        else -> "Enter API key for $providerType"
+    }
+
     if (editing || !hasKey) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            OutlinedTextField(
-                value = newKey,
-                onValueChange = { newKey = it },
-                label = { Text("API Key") },
-                leadingIcon = { Icon(Icons.Default.Key, null) },
-                trailingIcon = {
-                    IconButton(onClick = { showKey = !showKey }) {
-                        Icon(
-                            if (showKey) Icons.Default.VisibilityOff
-                            else Icons.Default.Visibility,
-                            "Toggle"
-                        )
-                    }
-                },
-                visualTransformation = if (showKey) VisualTransformation.None
-                else PasswordVisualTransformation(),
-                modifier = Modifier.weight(1f),
-                singleLine = true
+            Text(
+                text = hintText,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            if (newKey.length >= 10) {
-                IconButton(onClick = {
-                    onSave(newKey)
-                    newKey = ""
-                    editing = false
-                }) {
-                    Icon(Icons.Default.Check, "Save", tint = MaterialTheme.colorScheme.primary)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                OutlinedTextField(
+                    value = newKey,
+                    onValueChange = { newKey = it },
+                    label = { Text("API Key") },
+                    leadingIcon = { Icon(Icons.Default.Key, null) },
+                    trailingIcon = {
+                        IconButton(onClick = { showKey = !showKey }) {
+                            Icon(
+                                if (showKey) Icons.Default.VisibilityOff
+                                else Icons.Default.Visibility,
+                                "Toggle"
+                            )
+                        }
+                    },
+                    visualTransformation = if (showKey) VisualTransformation.None
+                    else PasswordVisualTransformation(),
+                    modifier = Modifier.weight(1f),
+                    singleLine = true
+                )
+                Button(
+                    onClick = {
+                        if (newKey.isNotBlank()) {
+                            onSave(newKey.trim())
+                            newKey = ""
+                            editing = false
+                        }
+                    },
+                    enabled = newKey.trim().length >= 8
+                ) {
+                    Icon(Icons.Default.Check, "Save", modifier = Modifier.size(16.dp))
+                    Spacer(Modifier.width(4.dp))
+                    Text("Save")
                 }
             }
         }

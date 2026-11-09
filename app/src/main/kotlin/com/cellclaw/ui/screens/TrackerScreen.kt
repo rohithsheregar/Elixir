@@ -38,6 +38,7 @@ import com.cellclaw.ui.components.EmptyState
 import com.cellclaw.ui.theme.elixirColors
 import com.cellclaw.ui.viewmodel.TrackerViewModel
 import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.Explore
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -47,6 +48,7 @@ import java.util.Locale
 fun TrackerScreen(
     onNavigateToNewApp: () -> Unit = {},
     onNavigateToProfile: () -> Unit = {},
+    onNavigateToResearch: () -> Unit = {},
     onNavigateToSettings: () -> Unit = {},
     onNavigateToChat: () -> Unit = {},
     onSelectApplication: (appId: String) -> Unit = {},
@@ -72,6 +74,9 @@ fun TrackerScreen(
                     }
                     IconButton(onClick = onNavigateToProfile) {
                         Icon(Icons.Default.Person, contentDescription = "Profile")
+                    }
+                    IconButton(onClick = onNavigateToResearch) {
+                        Icon(Icons.Default.Explore, contentDescription = "Job Research")
                     }
                     val themeMode by viewModel.themeMode.collectAsState()
                     IconButton(onClick = { viewModel.toggleTheme() }) {

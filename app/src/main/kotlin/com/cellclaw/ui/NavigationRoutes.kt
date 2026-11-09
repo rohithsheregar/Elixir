@@ -12,6 +12,7 @@ object NavigationRoutes {
     const val CHAT = "chat"
     const val SKILLS = "skills"
     const val APPROVALS = "approvals"
+    const val RESEARCH = "research"
     const val SETUP = "setup"
     const val NEW_APPLICATION = "new_application"
     const val ELIGIBILITY_REPORT = "eligibility_report/{appId}"

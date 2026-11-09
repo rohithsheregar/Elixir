@@ -208,6 +208,12 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideAiResumeParser(
+        aiClient: com.cellclaw.ai.AiClient
+    ): com.cellclaw.profile.AiResumeParser = com.cellclaw.profile.AiResumeParser(aiClient = aiClient)
+
+    @Provides
+    @Singleton
     fun provideContextCompactor(): com.cellclaw.agent.ContextCompactor =
         com.cellclaw.agent.DefaultContextCompactor()
 

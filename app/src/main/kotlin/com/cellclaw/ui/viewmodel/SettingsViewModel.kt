@@ -81,7 +81,12 @@ class SettingsViewModel @Inject constructor(
 
     fun saveApiKey(providerType: String, apiKey: String) {
         providerManager.setApiKey(providerType, apiKey)
-        _providers.value = providerManager.availableProviders()
+        if (_activeProvider.value != providerType) {
+            switchProvider(providerType)
+        } else {
+            _providers.value = providerManager.availableProviders()
+            _availableModels.value = modelsForProvider(providerType)
+        }
     }
 
     fun removeApiKey(providerType: String) {

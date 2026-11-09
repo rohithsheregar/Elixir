@@ -88,9 +88,9 @@ open class ProviderManager {
             ProviderInfo("openai", "OpenAI (GPT)", "gpt-5.2",
                 keyStore.hasApiKey("openai"),
                 models = listOf("gpt-5.2", "gpt-5.2-chat-latest", "gpt-5-mini", "gpt-4.1", "gpt-4.1-mini")),
-            ProviderInfo("gemini", "Google (Gemini)", "gemini-3-flash-preview",
+            ProviderInfo("gemini", "Google (Gemini)", "gemini-2.5-flash",
                 keyStore.hasApiKey("gemini"),
-                models = listOf("gemini-3.1-pro-preview", "gemini-3-flash-preview", "gemini-2.5-flash", "gemini-2.5-pro")),
+                models = listOf("gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-2.5-pro", "gemini-3-flash-preview", "gemini-3.1-pro-preview")),
             ProviderInfo("openrouter", "OpenRouter", "google/gemini-2.5-flash",
                 keyStore.hasApiKey("openrouter"),
                 models = listOf("google/gemini-2.5-flash", "google/gemini-2.5-pro", "anthropic/claude-sonnet-4.6", "openai/gpt-5.2"))

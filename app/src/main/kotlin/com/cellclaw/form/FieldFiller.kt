@@ -99,6 +99,8 @@ class FieldFiller(
 
     fun getPendingInputs(): List<NeedsInputField> = needsInputCollector.items
 
+    fun clickNode(node: AccessibilityNodeData): Boolean = operator.clickNode(node)
+
     fun fillField(node: AccessibilityNodeData, profile: CandidateProfile): FillResult {
         val result = executeFillField(node, profile)
         if (result is FillResult.NeedsUserInput) {

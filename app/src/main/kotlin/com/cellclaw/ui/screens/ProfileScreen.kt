@@ -1,7 +1,13 @@
 package com.cellclaw.ui.screens
 
+import android.content.Context
+import android.net.Uri
+import android.provider.OpenableColumns
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,11 +20,15 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.CloudUpload
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,9 +36,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.cellclaw.profile.ExtractedProfileData
 import com.cellclaw.profile.ProfileFact
 import com.cellclaw.profile.ProfileFactProposal
 import com.cellclaw.ui.components.EmptyState
@@ -70,7 +82,7 @@ enum class ProfileViewMode {
     FLAT
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun ProfileScreen(
     onBack: () -> Unit = {},
@@ -83,6 +95,20 @@ fun ProfileScreen(
     var editingFact by remember { mutableStateOf<ProfileFact?>(null) }
     var showWipeConfirmDialog by remember { mutableStateOf(false) }
     var viewMode by remember { mutableStateOf(ProfileViewMode.ACCORDION) }
+    var showPasteResumeDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+
+    val documentPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            val mimeType = context.contentResolver.getType(uri)
+            val fileName = queryFileName(context, uri)
+            context.contentResolver.openInputStream(uri)?.use { inputStream ->
+                viewModel.importResumeFromStream(inputStream, mimeType, fileName)
+            }
+        }
+    }
 
     var expandedCategories by remember {
         mutableStateOf(
@@ -137,6 +163,212 @@ fun ProfileScreen(
                     .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                // Section 0A: AI Resume Auto-Setup Card
+                item(key = "resume_auto_setup") {
+                    Card(
+                        modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f)
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(16.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Icon(
+                                    Icons.Default.CloudUpload,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                                Text(
+                                    text = "Automated Profile Setup with AI",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                            Text(
+                                text = "Upload your existing resume (PDF, DOCX, or TXT). Elixir's AI extracts your education, GPA, skills, projects, and contact details automatically without manual typing.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Button(
+                                    onClick = {
+                                        documentPicker.launch(
+                                            arrayOf(
+                                                "application/pdf",
+                                                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                                "text/plain"
+                                            )
+                                        )
+                                    },
+                                    modifier = Modifier.weight(1f)
+                                ) {
+                                    Icon(Icons.Default.Description, contentDescription = null, modifier = Modifier.size(16.dp))
+                                    Spacer(Modifier.width(6.dp))
+                                    Text("Upload Resume")
+                                }
+                                OutlinedButton(
+                                    onClick = { showPasteResumeDialog = true }
+                                ) {
+                                    Text("Paste Text")
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Section 0B: AI Extracted Profile Preview (when resume is analyzed)
+                if (uiState.extractedData != null) {
+                    val data = uiState.extractedData!!
+                    item(key = "extracted_preview") {
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                            ),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(16.dp),
+                                verticalArrangement = Arrangement.spacedBy(10.dp)
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    Icon(Icons.Default.CheckCircle, null, tint = MaterialTheme.colorScheme.primary)
+                                    Text(
+                                        "AI Extracted Profile Preview",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
+
+                                Text("Name: ${data.name ?: "Not detected"}", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
+                                Text("Contact: ${data.email ?: "No email"} | ${data.phone ?: "No phone"}", style = MaterialTheme.typography.bodySmall)
+                                Text("Academics: ${data.degree ?: "Degree"} in ${data.branch ?: "Branch"} (${data.graduationYear ?: "Year"})", style = MaterialTheme.typography.bodySmall)
+                                Text("CGPA: ${data.cgpa ?: "Not found"}/${data.cgpaScale ?: "10.0"}", style = MaterialTheme.typography.bodySmall)
+                                
+                                if (data.skills.isNotEmpty()) {
+                                    Text("Extracted Skills (${data.skills.size}):", style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold)
+                                    FlowRow(
+                                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                                    ) {
+                                        data.skills.take(12).forEach { skill ->
+                                            SuggestionChip(onClick = {}, label = { Text(skill) })
+                                        }
+                                    }
+                                }
+
+                                if (data.missingEssentialFields.isNotEmpty()) {
+                                    Surface(
+                                        shape = RoundedCornerShape(8.dp),
+                                        color = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.7f),
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Row(
+                                            modifier = Modifier.padding(10.dp),
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                        ) {
+                                            Icon(Icons.Default.Warning, null, tint = MaterialTheme.colorScheme.error)
+                                            Text(
+                                                "Missing for placement: ${data.missingEssentialFields.joinToString(", ")}",
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onErrorContainer
+                                            )
+                                        }
+                                    }
+                                }
+
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    Button(
+                                        onClick = { viewModel.confirmExtractedProfile(data) },
+                                        modifier = Modifier.weight(1f)
+                                    ) {
+                                        Icon(Icons.Default.Check, null)
+                                        Spacer(Modifier.width(6.dp))
+                                        Text("Confirm & Save Profile")
+                                    }
+                                    OutlinedButton(onClick = { viewModel.dismissExtractedData() }) {
+                                        Text("Dismiss")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Section 0C: Missing Placement Facts Checklist (if regular profile is missing facts)
+                if (uiState.extractedData == null && uiState.missingEssentialFields.isNotEmpty() && uiState.confirmedFacts.isNotEmpty()) {
+                    item(key = "missing_fields_checklist") {
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.4f)
+                            )
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(14.dp),
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                ) {
+                                    Icon(Icons.Default.Warning, null, tint = MaterialTheme.colorScheme.tertiary)
+                                    Text(
+                                        "Placement Readiness Notice",
+                                        style = MaterialTheme.typography.titleSmall,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
+                                Text(
+                                    "Your profile is missing: ${uiState.missingEssentialFields.joinToString(", ")}. Tap below to quickly complete:",
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                                FlowRow(
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                                ) {
+                                    uiState.missingEssentialFields.forEach { missingField ->
+                                        val fieldKey = when {
+                                            missingField.contains("Name") -> "name"
+                                            missingField.contains("Email") -> "email"
+                                            missingField.contains("Phone") -> "phone"
+                                            missingField.contains("Degree") -> "degree"
+                                            missingField.contains("Branch") -> "branch"
+                                            missingField.contains("Year") -> "graduationYear"
+                                            missingField.contains("CGPA") -> "cgpa"
+                                            else -> "skill"
+                                        }
+                                        AssistChip(
+                                            onClick = {
+                                                defaultFieldHint = fieldKey
+                                                showAddDialog = true
+                                            },
+                                            label = { Text("+ Add $missingField") }
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 // Section 1: Unconfirmed Proposals (Diff View)
                 if (uiState.proposals.isNotEmpty()) {
                     item {
@@ -358,6 +590,17 @@ fun ProfileScreen(
                 TextButton(onClick = { showWipeConfirmDialog = false }) {
                     Text("Cancel")
                 }
+            }
+        )
+    }
+
+    // Paste resume dialog
+    if (showPasteResumeDialog) {
+        PasteResumeDialog(
+            onDismiss = { showPasteResumeDialog = false },
+            onConfirm = { text ->
+                viewModel.importResumeFromText(text)
+                showPasteResumeDialog = false
             }
         )
     }
@@ -633,3 +876,59 @@ fun ConfirmedFactCard(
         }
     }
 }
+
+@Composable
+fun PasteResumeDialog(
+    onDismiss: () -> Unit,
+    onConfirm: (String) -> Unit
+) {
+    var text by remember { mutableStateOf("") }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Paste Resume Text") },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(
+                    "Paste your resume text below. Elixir's AI will parse contact details, degree, GPA, and skills automatically.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                OutlinedTextField(
+                    value = text,
+                    onValueChange = { text = it },
+                    label = { Text("Resume Text") },
+                    modifier = Modifier.fillMaxWidth().height(200.dp),
+                    maxLines = 15
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    if (text.isNotBlank()) onConfirm(text.trim())
+                },
+                enabled = text.isNotBlank()
+            ) {
+                Text("Process with AI")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("Cancel") }
+        }
+    )
+}
+
+private fun queryFileName(context: Context, uri: Uri): String? {
+    if (uri.scheme == "content") {
+        context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                if (nameIndex != -1) {
+                    return cursor.getString(nameIndex)
+                }
+            }
+        }
+    }
+    return uri.path?.substringAfterLast('/')
+}
+

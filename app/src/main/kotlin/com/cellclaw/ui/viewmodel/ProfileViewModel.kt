@@ -2,12 +2,15 @@ package com.cellclaw.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cellclaw.jd.DocumentReadResult
+import com.cellclaw.jd.JdDocumentReader
 import com.cellclaw.profile.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.io.InputStream
 import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
@@ -17,6 +20,8 @@ data class ProfileUiState(
     val confirmedFacts: List<ProfileFact> = emptyList(),
     val unconfirmedFacts: List<ProfileFact> = emptyList(),
     val proposals: List<ProfileFactProposal> = emptyList(),
+    val extractedData: ExtractedProfileData? = null,
+    val missingEssentialFields: List<String> = emptyList(),
     val isLoading: Boolean = false,
     val message: String? = null
 )
@@ -24,7 +29,9 @@ data class ProfileUiState(
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
-    private val profileManager: ProfileManager
+    private val profileManager: ProfileManager,
+    private val aiResumeParser: AiResumeParser,
+    private val jdDocumentReader: JdDocumentReader
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ProfileUiState())
@@ -43,8 +50,13 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun updateUiWithProfile(profile: CandidateProfile?) {
+        val missing = calculateMissingFields(profile)
         if (profile == null) {
-            _uiState.value = ProfileUiState(profile = null, isLoading = false)
+            _uiState.value = ProfileUiState(
+                profile = null,
+                missingEssentialFields = missing,
+                isLoading = false
+            )
             return
         }
 
@@ -64,13 +76,60 @@ class ProfileViewModel @Inject constructor(
             ProfileFactProposal(current = matchingCurrent, proposed = unconfirmedFact)
         }
 
-        _uiState.value = ProfileUiState(
+        _uiState.value = _uiState.value.copy(
             profile = profile,
             confirmedFacts = confirmed,
             unconfirmedFacts = unconfirmed,
             proposals = proposals,
+            missingEssentialFields = missing,
             isLoading = false
         )
+    }
+
+    fun importResumeFromStream(inputStream: InputStream, mimeType: String?, fileName: String?) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true, message = "Reading resume document...")
+            when (val docResult = jdDocumentReader.read(inputStream, mimeType, fileName)) {
+                is DocumentReadResult.Success -> {
+                    importResumeFromText(docResult.text)
+                }
+                is DocumentReadResult.FallbackToPaste -> {
+                    _uiState.value = _uiState.value.copy(
+                        isLoading = false,
+                        message = docResult.reason
+                    )
+                }
+            }
+        }
+    }
+
+    fun importResumeFromText(text: String) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true, message = "Extracting candidate profile with AI...")
+            val extracted = aiResumeParser.parse(text)
+            _uiState.value = _uiState.value.copy(
+                isLoading = false,
+                extractedData = extracted,
+                missingEssentialFields = extracted.missingEssentialFields,
+                message = "Resume processed! Review the extracted profile details below."
+            )
+        }
+    }
+
+    fun confirmExtractedProfile(data: ExtractedProfileData) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true, message = "Saving profile...")
+            val current = profileRepository.getProfile() ?: CandidateProfile()
+            val newProfile = data.toCandidateProfile(confirmed = true)
+            val mergedProfile = mergeProfiles(current, newProfile)
+            profileRepository.saveProfile(mergedProfile)
+            _uiState.value = _uiState.value.copy(extractedData = null)
+            loadProfile()
+        }
+    }
+
+    fun dismissExtractedData() {
+        _uiState.value = _uiState.value.copy(extractedData = null, message = null)
     }
 
     fun approveProposal(proposal: ProfileFactProposal) {
@@ -125,6 +184,53 @@ class ProfileViewModel @Inject constructor(
             profileManager.fullWipe()
             loadProfile()
         }
+    }
+
+    private fun calculateMissingFields(profile: CandidateProfile?): List<String> {
+        if (profile == null) return AiResumeParser.ESSENTIAL_FIELDS
+        val missing = mutableListOf<String>()
+        if (profile.name?.value.isNullOrBlank()) missing.add("Full Name")
+        if (profile.email?.value.isNullOrBlank()) missing.add("Email Address")
+        if (profile.phone?.value.isNullOrBlank()) missing.add("Phone Number")
+        if (profile.degree?.value.isNullOrBlank()) missing.add("Degree (e.g. B.Tech)")
+        if (profile.branch?.value.isNullOrBlank()) missing.add("Branch (e.g. Computer Science)")
+        if (profile.graduationYear?.value.isNullOrBlank()) missing.add("Graduation Year")
+        if (profile.cgpa?.value.isNullOrBlank()) missing.add("CGPA / GPA")
+        if (profile.skills.none { it.confirmed }) missing.add("Technical Skills")
+        return missing
+    }
+
+    private fun mergeProfiles(current: CandidateProfile, new: CandidateProfile): CandidateProfile {
+        fun pickFact(cur: ProfileFact?, incoming: ProfileFact?): ProfileFact? =
+            incoming ?: cur
+
+        fun mergeList(cur: List<ProfileFact>, incoming: List<ProfileFact>): List<ProfileFact> {
+            val existingValues = cur.map { it.value.trim().lowercase() }.toSet()
+            val newUnique = incoming.filterNot { it.value.trim().lowercase() in existingValues }
+            return cur + newUnique
+        }
+
+        return CandidateProfile(
+            name = pickFact(current.name, new.name),
+            email = pickFact(current.email, new.email),
+            phone = pickFact(current.phone, new.phone),
+            college = pickFact(current.college, new.college),
+            university = pickFact(current.university, new.university),
+            degree = pickFact(current.degree, new.degree),
+            branch = pickFact(current.branch, new.branch),
+            graduationYear = pickFact(current.graduationYear, new.graduationYear),
+            cgpa = pickFact(current.cgpa, new.cgpa),
+            cgpaScale = pickFact(current.cgpaScale, new.cgpaScale),
+            marks10th = pickFact(current.marks10th, new.marks10th),
+            marks12th = pickFact(current.marks12th, new.marks12th),
+            skills = mergeList(current.skills, new.skills),
+            projects = mergeList(current.projects, new.projects),
+            internships = mergeList(current.internships, new.internships),
+            certificates = mergeList(current.certificates, new.certificates),
+            links = mergeList(current.links, new.links),
+            reusableAnswers = current.reusableAnswers + new.reusableAnswers,
+            projectDetails = current.projectDetails
+        )
     }
 
     private fun replaceFact(profile: CandidateProfile, fact: ProfileFact): CandidateProfile = when (fact.field) {

@@ -151,9 +151,16 @@ class MainActivity : ComponentActivity() {
                             TrackerScreen(
                                 onNavigateToNewApp = { navController.navigate(NavigationRoutes.NEW_APPLICATION) },
                                 onNavigateToProfile = { navController.navigate(NavigationRoutes.PROFILE) },
+                                onNavigateToResearch = { navController.navigate(NavigationRoutes.RESEARCH) },
                                 onNavigateToSettings = { navController.navigate(NavigationRoutes.SETTINGS) },
                                 onNavigateToChat = { navController.navigate(NavigationRoutes.CHAT) },
                                 onSelectApplication = { appId -> navController.navigate(NavigationRoutes.reviewRoute(appId)) }
+                            )
+                        }
+                        composable(NavigationRoutes.RESEARCH) {
+                            ResearchScreen(
+                                onBack = { navController.popBackStack() },
+                                onNavigateToApplication = { appId -> navController.navigate(NavigationRoutes.reviewRoute(appId)) }
                             )
                         }
                         composable(NavigationRoutes.PROFILE) {

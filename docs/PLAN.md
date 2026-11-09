@@ -195,6 +195,11 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] AG2.3 | Theme mode selector & dark theme toggle: reactive themeModeFlow, 1-tap top bar toggle, settings radio chips, verified across all screens in dark theme | test: assembleDebug & live emulator pass | deps: U1, U5
 - [x] AG2.4 | One-Click Supervised Submission setting & review gate integration: AppConfig preference, Settings switch, and ReviewScreen supervised flow | test: ReviewApprovalWiringTest & live emulator pass | deps: AG1.1, AG2.3
 - [x] AG2.5 | Cyber Phoenix App Logo & Adaptive Icons (Logo 4): Custom vector foreground, raster mipmaps (mdpi to xxxhdpi), round icons, and themed splash screen | test: SplashThemeTest, ElixirManifestTest, emulator-5554 verified | deps: AG2.3
+- [x] AG2.6 | Settings AI Model & Provider Switch: selectable without key requirement, updated default Gemini models, clear Google AI Studio guidance | test: SettingsViewModelTest, live emulator pass | deps: AG2.3
+- [x] AG2.7 | AI Resume Parser & Automated Profile Setup: PDF/DOCX/TXT stream and text ingestion, untrusted prompt injection defense, missing essentials detection and 1-tap add chips | test: AiResumeParserTest, live emulator pass | deps: AG2.6
+- [x] AG2.8 | Multi-Step Form Automation: Auto-detect "Next" / "Continue" buttons, multi-page progression with read-back verification, halting at final Submit approval gate | test: OrchestratorFlowTest | deps: AG2.4
+- [x] AG2.9 | Autonomous Job Research Engine & ResearchScreen: Multi-loop architecture (Discovery, Validation, Relevance & Trustworthiness Scoring, Auto-Staging), telemetry logs console, live progress indicator | test: JobResearchEngineTest, live emulator pass | deps: AG2.2
+- [x] AG2.10 | One-Touch Application URL Ingestion: Automatic page fetching and company/role extraction from shared links in NewApplicationScreen | test: assembleDebug, live emulator pass | deps: AG2.1, AG2.9
 
 ## Agent Phases 3-6 (queued): see docs/ELIXIR_AGENT_PLAN.md sections 5 and 6. WAITING_ON_USER: Valid Gemini AI Studio API key (AIzaSy...), WebView decision (Phase 4), default AI provider and budget.
 

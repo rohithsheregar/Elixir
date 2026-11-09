@@ -382,6 +382,18 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Adopt Logo 4 (Cyber Phoenix / Digital Career Bird carrying a glowing resume document scroll) as Elixir's official branding and visual identity. Generate high-resolution splash logo (`ic_splash_logo.png`, 320x320) and adaptive foregrounds (`ic_elixir_foreground.png`, 432x432), multi-density raster launcher and round launcher mipmaps (`mipmap-mdpi` through `mipmap-xxxhdpi`), and adaptive XMLs (`ic_launcher.xml` and `ic_launcher_round.xml` in `mipmap-anydpi-v26`). Update `ic_elixir_launcher_foreground.xml` vector drawable (108dp x 108dp) with the cyber bird and glowing resume document geometry to ensure full backwards compatibility and satisfy `SplashThemeTest`. Update launcher background color to `#161324` and splash background color to `#111022` in `colors.xml`. Add `android:roundIcon="@mipmap/ic_launcher_round"` to `AndroidManifest.xml`.
 **Why:** Directly fulfills user request to rebrand the app with Logo 4. Verified live on Pixel 7 Pro (`emulator-5554`, Android 16 API 36) in launcher drawer and splash screen, with all 429 unit tests passing.
 
+---
+
+## D59 — Autonomous Job Research, AI Resume Setup & Multi-Step Forms (AG2.6-AG2.10)
+**Choice:** Implement 5 major autonomous capabilities:
+1. `SettingsScreen` model & provider selection: Allow provider selection even before an API key is stored, update default Gemini models (`gemini-2.5-flash`, `gemini-2.0-flash`, `gemini-1.5-flash`), and add clear Google AI Studio guidance.
+2. `AiResumeParser` and automated profile setup: Parse resumes (PDF/DOCX/TXT) into structured candidate facts with prompt injection defense `<untrusted_resume_document>` and regex/tech dictionary fallback. Automatically detect missing placement facts (CGPA, degree, phone, etc.) and present 1-tap quick inputs.
+3. Multi-step form automation in `AutomationOrchestrator`: Detect "Next"/"Continue" buttons, fill pages with read-back verification, and advance until the final "Submit" gate for user review.
+4. `JobResearchEngine` and `ResearchScreen`: Multi-loop engine (Discovery -> Validation -> Relevance & Trustworthiness Scoring -> Auto-Staging into `ApplicationTracker`), with real-time telemetry log console and vetted opportunity list.
+5. One-touch link ingestion in `NewApplicationScreen`: `fetchAndAnalyzeUrl` backed by `WebFetchTool`.
+**Why:** Directly addresses user's requirements for zero-manual typing profile onboarding, intelligent multi-page form filling, next-level autonomous job research, and seamless model configuration. Verified by unit tests (436 passing) and live device testing on Pixel 7 Pro (`emulator-5554`).
+
+
 
 
 
