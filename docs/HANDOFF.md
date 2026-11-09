@@ -12,7 +12,7 @@ Agent Phase 2 (AG2.1–AG2.5) complete: Dark theme toggle (system/light/dark via
 | 26 | Antigravity / Gemini 3.8 Flash | 2026-11-09 | bad1f66 |
 
 ## Last Green Commit
-bad1f66 — [AG0.1] mark AG0.1 complete after remote push to GitHub with all tags
+3b1cd9a — [AG2.5] update app launcher icon and splash logo to Cyber Phoenix design (Logo 4)
 
 ## IN PROGRESS
 None. AG2.5 (Cyber Phoenix Logo 4 app icon & splash branding) complete, verified live on emulator-5554.
