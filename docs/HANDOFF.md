@@ -1,7 +1,7 @@
 # HANDOFF.md — Elixir Project
 
 ## State
-Agent Phase 2 (AG2.1–AG2.4) complete: Dark theme toggle (system/light/dark via 1-tap top-bar & Settings), one-click supervised submission switch, WebFetchTool (`web.fetch`) with readability parser and SSRF protection (including 169.254.x.x link-local block), JobSearchTool (`job.search`) with DuckDuckGo parser & auto-staging in ApplicationTracker. 429 unit tests pass, assembleDebug passes, tested live on Pixel 7 Pro (emulator-5554, Android 16). Gemini live API error verified on device (key provided is internal OAuth token; requires AI Studio `AIzaSy...` key).
+Agent Phase 2 (AG2.1–AG2.5) complete: Dark theme toggle (system/light/dark via 1-tap top-bar & Settings), one-click supervised submission switch, WebFetchTool (`web.fetch`), JobSearchTool (`job.search`), and Cyber Phoenix app branding (Logo 4: launcher icon, round icon, and splash screen). 429 unit tests pass, assembleDebug passes, tested live on Pixel 7 Pro (emulator-5554, Android 16). Gemini live API error diagnosed on device (key provided is internal OAuth token; requires AI Studio `AIzaSy...` key).
 
 ## Session Log
 | # | Tool/Model | Date | Start Commit |
@@ -15,10 +15,10 @@ Agent Phase 2 (AG2.1–AG2.4) complete: Dark theme toggle (system/light/dark via
 bad1f66 — [AG0.1] mark AG0.1 complete after remote push to GitHub with all tags
 
 ## IN PROGRESS
-None. Agent Phase 2 (AG2.1–AG2.4), Dark Theme, and Gemini token device verification are fully implemented, tested (429 tests pass), and verified on emulator-5554.
+None. AG2.5 (Cyber Phoenix Logo 4 app icon & splash branding) complete, verified live on emulator-5554.
 
 ## NEXT ACTION
-User enters valid Google AI Studio key (`AIzaSy...`) in Settings to activate autonomous chat, or selects Agent Phase 3 (phone control / alarms / reminders).
+User follows physical phone installation guide, enters valid Google AI Studio key (`AIzaSy...`) in Settings to activate autonomous chat, or proceeds to Agent Phase 3 (device control / reminders).
 
 ## Blockers
 None. Gradle must be invoked with scoped JDK_JAVA_OPTIONS setting in the Verify Command on Windows.

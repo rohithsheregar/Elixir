@@ -376,6 +376,13 @@ Non-obvious choices are recorded here with rationale and alternatives considered
 **Choice:** Enhance `GeminiProvider` to dynamically inspect configured API keys: if prefixed with `AQ.` or `ya29.` (OAuth/Bearer tokens), pass via `Authorization: Bearer <key>` header; otherwise, pass via standard `x-goog-api-key: <key>` header and query param. When verified live on Pixel 7 Pro with the user's provided `AQ.` token, Google returned 401 UNAUTHENTICATED `API_KEY_SERVICE_BLOCKED` from the `generativelanguage.googleapis.com` endpoint, confirming live connectivity and demonstrating that public Gemini Generative Language API calls require a Google AI Studio API key (`AIzaSy...`) rather than internal Cloud/workspace OAuth tokens.
 **Why:** Prevents request malformation and clearly diagnoses authentication issues for the user.
 
+---
+
+## D58 — Cyber Phoenix App Icon & Adaptive Icon Integration (Logo 4 / AG2.5)
+**Choice:** Adopt Logo 4 (Cyber Phoenix / Digital Career Bird carrying a glowing resume document scroll) as Elixir's official branding and visual identity. Generate high-resolution splash logo (`ic_splash_logo.png`, 320x320) and adaptive foregrounds (`ic_elixir_foreground.png`, 432x432), multi-density raster launcher and round launcher mipmaps (`mipmap-mdpi` through `mipmap-xxxhdpi`), and adaptive XMLs (`ic_launcher.xml` and `ic_launcher_round.xml` in `mipmap-anydpi-v26`). Update `ic_elixir_launcher_foreground.xml` vector drawable (108dp x 108dp) with the cyber bird and glowing resume document geometry to ensure full backwards compatibility and satisfy `SplashThemeTest`. Update launcher background color to `#161324` and splash background color to `#111022` in `colors.xml`. Add `android:roundIcon="@mipmap/ic_launcher_round"` to `AndroidManifest.xml`.
+**Why:** Directly fulfills user request to rebrand the app with Logo 4. Verified live on Pixel 7 Pro (`emulator-5554`, Android 16 API 36) in launcher drawer and splash screen, with all 429 unit tests passing.
+
+
 
 
 

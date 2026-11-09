@@ -18,6 +18,8 @@ local.properties
 *.png
 *.jpg
 *.jpeg
+!app/src/main/res/**/*.png
+!app/src/main/res/**/*.jpg
 .env
 .env.*
 resume.b64

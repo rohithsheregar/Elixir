@@ -194,6 +194,7 @@ Legend: `[ ]` = todo, `[x]` = done, `[B]` = BLOCKED
 - [x] AG2.2 | JobSearchTool (`job.search`): Internet search engine for open job postings and placement opportunities with DuckDuckGo query builder, structured company/role extraction, and auto-staging in ApplicationTracker | test: JobSearchToolTest | deps: AG2.1
 - [x] AG2.3 | Theme mode selector & dark theme toggle: reactive themeModeFlow, 1-tap top bar toggle, settings radio chips, verified across all screens in dark theme | test: assembleDebug & live emulator pass | deps: U1, U5
 - [x] AG2.4 | One-Click Supervised Submission setting & review gate integration: AppConfig preference, Settings switch, and ReviewScreen supervised flow | test: ReviewApprovalWiringTest & live emulator pass | deps: AG1.1, AG2.3
+- [x] AG2.5 | Cyber Phoenix App Logo & Adaptive Icons (Logo 4): Custom vector foreground, raster mipmaps (mdpi to xxxhdpi), round icons, and themed splash screen | test: SplashThemeTest, ElixirManifestTest, emulator-5554 verified | deps: AG2.3
 
 ## Agent Phases 3-6 (queued): see docs/ELIXIR_AGENT_PLAN.md sections 5 and 6. WAITING_ON_USER: Valid Gemini AI Studio API key (AIzaSy...), WebView decision (Phase 4), default AI provider and budget.
 

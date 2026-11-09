@@ -5,48 +5,139 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- Subtle faceted hexagonal shield backdrop (within 72dp safe zone) -->
+    <!-- Atmospheric Deep Radiant Background Ring (Safe 72dp zone) -->
     <path
-        android:fillColor="#312E81"
-        android:fillAlpha="0.35"
-        android:pathData="M 54,22 L 78,36 L 78,66 L 54,82 L 30,66 L 30,36 Z" />
+        android:fillColor="#1E1738"
+        android:fillAlpha="0.6"
+        android:pathData="M 54,20 C 72.8,20 88,35.2 88,54 C 88,72.8 72.8,88 54,88 C 35.2,88 20,72.8 20,54 C 20,35.2 35.2,20 54,20 Z" />
 
-    <!-- Outer shield border with Indigo glow -->
+    <!-- Outer Ambient Glow -->
     <path
-        android:strokeColor="#818CF8"
-        android:strokeWidth="1.5"
-        android:strokeAlpha="0.8"
-        android:pathData="M 54,22 L 78,36 L 78,66 L 54,82 L 30,66 L 30,36 Z" />
+        android:strokeColor="#A855F7"
+        android:strokeWidth="1.2"
+        android:strokeAlpha="0.4"
+        android:pathData="M 54,22 C 71.7,22 86,36.3 86,54 C 86,71.7 71.7,86 54,86 C 36.3,86 22,71.7 22,54 C 22,36.3 36.3,22 54,22 Z" />
 
-    <!-- Stylized "E" Monogram with Career Ascension Arrow -->
-    <!-- Spine of the E -->
+    <!-- Cyber Phoenix: Left Wing Feathers (Neon Purple & Magenta Facets) -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M 40,35 L 47,35 L 47,73 L 40,73 Z" />
-
-    <!-- Top Arm of the E (extending into an ascending upward arrow tip) -->
+        android:fillColor="#C084FC"
+        android:pathData="M 28,26 L 44,38 L 38,44 Z" />
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M 47,35 L 68,35 L 68,41 L 47,41 Z" />
-
-    <!-- Mid Arm of the E -->
+        android:fillColor="#A855F7"
+        android:pathData="M 26,34 L 46,42 L 36,52 Z" />
     <path
-        android:fillColor="#C7D2FE"
-        android:pathData="M 47,51 L 63,51 L 63,57 L 47,57 Z" />
-
-    <!-- Bottom Arm of the E -->
+        android:fillColor="#9333EA"
+        android:pathData="M 27,44 L 48,48 L 40,58 Z" />
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M 47,67 L 68,67 L 68,73 L 47,73 Z" />
+        android:fillColor="#7E22CE"
+        android:pathData="M 33,52 L 50,52 L 44,62 Z" />
 
-    <!-- Dynamic Career Ascension Arrow / Sparkle at upper right -->
+    <!-- Wing Core Gradient Interlock -->
     <path
-        android:fillColor="#34D399"
-        android:pathData="M 69,32 L 73,28 L 73,34 L 79,34 L 75,38 L 79,42 L 73,42 L 73,48 L 69,44 Z" />
+        android:fillColor="#818CF8"
+        android:pathData="M 42,36 L 54,46 L 46,54 Z" />
+    <path
+        android:fillColor="#6366F1"
+        android:pathData="M 44,46 L 56,52 L 48,60 Z" />
 
-    <!-- Center Accent Gem/Point -->
+    <!-- Cyber Phoenix: Right Wing Feathers (Cyan & Electric Blue Facets) -->
+    <path
+        android:fillColor="#38BDF8"
+        android:pathData="M 78,28 L 62,40 L 70,44 Z" />
+    <path
+        android:fillColor="#0EA5E9"
+        android:pathData="M 80,36 L 60,44 L 72,50 Z" />
+    <path
+        android:fillColor="#0284C7"
+        android:pathData="M 76,46 L 58,48 L 68,56 Z" />
+    <path
+        android:fillColor="#0369A1"
+        android:pathData="M 70,52 L 56,52 L 62,60 Z" />
+
+    <!-- Phoenix Torso & Head -->
+    <!-- Head & Crest Crown -->
+    <path
+        android:fillColor="#E0E7FF"
+        android:pathData="M 60,38 L 68,36 L 64,43 L 68,43 L 62,47 L 58,44 Z" />
+    <!-- Eye (Electric Cyan Spark) -->
+    <path
+        android:fillColor="#06B6D4"
+        android:pathData="M 62,41 L 64,41 L 63,43 Z" />
+    <!-- Beak grasping scroll -->
     <path
         android:fillColor="#FBBF24"
-        android:pathData="M 54,49 L 57,54 L 54,59 L 51,54 Z" />
+        android:pathData="M 66,44 L 72,46 L 67,48 Z" />
 
+    <!-- Torso -->
+    <path
+        android:fillColor="#4F46E5"
+        android:pathData="M 54,46 L 62,47 L 54,64 L 50,56 Z" />
+    <path
+        android:fillColor="#4338CA"
+        android:pathData="M 48,54 L 54,64 L 46,68 Z" />
+
+    <!-- Tail Feathers (Ascending Plumes) -->
+    <path
+        android:fillColor="#C084FC"
+        android:pathData="M 46,66 L 38,80 L 48,74 Z" />
+    <path
+        android:fillColor="#A855F7"
+        android:pathData="M 48,68 L 44,84 L 52,76 Z" />
+    <path
+        android:fillColor="#38BDF8"
+        android:pathData="M 52,68 L 52,82 L 56,74 Z" />
+
+    <!-- Talons -->
+    <path
+        android:fillColor="#818CF8"
+        android:pathData="M 53,64 L 56,70 L 58,68 L 56,64 Z" />
+    <path
+        android:fillColor="#818CF8"
+        android:pathData="M 58,63 L 62,69 L 64,67 L 61,63 Z" />
+
+    <!-- Glowing Career Resume Document Scroll (carried in beak) -->
+    <!-- Document Backdrop (Curled Holographic Scroll) -->
+    <path
+        android:fillColor="#0F172A"
+        android:fillAlpha="0.9"
+        android:pathData="M 69,46 L 82,46 C 84,46 85,47 85,49 L 85,67 C 85,69 84,70 82,70 L 69,70 C 67,70 66,69 66,67 L 66,49 C 66,47 67,46 69,46 Z" />
+
+    <!-- Document Glowing Neon Cyan Border -->
+    <path
+        android:strokeColor="#38BDF8"
+        android:strokeWidth="1.4"
+        android:pathData="M 69,46 L 82,46 C 84,46 85,47 85,49 L 85,67 C 85,69 84,70 82,70 L 69,70 C 67,70 66,69 66,67 L 66,49 C 66,47 67,46 69,46 Z" />
+
+    <!-- Candidate Profile Avatar Placeholder on Resume -->
+    <path
+        android:fillColor="#38BDF8"
+        android:pathData="M 73,50 A 2,2 0 1,0 77,50 A 2,2 0 1,0 73,50 Z" />
+    <path
+        android:fillColor="#38BDF8"
+        android:pathData="M 72,55 C 72,53.5 73.5,53 75,53 C 76.5,53 78,53.5 78,55 Z" />
+
+    <!-- Resume Content Lines (Confirmed Facts) -->
+    <path
+        android:strokeColor="#E0F2FE"
+        android:strokeWidth="1.0"
+        android:strokeLineCap="round"
+        android:pathData="M 70,58 L 81,58" />
+    <path
+        android:strokeColor="#E0F2FE"
+        android:strokeWidth="1.0"
+        android:strokeLineCap="round"
+        android:pathData="M 70,61 L 79,61" />
+    <path
+        android:strokeColor="#34D399"
+        android:strokeWidth="1.0"
+        android:strokeLineCap="round"
+        android:pathData="M 70,64 L 77,64" />
+
+    <!-- Sparkles of Career Success / Placement Intelligence -->
+    <path
+        android:fillColor="#38BDF8"
+        android:pathData="M 85,42 L 86,39 L 87,42 L 90,43 L 87,44 L 86,47 L 85,44 L 82,43 Z" />
+    <path
+        android:fillColor="#C084FC"
+        android:pathData="M 23,24 L 24,21 L 25,24 L 28,25 L 25,26 L 24,29 L 23,26 L 20,25 Z" />
 </vector>
