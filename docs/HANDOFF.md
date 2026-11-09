@@ -12,7 +12,7 @@ Agent Phase 2 (AG2.1–AG2.11) complete: Modern minimalist UI redesign across Tr
 | 28 | Antigravity / Gemini 3.8 Flash | 2026-11-09 | ddf246a |
 
 ## Last Green Commit
-ddf246a — docs: record AG2.6-AG2.10 completion and live emulator pass in HANDOFF.md
+9ad1d15 — [AG2.11] modernize UI styling, fix resume stream closure, and update Gemini default to gemini-2.0-flash
 
 ## IN PROGRESS
 None. AG2.11 complete, tagged cp-ag2-3, pushed to origin/main.
